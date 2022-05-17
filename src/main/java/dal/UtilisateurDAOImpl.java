@@ -17,6 +17,8 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 	private static final String UPDATE = "UPDATE UTILISATEURS SET pseudo = ?, motDePasse = ?, nom = ?, prenom = ?, email = ?, telephone = ?, "
 			+ "rue = ?, codePostal = ?, ville = ?, credit = ? WHERE idUtilisateur = ?";
 	private static final String DELETE = "DELETE FROM UTILISATEURS WHERE idUtilisateur = ?";
+	private static final String DELETE_ARTICLE = "DELETE FROM ARTICLES_VENDUS WHERE idUtilisateur = ?";
+	private static final String DELETE_ENCHERE = "DELETE FROM ENCHERES WHERE idUtilisateur = ?";
 	
 	public Connection cnx;
 	public UtilisateurDAOImpl() throws SQLException {
@@ -90,9 +92,18 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 
 	@Override
 	public void delete(int id) throws SQLException {
-		PreparedStatement ps = cnx.prepareStatement(DELETE);
-		ps.setInt(1, id);
-		ps.executeUpdate();
+		PreparedStatement ps1 = cnx.prepareStatement(DELETE_ENCHERE);
+		ps1.setInt(1, id);
+		ps1.executeUpdate();
+		
+		PreparedStatement ps2 = cnx.prepareStatement(DELETE_ARTICLE);
+		ps2.setInt(1, id);
+		ps2.executeUpdate();
+		
+		PreparedStatement ps3 = cnx.prepareStatement(DELETE);
+		ps3.setInt(1, id);
+		ps3.executeUpdate();
+		
 		cnx.close();
 	}
 
