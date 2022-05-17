@@ -7,6 +7,6 @@ import bo.Enchere;
 public interface EnchereDAO {
 
 	public void insert(Enchere e) throws SQLException;
-	public Enchere selectByArticle(int id) throws SQLException;
+	public Enchere selectByArticle(int idArticle) throws SQLException;
 	
 }
