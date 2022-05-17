@@ -1,4 +1,4 @@
-package dal.DAO;
+package dal.iDAO;
 
 import java.sql.SQLException;
 

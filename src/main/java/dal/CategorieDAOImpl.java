@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import bo.Categorie;
-import dal.DAO.CategorieDAO;
+import dal.iDAO.CategorieDAO;
 
 public class CategorieDAOImpl implements CategorieDAO {
 	
