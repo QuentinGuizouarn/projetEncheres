@@ -23,7 +23,7 @@ public class CategorieDAOImpl implements CategorieDAO {
 		PreparedStatement ps = cnx.prepareStatement(INSERT);
 		ps.setString(1, c.getLibelle());
 		ps.executeUpdate();
-		cnx.close();	
+		cnx.close();
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class CategorieDAOImpl implements CategorieDAO {
 		PreparedStatement ps = cnx.prepareStatement(SELECT_ALL);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			liste.add(new Categorie( rs.getString(1) ));
+			liste.add(new Categorie( rs.getInt(1), rs.getString(2) ));
 		}
 		cnx.close();
 		return liste;
