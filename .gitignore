@@ -1,2 +1,5 @@
-/.metadata/
-/apache-tomcat-9.0.62
+/build
+
+.classPath
+.project
+.settings/
