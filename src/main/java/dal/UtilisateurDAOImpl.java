@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import bo.Utilisateur;
+import dal.DAO.UtilisateurDAO;
 
 public class UtilisateurDAOImpl implements UtilisateurDAO {
 	
