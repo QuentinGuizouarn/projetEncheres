@@ -21,15 +21,21 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 			+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String SELECT_BY_ID = "SELECT A.idArticle, A.nom, A.description, A.dateDebut, A.dateFin, A.prixInitial,"
 			+ "	A.prixVente, A.rue, A.codePostal, A.ville, A.etat, A.idUtilisateur, U.pseudo, A.idCategorie, C.libelle"
-			+ " FROM ARTICLES_VENDUS A "
+			+ " FROM ARTICLES_VENDUS A"
 			+ " INNER JOIN UTILISATEURS U ON U.idUtilisateur = A.idUtilisateur"
 			+ " INNER JOIN CATEGORIES C ON C.idCategorie = A.idCategorie"
 			+ " WHERE A.idArticle = ?";
-	private static final String SELECT_ALL = "SELECT A.idArticle, A.nom, A.description, A.dateDebut, A.dateFin, A.prixInitial, "
+	private static final String SELECT_ALL = "SELECT A.idArticle, A.nom, A.description, A.dateDebut, A.dateFin, A.prixInitial,"
 			+ " A.prixVente, A.rue, A.codePostal, A.ville, A.etat, A.idUtilisateur, U.pseudo, A.idCategorie, C.libelle"
-			+ " FROM ARTICLES_VENDUS A "
+			+ " FROM ARTICLES_VENDUS A"
 			+ " INNER JOIN UTILISATEURS U ON U.idUtilisateur = A.idUtilisateur"
 			+ " INNER JOIN CATEGORIES C ON C.idCategorie = A.idCategorie";
+	private static final String SELECT_BY_NOM = "SELECT A.idArticle, A.nom, A.description, A.dateDebut, A.dateFin, A.prixInitial,"
+			+ " A.prixVente, A.rue, A.codePostal, A.ville, A.etat, A.idUtilisateur, U.pseudo, A.idCategorie, C.libelle"
+			+ " FROM ARTICLES_VENDUS A"
+			+ " INNER JOIN UTILISATEURS U ON U.idUtilisateur = A.idUtilisateur"
+			+ " INNER JOIN CATEGORIES C ON C.idCategorie = A.idCategorie"
+			+ " WHERE A.nom LIKE ";
 	private static final String UPDATE = "UPDATE ARTICLES_VENDUS SET nom = ?, description = ?, dateDebut = ?, dateFin = ?,"
 			+ " prixInitial = ?, prixVente = ?, rue = ?, codePostal = ?, ville = ?, etat = ?, idUtilisateur = ?, idCategorie = ?"
 			+ " WHERE idArticle = ?";
@@ -89,6 +95,21 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 		cnx.close();
 		return liste;
 	}
+	
+	@Override
+	public List<ArticleVendu> selectByNom(String nom) throws SQLException {
+		List<ArticleVendu> liste = new ArrayList<ArticleVendu>();
+		PreparedStatement ps = cnx.prepareStatement(SELECT_BY_NOM);
+		ps.setString(1, "%" + nom + "%");
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			liste.add(new ArticleVendu( rs.getInt("idArticle"), rs.getInt("prixInitial"), rs.getInt("prixVente"), rs.getString("nom"), 
+				rs.getString("description"), rs.getString("etat"), rs.getString("rue"), rs.getString("codePostal"), rs.getString("ville"),
+				rs.getDate("dateDebut").toLocalDate(), rs.getDate("dateFin").toLocalDate(), new Utilisateur( rs.getInt("idUtilisateur"),
+				rs.getString("pseudo") ), new Categorie( rs.getInt("idCategorie"), rs.getString("libelle") ) ));
+		}
+		return liste;
+	}
 
 	@Override
 	public void update(ArticleVendu av) throws SQLException {
@@ -117,5 +138,5 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 		ps.executeUpdate();
 		cnx.close();
 	}
-
+	
 }
