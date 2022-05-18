@@ -6,14 +6,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import bo.ArticleVendu;
 import bo.Enchere;
+import bo.Utilisateur;
 import dal.iDAO.EnchereDAO;
 
 public class EnchereDAOImpl implements EnchereDAO {
 	
 	private static final String INSERT = "INSERT INTO ENCHERES (date, montant, idArticle, idUtilisateur) VALUES (?, ?, ?, ?)";
-	private static final String SELECT_BY_ARTICLE = "SELECT MAX(idEnchere) AS idEnchere, date, montant, idArticle, idUtilisateur "
-			+ "FROM ENCHERES WHERE idArticle = ? GROUP BY date, montant, idArticle, idUtilisateur";
+	private static final String SELECT_BY_ARTICLE = "SELECT idEnchere = MAX(E.idEnchere), E.date, E.montant, E.idArticle,"
+			+ "		U.idUtilisateur, U.pseudo"
+			+ "	FROM ENCHERES E"
+			+ "	INNER JOIN UTILISATEURS U"
+			+ "		ON U.idUtilisateur = E.idUtilisateur"
+			+ "	WHERE E.idArticle = ?"
+			+ "	GROUP BY E.date, E.montant, E.idArticle, U.idUtilisateur, U.pseudo";
 	
 	public Connection cnx;
 	public EnchereDAOImpl() throws SQLException {
@@ -32,8 +39,14 @@ public class EnchereDAOImpl implements EnchereDAO {
 	}
 
 	@Override
-	public Enchere selectByArticle(int idArticle) throws SQLException {
+	public Enchere selectByArticle(ArticleVendu av) throws SQLException {
 		Enchere e = null;
+		PreparedStatement ps = cnx.prepareStatement(SELECT_BY_ARTICLE);
+		ps.setInt(1, av.getIdArticle());
+		ResultSet rs = ps.executeQuery();
+		if (rs.next()) {
+			e = new Enchere( rs.getInt(1), rs.getDate(2).toLocalDate(), rs.getInt(3), av, new Utilisateur(rs.getInt(5), rs.getString(6)) );
+		}
 		return e;
 	}
 
