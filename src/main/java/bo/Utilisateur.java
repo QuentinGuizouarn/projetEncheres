@@ -7,6 +7,11 @@ public class Utilisateur {
 	private boolean administrateur;
 	
 	public Utilisateur() {}
+	
+	public Utilisateur(int idUtilisateur, String pseudo) {
+		this.idUtilisateur = idUtilisateur;
+		this.pseudo = pseudo;
+	}
 
 	public Utilisateur(String pseudo, String motDePasse, String nom, String prenom, String email, String telephone, String rue,
 			String codePostal, String ville, int credit, boolean administrateur) {
