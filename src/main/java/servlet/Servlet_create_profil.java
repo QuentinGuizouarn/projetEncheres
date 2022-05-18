@@ -1,4 +1,4 @@
-package servlets;
+package servlet;
 
 import java.io.IOException;
 
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class Servlet_create_profil
  */
-@WebServlet("/creer_profil")
+@WebServlet("/create_profil")
 public class Servlet_create_profil extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
