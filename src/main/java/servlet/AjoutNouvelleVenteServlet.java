@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import bll.ArticleVenduManager;
 import bll.CategorieManager;
+import bll.UtilisateurManager;
 import bo.ArticleVendu;
 import bo.Categorie;
 import bo.Enchere;
@@ -31,7 +32,9 @@ public class AjoutNouvelleVenteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			List<Categorie> items = CategorieManager.getInstance().getAll();
+			Utilisateur u = UtilisateurManager.getInstance().getById(2);
 			request.setAttribute("items", items);
+			request.setAttribute("utilisateur", u);
 			request.getRequestDispatcher("/WEB-INF/jsp/ajout_nouvelle_vente.jsp").forward(request, response);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -44,15 +47,19 @@ public class AjoutNouvelleVenteServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {			
 		try {
-			Utilisateur u = new Utilisateur();
+			// Revoir pour prendre Utilisateur de la session en cours
+			int idUtilisateur = Integer.valueOf(request.getParameter("idUtilisateur"));
+			String pseudo = request.getParameter("pseudo");			
+			Utilisateur u = new Utilisateur(idUtilisateur, pseudo);
+			
 			String nom = request.getParameter("nom");
 			String description = request.getParameter("description");
-			int prixInital = Integer.valueOf(request.getParameter("prixInital"));
+			int prixInital = Integer.valueOf(request.getParameter("prixInitial"));
 			LocalDate dateDebut = LocalDate.parse(request.getParameter("dateDebut"));
 			LocalDate dateFin = LocalDate.parse(request.getParameter("dateFin"));
-			String rue = request.getParameter("nom");
-			String codePostal = request.getParameter("nom");
-			String ville = request.getParameter("nom");		
+			String rue = request.getParameter("rue");
+			String codePostal = request.getParameter("codePostal");
+			String ville = request.getParameter("ville");		
 			String chaineCategorie = request.getParameter("categorie");
 			Categorie c = new Categorie( Integer.valueOf(chaineCategorie.split("_")[0]), 
 				String.valueOf(chaineCategorie.split("_")[1]) );			
