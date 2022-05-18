@@ -54,11 +54,11 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 		ps.setDate(3, Date.valueOf(av.getDateDebut()));
 		ps.setDate(4, Date.valueOf(av.getDateFin()));
 		ps.setInt(5, av.getPrixInitial());
-		ps.setInt(6, 0);
+		ps.setInt(6, av.getPrixVente());
 		ps.setString(7, av.getRue());
 		ps.setString(8, av.getCodePostal());
 		ps.setString(9, av.getVille());
-		ps.setString(10, "C");
+		ps.setString(10, av.getEtat());
 		ps.setInt(11, av.getLeVendeur().getIdUtilisateur());
 		ps.setInt(12, av.getLaCategorie().getIdCategorie());
 		ps.executeUpdate();
