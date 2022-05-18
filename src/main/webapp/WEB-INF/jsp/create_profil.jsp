@@ -78,7 +78,7 @@
  		<div class="row"><div class="col"><label></label></div></div>
  		<div class="row justify-content-md-center">
  		  <div class="col col-lg-2"> <input type="submit" class="btn btn-outline-primary" value="Créer"/> </div>
-		  <div class="col col-lg-2"> <a class="btn btn-outline-danger" href="${pageContext.request.contextPath}/view_profil-m" title="Créer une nouvelle liste">annuler</a> </div>
+		  <div class="col col-lg-2"> <a class="btn btn-outline-danger" href="${pageContext.request.contextPath}/view_profil_m" title="Créer une nouvelle liste">annuler</a> </div>
 		</div>
 	  </form>
     </div>
