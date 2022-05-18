@@ -85,7 +85,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 		ps.setString(8, u.getVille());
 		ps.setString(9, u.getMotDePasse());
 		ps.setInt(10, u.getCredit());
-		ps.setBoolean(11, u.isAdministrateur());
+		ps.setInt(11, u.getIdUtilisateur());
 		ps.executeUpdate();
 		cnx.close();
 	}
