@@ -32,7 +32,7 @@ public class AjoutNouvelleVenteServlet extends HttpServlet {
 		try {
 			List<Categorie> items = CategorieManager.getInstance().getAll();
 			request.setAttribute("items", items);
-			request.getRequestDispatcher("/WEB-INF/pages/ajout_nouvelle_vente.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/jsp/ajout_nouvelle_vente.jsp").forward(request, response);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			response.sendError(500);
