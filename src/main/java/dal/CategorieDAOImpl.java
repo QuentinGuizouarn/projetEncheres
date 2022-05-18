@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import bo.Categorie;
@@ -29,7 +30,7 @@ public class CategorieDAOImpl implements CategorieDAO {
 
 	@Override
 	public List<Categorie> selectAll() throws SQLException {
-		List<Categorie> liste = null;
+		List<Categorie> liste = new ArrayList<Categorie>();
 		PreparedStatement ps = cnx.prepareStatement(SELECT_ALL);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
