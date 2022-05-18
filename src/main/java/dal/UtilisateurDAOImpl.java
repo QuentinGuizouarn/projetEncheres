@@ -50,8 +50,9 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 		ps.setInt(1, id);
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {
-			u = new Utilisateur( rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),
-					rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getInt(11), rs.getBoolean(12) );
+			u = new Utilisateur( rs.getInt("idUtilisateur"), rs.getString("pseudo"), rs.getString("motDePasse"), rs.getString("nom"), 
+				rs.getString("prenom"), rs.getString("email"), rs.getString("telephone"), rs.getString("rue"), rs.getString("codePostal"), 
+				rs.getString("ville"), rs.getInt("credit"), rs.getBoolean("administrateur") );
 		}
 		cnx.close();
 		return u;
@@ -65,8 +66,9 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 		ps.setString(2, motDePasse);
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {
-			u = new Utilisateur( rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),
-					rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getInt(11), rs.getBoolean(12) );
+			u = new Utilisateur( rs.getInt("idUtilisateur"), rs.getString("pseudo"), rs.getString("motDePasse"), rs.getString("nom"), 
+				rs.getString("prenom"), rs.getString("email"), rs.getString("telephone"), rs.getString("rue"), rs.getString("codePostal"), 
+				rs.getString("ville"), rs.getInt("credit"), rs.getBoolean("administrateur") );
 		}
 		cnx.close();
 		return u;
