@@ -1,9 +1,10 @@
-<%@ page language="java" import="bo.Categorie" import="bo.Utilisateur"
-	import="java.util.List" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" import="bo.Categorie" import="bo.Utilisateur" import="bo.ArticleVendu" 
+	import="java.util.List" import="java.time.LocalDate" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
+%>
 <%
 List<Categorie> lesCategories = (List<Categorie>) request.getAttribute("items");
 Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
+ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");
 %>
 <!DOCTYPE html>
 <html>
@@ -39,15 +40,17 @@ Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
 						method="POST">
 						<div class="mb-3">
 							<label for="nom" class="form-label">Article : </label> <input
-								type="text" class="form-control" name="nom" required>
+								type="text" class="form-control" name="nom" value="<%= av != null ? av.getNom() : "" %>" 
+								required>
 						</div>
 						<div class="mb-3">
 							<label for="description" class="form-label">Description :
 							</label>
-							<textarea class="form-control" name="description" required></textarea>
+							<textarea class="form-control" name="description" required><%= av != null ? av.getDescription() : "" %></textarea>
 						</div>
 						<div class="mb-3">
-							<label for="categorie" class="form-label">Catégorie : </label> <select
+							<label for="categorie" class="form-label">Catégorie : </label> 
+							<select
 								name="categorie" class="form-select"
 								aria-label="Default select example" required>
 								<%
@@ -70,39 +73,43 @@ Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
 						<div class="mb-3">
 							<label for="prixInitial" class="form-label">Mise à prix :
 							</label> <input type="number" min="0" class="form-control"
-								name="prixInitial" value="0" required>
+								name="prixInitial" value="<%= av != null ? av.getPrixInitial() : 0 %>" 
+								required>
 						</div>
 						<div class="mb-3">
 							<label for="dateDebut" class="form-label">Début de
-								l'enchère : </label> <input type="date"
-								id="dateDebut" onChange="checkDateDebut(event);" class="form-control"
-								name="dateDebut" required>
+								l'enchère : </label> <input type="date" onChange="checkDateDebut(event);"
+								id="dateDebutPicker" class="form-control" name="dateDebut" 
+								value="<%= av != null ? av.getDateDebut() : LocalDate.now() %>" required>
 						</div>
 						<div class="mb-3">
 							<label for="dateFin" class="form-label">Fin de l'enchère
-								: </label> <input type="date" id="dateFin" onChange="checkDateFin(event);"
-								class="form-control" name="dateFin" required>
+								: </label> <input type="date" id="dateFinPicker" class="form-control" 
+								name="dateFin" value="<%= av != null ? av.getDateFin() : null %>" required>
 						</div>
 						<div class="mb-3">
 							<label for="rue" class="form-label">Rue : </label> <input
 								type="text" class="form-control" name="rue"
-								value="<%=u.getRue()%>" required>
+								value="<%= av != null ? av.getRue() : u.getRue() %>" required>
 						</div>
 						<div class="mb-3">
 							<label for="codePostal" class="form-label">Code Postal :
 							</label> <input type="text" class="form-control" name="codePostal"
-								value="<%=u.getCodePostal()%>" required>
+								value="<%= av != null ? av.getCodePostal() : u.getCodePostal() %>" required>
 						</div>
 						<div class="mb-3">
 							<label for="ville" class="form-label">Ville : </label> <input
 								type="text" class="form-control" name="ville"
-								value="<%=u.getVille()%>" required>
+								value="<%= av != null ? av.getVille() : u.getVille() %>" required>
 						</div>
 						<span> <input name="idUtilisateur"
 							value="<%=u.getIdUtilisateur()%>" type="hidden"> <input
 							name="pseudo" value="<%=u.getPseudo()%>" type="hidden">
-							<button type="submit" class="btn btn-primary">Enregistrer</button>
+							<button type="submit" name="insert_update" class="btn btn-primary">Enregistrer</button>
 							<button type="reset" class="btn btn-light">Annuler</button>
+							<% if (av != null) { %>
+								<button type="submit" name="delete" class="btn btn-dark">Annuler la vente</button>
+							<% } %>
 						</span>
 					</form>
 				</div>
@@ -110,26 +117,9 @@ Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
 		</main>
 	</div>
 	<script>
+		dateDebutPicker.min = new Date().toISOString().split("T")[0];			
 		function checkDateDebut(e) {
-			var date = new Date();
-
-			var day = date.getDate();
-			var month = date.getMonth() + 1;
-			var year = date.getFullYear();
-
-			if (month < 10) month = "0" + month;
-			if (day < 10) day = "0" + day;
-
-			var today = year + "-" + month + "-" + day;       
-			
-			//document.getElementById("theDate").value = today;
-
-			let dateDebut = e.target.value;
-		}
-		function checkDateFin(e) {
-			let dateFin = e.target.value;
-			const dateDebut = document.getElementById("dateDebut");
-			console.log(dateFin + " et " + dateDebut.value)
+			dateFinPicker.min = dateDebutPicker.value;
 		}
 	</script>
 </body>

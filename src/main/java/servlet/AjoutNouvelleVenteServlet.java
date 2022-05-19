@@ -30,16 +30,27 @@ public class AjoutNouvelleVenteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String id = request.getParameter("article");
+		Utilisateur u = null;
+		List<Categorie> items = null;
+		ArticleVendu av = null;
 		try {
-			List<Categorie> items = CategorieManager.getInstance().getAll();
-			Utilisateur u = UtilisateurManager.getInstance().getById(2);
-			request.setAttribute("items", items);
-			request.setAttribute("utilisateur", u);
-			request.getRequestDispatcher("/WEB-INF/jsp/ajout_nouvelle_vente.jsp").forward(request, response);
+			items = CategorieManager.getInstance().getAll();
+			u = UtilisateurManager.getInstance().getById(2);
+			if (id != null) {
+				av = ArticleVenduManager.getInstance().getById(Integer.valueOf(id)); 
+				if (LocalDate.now().isAfter(av.getDateDebut())) {
+					av = null;
+				}
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			response.sendError(500);
 		}
+		request.setAttribute("utilisateur", u);
+		request.setAttribute("items", items);
+		request.setAttribute("articleVendu", av);
+		request.getRequestDispatcher("/WEB-INF/jsp/ajout_nouvelle_vente.jsp").forward(request, response);
 	}
 
 	/**
