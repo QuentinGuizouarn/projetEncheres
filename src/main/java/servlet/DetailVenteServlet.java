@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import bll.ArticleVenduManager;
 import bll.EnchereManager;
+import bll.UtilisateurManager;
 import bo.ArticleVendu;
 import bo.Enchere;
 import bo.Utilisateur;
@@ -32,13 +33,15 @@ public class DetailVenteServlet extends HttpServlet {
 		Enchere e = null;
 		if (id != 0) {
 			try {
+				u = UtilisateurManager.getInstance().getById(2);
 				av = ArticleVenduManager.getInstance().getById(id);
 				e = EnchereManager.getInstance().getMaxByArticle(id);
-			} catch (SQLException e1) {				
+			} catch (SQLException e1) {
 				e1.printStackTrace();
 				response.sendError(500);
 			}
 		}
+		request.setAttribute("utilisateur", u);
 		request.setAttribute("articleVendu", av);
 		request.setAttribute("enchere", e);
 		request.getRequestDispatcher("/WEB-INF/jsp/detail_vente.jsp").forward(request, response);
