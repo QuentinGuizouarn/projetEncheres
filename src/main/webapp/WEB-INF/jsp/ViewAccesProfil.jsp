@@ -1,9 +1,161 @@
+<%@page import="bo.Enchere"%>
+<%@page import="bo.ArticleVendu"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <style type="text/css">
+	body
+{
+  background-color:#f2f2f2;
+  font-family: 'RobotoDraft', 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+*
+{
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+h5
+{
+  margin:0px;
+  font-size:1.4em;
+  font-weight:700;
+}
+
+p
+{
+  font-size:12px;
+}
+
+.center
+{
+  height:100vh;
+  width:100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* End Non-Essential  */
+
+.property-card
+{
+  height:18em;
+  width:14em;
+  display:-webkit-box;
+  display:-ms-flexbox;
+  display:flex;
+  -webkit-box-orient:vertical;
+  -webkit-box-direction:normal;
+  -ms-flex-direction:column;
+  flex-direction:column;
+  position:relative;
+  -webkit-transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+  -o-transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+  border-radius:16px;
+  overflow:hidden;
+  -webkit-box-shadow:  15px 15px 27px #e1e1e3, -15px -15px 27px #ffffff;
+  box-shadow:  15px 15px 27px #e1e1e3, -15px -15px 27px #ffffff;
+}
+/* ^-- The margin bottom is necessary for the drop shadow otherwise it gets clipped in certain cases. */
+
+/* Top Half of card, image. */
+
+.property-image
+{
+  height:6em;
+  width:14em;
+  padding:1em 2em;
+  position:Absolute;
+  top:0px;
+  -webkit-transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+  -o-transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+  background-image:url('https://www.cdiscount.com/pdt2/5/0/8/1/700x700/auc3937114274508/rw/kit-autocollants-clavier-azerty-francais.jpg');
+  background-size:cover;
+  background-repeat:no-repeat;
+}
+
+/* Bottom Card Section */
+
+.property-description
+{
+  background-color: #FAFAFC;
+  height:12em;
+  width:14em;
+  position:absolute;
+  bottom:0em;
+  -webkit-transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+  -o-transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+  padding: 0.5em 1em;
+  text-align:center;
+}
+
+/* Social Icons */
+
+.property-social-icons
+{
+  width:1em;
+  height:1em;
+  background-color:black;
+  position:absolute;
+  bottom:1em;
+  left:1em;
+  -webkit-transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+  -o-transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+/* Property Cards Hover States */
+
+.property-card:hover .property-description
+{
+  height:0em;
+  padding:0px 1em;
+}
+.property-card:hover .property-image
+{
+  height:18em;
+}
+
+.property-card:hover .property-social-icons
+{
+  background-color:white;
+}
+
+.property-card:hover .property-social-icons:hover
+{
+  background-color:blue;
+  cursor:pointer;
+}
+
+
+/* Optional
+
+.property-image-title
+{
+text-align:center;
+position:Relative;
+top:30%;
+opacity:0;
+transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1) 0.2s;
+color:black;
+font-size:1.2em;
+}
+
+.property-card:hover .property-image-title
+{
+opacity:1;
+}
+
+*/
 </style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -29,16 +181,14 @@
 				<a href="<%=request.getContextPath()%>/view_profil_m">Mon Profil</a>
 				<a href="<%=request.getContextPath()%>/liste">Deconnexion</a>
 			</div>
+		</div>
 	</nav>
 	<main>
 		<div>
 			<label for="filtre">Filtre :</label> 
-			<input class="form-control me-2"
-				type="search" placeholder="Search" aria-label="Search"
-				style="width: auto;"> <a href="#"><i
-				class="fa-solid fa-magnifying-glass"></i></a><br>
-			<br> <label for="pet-select"> Catégorie : </label> <select
-				name="categorie" id="pselect">
+			<input class="form-control me-2" type="search" placeholder="Search" id="search" aria-label="Search" style="width: auto;"> 
+			<a href="#" onclick="recupererResultat()"><i class="fa-solid fa-magnifying-glass"></i></a><br>
+			<br> <label for="categorie"> Catégorie : </label> <select name="categorie" id="categorie">
 				<option value="toute">Toute</option>
 				<option value="informatique">Informatique</option>
 				<option value="Ameublement">Ameublement</option>
@@ -46,13 +196,14 @@
 				<option value="sport">Sport</option>
 				<option value="Loisir">Loisir</option>
 			</select><br>
+			</div>
 			<br>
 			<div>
-			 <label class="checkbox" name = "achat">
-        <input type="radio" value="achat" id="achat" name="enchere" onclick="isChecked()"> Achats
+			 <label class="enchere" name ="enchere">
+        <input type="radio" value="achat" id="achat" name="enchere" onclick="isCheckedAchat()"> Achats
       </label>
-       <label class="checkbox" name = "vente" style="margin-left: 202px;">
-        <input type="radio" value="vente" id="vente" name="enchere" onclick="isChecked()"> Ventes
+       <label class="checkbox" name ="enchere" style="margin-left: 202px;">
+        <input type="radio" value="vente" id="vente" name="enchere" onclick="isCheckedVente()"> Ventes
       </label><br><br>
 			</div>
 			<div id="visibleAchat">
@@ -76,61 +227,45 @@
         <input type="checkbox" value="remportees" id="remportees" name="remportees"> Ventes terminées
       </label>
 			</div><br>
-			<button class="btn btn-outline-success" type="submit">Search</button>
+			
 		</div>
-		<div>
-			<table class="table" class="table" id="tableauListe">
-  <thead>
-    <tr>
-      <th scope="col">numero de l'article</th>
-      <th scope="col">Nom</th>
-      <th scope="col">description</th>
-      <th scope="col">Etat</th>
-      <th scope="col">prix Initial</th>
-      <th scope="col">prix Vente</th>
-      <th scope="col">date de Debut</th>
-      <th scope="col">date de Fin</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-      <td>@mdo</td>
-      <td>@mdo</td>
-      <td>@mdo</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-      <td>@fat</td>
-      <td>@fat</td>
-      <td>@fat</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Sotto</td>
-      <td>May</td>
-      <td>@twitter</td>
-      <td>@twitter</td>
-      <td>@twitter</td>
-      <td>@twitter</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
-</table>
+		<button class="btn btn-outline-success" type="submit">Search</button>
+		<div id="tableauListe">
+			<div class="center" style="margin-top: -10%">
+			<%
+				List<ArticleVendu> articleList = (List<ArticleVendu>) request.getAttribute("articleList");
+				for(ArticleVendu article : articleList){
+			%>
+  <div class="property-card">
+    <a href="#">
+      <div class="property-image">
+        <div class="property-image-title">
+          <!-- Optional <h5>Card Title</h5> If you want it, turn on the CSS also. -->
+        </div>
+      </div></a>
+    <div class="property-description">
+      <h5> <%=article.getNom() %> </h5>
+      <p> <%=article.getDescription() %></p>
+      <p><%=article.getPrixInitial()+ " points" %></p>
+      <p><%= article.getLeVendeur().getPseudo() %></p>
+    </div>
+    <a href="#">
+      <div class="property-social-icons">
+        <!-- I would usually put multipe divs inside here set to flex. Some people might use Ul li. Multiple Solutions -->
+      </div>
+    </a>
+  </div>
+  <% 
+  } 
+%>
+</div>
+
 		</div>
 	</main>
 </body>
 <script type="text/javascript">
 
-	//document.getElementById("visibleAchat").style.visibility="hidden";
+	document.getElementById("tableauListe").style.visibility="hidden";
 	var nodes = document.getElementById("visibleAchat").getElementsByTagName('*');
 	for(var i = 0; i < nodes.length; i++){
 	     nodes[i].disabled = true;
@@ -141,10 +276,10 @@
 		nodes2[i].disabled = true;
 	}		
 	
-	function isChecked() {
+	function isCheckedAchat() {
 
 		var elemAchat = document.getElementById("achat");
-	//	var elemVente = document.getElementById("vente");
+		
 		
 		if (elemAchat.checked = true) {
 			
@@ -153,8 +288,28 @@
 			}
 			for(var i = 0; i < nodes2.length; i++){
 				nodes2[i].disabled = true;
+			}
+		}
+	}
+	
+	function isCheckedVente(){
+		
+		var elemVente = document.getElementById("vente");
+		
+		if (elemVente.checked = true){
+			
+			for(var i = 0; i < nodes.length; i++){
+			     nodes[i].disabled = true;
+			}
+			for(var i = 0; i < nodes2.length; i++){
+				nodes2[i].disabled = false;
 			}	
 		}
+	}
+	function afficherCards(){
+		var idTable = document.getElementById("categorie");
+		
+	}
 </script>
 <script src="https://kit.fontawesome.com/6898bc3621.js"
 	crossorigin="anonymous"></script>
