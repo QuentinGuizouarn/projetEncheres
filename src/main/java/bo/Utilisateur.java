@@ -8,9 +8,10 @@ public class Utilisateur {
 	
 	public Utilisateur() {}
 	
-	public Utilisateur(int idUtilisateur, String pseudo) {
+	public Utilisateur(int idUtilisateur, String pseudo, String telephone) {
 		this.idUtilisateur = idUtilisateur;
 		this.pseudo = pseudo;
+		this.telephone = telephone;
 	}
 
 	public Utilisateur(String pseudo, String motDePasse, String nom, String prenom, String email, String telephone, String rue,
