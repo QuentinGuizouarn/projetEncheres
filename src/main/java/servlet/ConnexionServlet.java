@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,7 +11,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import bll.UtilisateurManager;
+import bo.Utilisateur;
 import helpers.HashPassword;
 
 /**
@@ -33,9 +37,30 @@ public class ConnexionServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String email = request.getParameter("email");
-		String motDePass = HashPassword.hashpassword(request.getParameter("motdepasse"));
+		Utilisateur user;
 		
-		if()
+		try {
+			String pseudo = request.getParameter("pseudo").trim();
+			String motDePass = HashPassword.hashpassword(request.getParameter("motdepasse")).trim();
+			user = UtilisateurManager.getInstance().getByConnection(pseudo, motDePass);
+			
+			System.out.println(user);
+//			if(pseudo != null && motDePass != null && pseudo.equals(user.getPseudo())&& motDePass.equals(user.getMotDePasse())){
+//				
+//				
+//				HttpSession session = request.getSession();
+//				
+//				session.setAttribute("pseudo", pseudo);
+//				session.setAttribute("mot de passe", motDePass);
+//				
+//				response.sendRedirect(request.getContextPath()+"/liste");
+//			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			response.sendError(500);
+		}
+	
+		
 	}	
 }

@@ -234,8 +234,8 @@ a.button:hover {
 		<h1>Connexion</h1>
 		<form method="POST" action="<%=request.getContextPath()%>/connexion">
 			<hr>
-			<label id="icon" for="email"><i class="icon-envelope "></i></label>
-			<input type="text" name="email" id="email" placeholder="Email" required />
+			<label id="icon" for="pseudo"><i class="icon-envelope "></i></label>
+			<input type="text" name="pseudo" id="pseudo" placeholder="Pseudo" required />
 			<label id="icon" for="motdepasse"><i class="icon-shield"></i></label> 
 			<input type="password" name="motdepasse" id="motdepasse" placeholder="Mot De Passe" required/> 
 			<label class="checkbox">
