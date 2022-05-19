@@ -58,7 +58,7 @@ public class EnchereDAOImpl implements EnchereDAO {
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {
 			c = new Categorie( rs.getInt("idCategorie"), rs.getString("libelle") );
-			av = new ArticleVendu( rs.getInt(idArticle), rs.getInt("prixInitial"), rs.getInt("prixVente"), rs.getString("nom"),
+			av = new ArticleVendu( rs.getInt("idArticle"), rs.getInt("prixInitial"), rs.getInt("prixVente"), rs.getString("nom"),
 				rs.getString("description"), rs.getString("etat"), rs.getString("rue"), rs.getString("codePostal"), rs.getString("ville"),
 				rs.getDate("dateDebut").toLocalDate(), rs.getDate("dateFin").toLocalDate(), new Utilisateur( rs.getInt("idVendeur"),
 				rs.getString("pseudoVendeur"), rs.getString("telephoneVendeur") ), c );

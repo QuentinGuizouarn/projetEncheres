@@ -26,20 +26,20 @@ public class DetailVenteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String id = request.getParameter("article");
+		int id = request.getParameter("article") == null ? 0 : Integer.valueOf(request.getParameter("article"));
 		Utilisateur u = null;
 		ArticleVendu av = null;
 		Enchere e = null;
-		if (id != null) {
+		if (id != 0) {
 			try {
-				av = ArticleVenduManager.getInstance().getById(Integer.valueOf(id));
-				//e = EnchereManager.getInstance().getMaxByArticle(Integer.valueOf(id));
+				av = ArticleVenduManager.getInstance().getById(id);
+				e = EnchereManager.getInstance().getMaxByArticle(id);
 			} catch (SQLException e1) {				
 				e1.printStackTrace();
 				response.sendError(500);
 			}
 		}
-		request.setAttribute("article", av);
+		request.setAttribute("articleVendu", av);
 		request.setAttribute("enchere", e);
 		request.getRequestDispatcher("/WEB-INF/jsp/detail_vente.jsp").forward(request, response);
 	}
