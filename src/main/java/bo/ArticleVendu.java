@@ -123,7 +123,7 @@ public class ArticleVendu {
 		return dateFin;
 	}
 
-	public void setDateFinEncheres(LocalDate dateFin) {
+	public void setDateFin(LocalDate dateFin) {
 		this.dateFin = dateFin;
 	}
 
@@ -145,6 +145,10 @@ public class ArticleVendu {
 
 	public int getIdArticle() {
 		return idArticle;
+	}
+
+	public void setIdArticle(int idArticle) {
+		this.idArticle = idArticle;
 	}
 
 }

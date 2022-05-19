@@ -66,7 +66,7 @@ public class AjoutNouvelleVenteServlet extends HttpServlet {
 				// Revoir pour prendre Utilisateur de la session en cours
 				int idUtilisateur = Integer.valueOf(request.getParameter("idUtilisateur"));
 				String pseudo = request.getParameter("pseudo");			
-				u = new Utilisateur(idUtilisateur, pseudo);
+				u = new Utilisateur(idUtilisateur, pseudo, null);
 				
 				String nom = request.getParameter("nom");
 				String description = request.getParameter("description");
@@ -80,15 +80,15 @@ public class AjoutNouvelleVenteServlet extends HttpServlet {
 				String chaineCategorie = request.getParameter("categorie");
 				
 				c = new Categorie( Integer.valueOf(chaineCategorie.split("_")[0]), 
-					String.valueOf(chaineCategorie.split("_")[1]) );	
+					String.valueOf(chaineCategorie.split("_")[1]) );
+				
+				av = new ArticleVendu(prixInital, 0, nom, description, etat, rue, 
+						codePostal, ville, dateDebut, dateFin, u, c);
 				
 				if (id != null) {
-					av = new ArticleVendu(Integer.valueOf(id), prixInital, 0, nom, description, 
-						etat, rue, codePostal, ville, dateDebut, dateFin, u, c);
+					av.setIdArticle(Integer.valueOf(id));
 					ArticleVenduManager.getInstance().changeArticleVendu(av);
 				} else {
-					av = new ArticleVendu(prixInital, 0, nom, description, etat, rue, 
-						codePostal, ville, dateDebut, dateFin, u, c);
 					ArticleVenduManager.getInstance().addArticleVendu(av);
 				}
 			} else if (request.getParameter("delete") != null && id != null) {
