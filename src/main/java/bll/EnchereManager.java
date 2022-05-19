@@ -19,8 +19,8 @@ public class EnchereManager {
 		Factory.createEnchereDAO().insert(e);
 	}
 	
-	public Enchere getByArticle(ArticleVendu av) throws SQLException {
-		return Factory.createEnchereDAO().selectByArticle(av);
+	public Enchere getMaxByArticle(ArticleVendu av) throws SQLException {
+		return Factory.createEnchereDAO().selectMaxByArticle(av);
 	}
 
 }
