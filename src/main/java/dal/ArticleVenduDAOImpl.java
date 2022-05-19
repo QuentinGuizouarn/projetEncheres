@@ -76,7 +76,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 			av = new ArticleVendu( rs.getInt("idArticle"), rs.getInt("prixInitial"), rs.getInt("prixVente"), rs.getString("nom"), 
 				rs.getString("description"), rs.getString("etat"), rs.getString("rue"), rs.getString("codePostal"), rs.getString("ville"),
 				rs.getDate("dateDebut").toLocalDate(), rs.getDate("dateFin").toLocalDate(), new Utilisateur( rs.getInt("idUtilisateur"),
-				rs.getString("pseudo") ), new Categorie( rs.getInt("idCategorie"), rs.getString("libelle") ) );
+				rs.getString("pseudo"), null ), new Categorie( rs.getInt("idCategorie"), rs.getString("libelle") ) );
 		}
 		cnx.close();
 		return av;
@@ -91,7 +91,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 			liste.add(new ArticleVendu( rs.getInt("idArticle"), rs.getInt("prixInitial"), rs.getInt("prixVente"), rs.getString("nom"), 
 				rs.getString("description"), rs.getString("etat"), rs.getString("rue"), rs.getString("codePostal"), rs.getString("ville"),
 				rs.getDate("dateDebut").toLocalDate(), rs.getDate("dateFin").toLocalDate(), new Utilisateur( rs.getInt("idUtilisateur"),
-				rs.getString("pseudo") ), new Categorie( rs.getInt("idCategorie"), rs.getString("libelle") ) ));
+				rs.getString("pseudo"), null ), new Categorie( rs.getInt("idCategorie"), rs.getString("libelle") ) ));
 		}
 		cnx.close();
 		return liste;
@@ -107,7 +107,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 			liste.add(new ArticleVendu( rs.getInt("idArticle"), rs.getInt("prixInitial"), rs.getInt("prixVente"), rs.getString("nom"), 
 				rs.getString("description"), rs.getString("etat"), rs.getString("rue"), rs.getString("codePostal"), rs.getString("ville"),
 				rs.getDate("dateDebut").toLocalDate(), rs.getDate("dateFin").toLocalDate(), new Utilisateur( rs.getInt("idUtilisateur"),
-				rs.getString("pseudo") ), new Categorie( rs.getInt("idCategorie"), rs.getString("libelle") ) ));
+				rs.getString("pseudo"), null ), new Categorie( rs.getInt("idCategorie"), rs.getString("libelle") ) ));
 		}
 		return liste;
 	}

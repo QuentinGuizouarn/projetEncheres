@@ -66,7 +66,7 @@ public class AjoutNouvelleVenteServlet extends HttpServlet {
 				// Revoir pour prendre Utilisateur de la session en cours
 				int idUtilisateur = Integer.valueOf(request.getParameter("idUtilisateur"));
 				String pseudo = request.getParameter("pseudo");			
-				u = new Utilisateur(idUtilisateur, pseudo);
+				u = new Utilisateur(idUtilisateur, pseudo, null);
 				
 				String nom = request.getParameter("nom");
 				String description = request.getParameter("description");
