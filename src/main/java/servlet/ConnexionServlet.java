@@ -42,25 +42,27 @@ public class ConnexionServlet extends HttpServlet {
 		try {
 			String pseudo = request.getParameter("pseudo").trim();
 			String motDePass = HashPassword.hashpassword(request.getParameter("motdepasse")).trim();
-			user = UtilisateurManager.getInstance().getByConnection(pseudo, motDePass);
+			user = UtilisateurManager.getInstance().getByConnection(pseudo, pseudo);
+			//System.out.println(user);
 			
-			System.out.println(user);
-//			if(pseudo != null && motDePass != null && pseudo.equals(user.getPseudo())&& motDePass.equals(user.getMotDePasse())){
-//				
-//				
-//				HttpSession session = request.getSession();
-//				
-//				session.setAttribute("pseudo", pseudo);
-//				session.setAttribute("mot de passe", motDePass);
-//				
-//				response.sendRedirect(request.getContextPath()+"/liste");
-//			}
+//			boolean isPseudoEqual =  pseudo.equals(user.getPseudo());
+//			boolean isMotDePassEqual = motDePass.equals(user.getMotDePasse()); 
+			
+			if(pseudo != null && motDePass != null){
+				
+//				pseudo.equals(user.getPseudo());
+//				motDePass.equals(user.getMotDePasse());
+				
+				HttpSession session = request.getSession();
+				session.setAttribute("pseudo", pseudo);
+				session.setAttribute("mot de passe", motDePass);
+				
+				response.sendRedirect(request.getContextPath()+"/AccesProfilServlet");
+			}
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			response.sendError(500);
 		}
-	
-		
 	}	
 }
