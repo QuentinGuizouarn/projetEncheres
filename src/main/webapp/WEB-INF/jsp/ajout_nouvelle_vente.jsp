@@ -10,9 +10,8 @@ ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");
 <html>
 <head>
 <meta charset="UTF-8">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
-	rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="./assets/style.css" rel="stylesheet">
 <title>Nouvelle vente</title>
 </head>
 <body>
@@ -102,7 +101,7 @@ ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");
 								type="text" class="form-control" name="ville"
 								value="<%= av != null ? av.getVille() : u.getVille() %>" required>
 						</div>
-						<span> <input name="idUtilisateur"
+						<span class="buttonVente"> <input name="idUtilisateur"
 							value="<%=u.getIdUtilisateur()%>" type="hidden"> <input
 							name="pseudo" value="<%=u.getPseudo()%>" type="hidden">
 							<input type="hidden" id="idArticle" name="idArticle" value="<%= av != null ? av.getIdArticle() : null %>">
@@ -110,7 +109,7 @@ ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");
 							<button type="submit" name="insert_update" class="btn btn-primary">Enregistrer</button>
 							<button type="reset" class="btn btn-light">Annuler</button>
 							<% if (av != null) { %>
-								<button type="submit" name="delete" class="btn btn-dark">Annuler la vente</button>
+								<button type="submit" onClick="return confirm('Confirmez-vous la suppression ?')" name="delete" class="btn btn-light">Annuler la vente</button>
 							<% } %>
 						</span>
 					</form>
