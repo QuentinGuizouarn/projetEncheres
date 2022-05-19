@@ -56,32 +56,50 @@ public class AjoutNouvelleVenteServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {			
-		try {
-			// Revoir pour prendre Utilisateur de la session en cours
-			int idUtilisateur = Integer.valueOf(request.getParameter("idUtilisateur"));
-			String pseudo = request.getParameter("pseudo");			
-			Utilisateur u = new Utilisateur(idUtilisateur, pseudo);
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+		String id = request.getParameter("idArticle");
+		Utilisateur u = null;
+		Categorie c = null;
+		ArticleVendu av = null;
+		try {			
+			if (request.getParameter("insert_update") != null) {
+				// Revoir pour prendre Utilisateur de la session en cours
+				int idUtilisateur = Integer.valueOf(request.getParameter("idUtilisateur"));
+				String pseudo = request.getParameter("pseudo");			
+				u = new Utilisateur(idUtilisateur, pseudo);
+				
+				String nom = request.getParameter("nom");
+				String description = request.getParameter("description");
+				int prixInital = Integer.valueOf(request.getParameter("prixInitial"));
+				LocalDate dateDebut = LocalDate.parse(request.getParameter("dateDebut"));
+				LocalDate dateFin = LocalDate.parse(request.getParameter("dateFin"));
+				String rue = request.getParameter("rue");
+				String codePostal = request.getParameter("codePostal");
+				String ville = request.getParameter("ville");		
+				String etat = request.getParameter("etat");
+				String chaineCategorie = request.getParameter("categorie");
+				
+				c = new Categorie( Integer.valueOf(chaineCategorie.split("_")[0]), 
+					String.valueOf(chaineCategorie.split("_")[1]) );	
+				
+				if (id != null) {
+					av = new ArticleVendu(Integer.valueOf(id), prixInital, 0, nom, description, 
+						etat, rue, codePostal, ville, dateDebut, dateFin, u, c);
+					ArticleVenduManager.getInstance().changeArticleVendu(av);
+				} else {
+					av = new ArticleVendu(prixInital, 0, nom, description, etat, rue, 
+						codePostal, ville, dateDebut, dateFin, u, c);
+					ArticleVenduManager.getInstance().addArticleVendu(av);
+				}
+			} else if (request.getParameter("delete") != null && id != null) {
+				ArticleVenduManager.getInstance().removeArticleVendu(Integer.valueOf(id));
+			}
 			
-			String nom = request.getParameter("nom");
-			String description = request.getParameter("description");
-			int prixInital = Integer.valueOf(request.getParameter("prixInitial"));
-			LocalDate dateDebut = LocalDate.parse(request.getParameter("dateDebut"));
-			LocalDate dateFin = LocalDate.parse(request.getParameter("dateFin"));
-			String rue = request.getParameter("rue");
-			String codePostal = request.getParameter("codePostal");
-			String ville = request.getParameter("ville");		
-			String chaineCategorie = request.getParameter("categorie");
-			Categorie c = new Categorie( Integer.valueOf(chaineCategorie.split("_")[0]), 
-				String.valueOf(chaineCategorie.split("_")[1]) );			
-			ArticleVendu av = new ArticleVendu(prixInital, 0, nom, description, "C", rue, 
-				codePostal, ville, dateDebut, dateFin, u, c);
-			
-			ArticleVenduManager.getInstance().addArticleVendu(av);
 		} catch (SQLException e) {			
 			e.printStackTrace();
 			response.sendError(500);
 		}
+		response.sendRedirect(request.getContextPath() + "/liste");
 		
 	}
 
