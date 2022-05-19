@@ -33,7 +33,7 @@ public class DetailVenteServlet extends HttpServlet {
 		if (id != null) {
 			try {
 				av = ArticleVenduManager.getInstance().getById(Integer.valueOf(id));
-				//e = EnchereManager.getInstance().getMaxByArticle(av);
+				//e = EnchereManager.getInstance().getMaxByArticle(Integer.valueOf(id));
 			} catch (SQLException e1) {				
 				e1.printStackTrace();
 				response.sendError(500);
