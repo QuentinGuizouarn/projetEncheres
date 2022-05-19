@@ -104,7 +104,7 @@ ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");
 						<span class="buttonVente"> <input name="idUtilisateur"
 							value="<%=u.getIdUtilisateur()%>" type="hidden"> <input
 							name="pseudo" value="<%=u.getPseudo()%>" type="hidden">
-							<input type="hidden" id="idArticle" name="idArticle" value="<%= av != null ? av.getIdArticle() : null %>">
+							<input type="hidden" id="idArticle" name="idArticle" value="<%= av != null ? av.getIdArticle() : 0 %>">
 							<input type="hidden" name="etat" value="<%= av != null ? av.getEtat() : 'C' %>">
 							<button type="submit" name="insert_update" class="btn btn-primary">Enregistrer</button>
 							<button type="reset" class="btn btn-light">Annuler</button>
