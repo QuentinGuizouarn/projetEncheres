@@ -130,13 +130,13 @@
 </body>
 <script type="text/javascript">
 
-	//document.getElementById("visibleAchat").style.visibility="hidden";
 	var nodes = document.getElementById("visibleAchat").getElementsByTagName('*');
+	var nodes2 = document.getElementById("visibleVente").getElementsByTagName('*');
+	
 	for(var i = 0; i < nodes.length; i++){
 	     nodes[i].disabled = true;
 	}
 	
-	var nodes2 = document.getElementById("visibleVente").getElementsByTagName('*');
 	for(var i = 0; i < nodes2.length; i++){
 		nodes2[i].disabled = true;
 	}		
@@ -144,17 +144,29 @@
 	function isChecked() {
 
 		var elemAchat = document.getElementById("achat");
-	//	var elemVente = document.getElementById("vente");
-		
-		if (elemAchat.checked = true) {
+		var elemVente = document.getElementById("vente");
+
+		if (elemAchat.checked) {
 			
 			for(var i = 0; i < nodes.length; i++){
 			     nodes[i].disabled = false;
 			}
+			
 			for(var i = 0; i < nodes2.length; i++){
 				nodes2[i].disabled = true;
-			}	
+			}
 		}
+		if (elemVente.checked) {
+			
+			for(var i = 0; i < nodes.length; i++){
+			     nodes[i].disabled = true;
+			}
+			
+			for(var i = 0; i < nodes2.length; i++){
+				nodes2[i].disabled = false;
+			}
+		}
+	}
 </script>
 <script src="https://kit.fontawesome.com/6898bc3621.js"
 	crossorigin="anonymous"></script>
