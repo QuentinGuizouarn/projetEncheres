@@ -105,6 +105,8 @@ ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");
 						<span> <input name="idUtilisateur"
 							value="<%=u.getIdUtilisateur()%>" type="hidden"> <input
 							name="pseudo" value="<%=u.getPseudo()%>" type="hidden">
+							<input type="hidden" id="idArticle" name="idArticle" value="<%= av != null ? av.getIdArticle() : null %>">
+							<input type="hidden" name="etat" value="<%= av != null ? av.getEtat() : 'C' %>">
 							<button type="submit" name="insert_update" class="btn btn-primary">Enregistrer</button>
 							<button type="reset" class="btn btn-light">Annuler</button>
 							<% if (av != null) { %>
@@ -117,7 +119,10 @@ ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");
 		</main>
 	</div>
 	<script>
-		dateDebutPicker.min = new Date().toISOString().split("T")[0];			
+		if (idArticle.value != null) {
+			dateFinPicker.min = dateDebutPicker.value;
+		}
+		dateDebutPicker.min = new Date().toISOString().split("T")[0];
 		function checkDateDebut(e) {
 			dateFinPicker.min = dateDebutPicker.value;
 		}
