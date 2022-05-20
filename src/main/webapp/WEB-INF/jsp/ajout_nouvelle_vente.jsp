@@ -1,6 +1,7 @@
-<%@ page language="java" import="bo.Categorie" import="bo.Utilisateur" import="bo.ArticleVendu" 
-	import="java.util.List" import="java.time.LocalDate" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
-%>
+<%@ page language="java" import="bo.Categorie" import="bo.Utilisateur"
+	import="bo.ArticleVendu" import="java.util.List"
+	import="java.time.LocalDate" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%
 List<Categorie> lesCategories = (List<Categorie>) request.getAttribute("items");
 Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
@@ -10,8 +11,10 @@ ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");
 <html>
 <head>
 <meta charset="UTF-8">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link href="./assets/style.css" rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="./assets/style.css" rel="stylesheet">
 <title>Nouvelle vente</title>
 </head>
 <body>
@@ -38,14 +41,15 @@ ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");
 					<form action="<%=request.getContextPath()%>/nouvelle_vente"
 						method="POST">
 						<div class="mb-3">
-							<label for="nom" class="form-label">Article : </label> <input
-								type="text" class="form-control" name="nom" value="<%= av != null ? av.getNom() : "" %>" 
-								required>
+							<label for="nom" class="form-label">Article : </label> 
+							<input
+								type="text" class="form-control" name="nom"
+								value="<%=av != null ? av.getNom() : ""%>" required>
 						</div>
 						<div class="mb-3">
 							<label for="description" class="form-label">Description :
 							</label>
-							<textarea class="form-control" name="description" required><%= av != null ? av.getDescription() : "" %></textarea>
+							<textarea class="form-control" name="description" required><%=av != null ? av.getDescription() : ""%></textarea>
 						</div>
 						<div class="mb-3">
 							<label for="categorie" class="form-label">Catégorie : </label> 
@@ -72,45 +76,57 @@ ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");
 						<div class="mb-3">
 							<label for="prixInitial" class="form-label">Mise à prix :
 							</label> <input type="number" min="0" class="form-control"
-								name="prixInitial" value="<%= av != null ? av.getPrixInitial() : 0 %>" 
-								required>
+								name="prixInitial"
+								value="<%=av != null ? av.getPrixInitial() : 0%>" required>
 						</div>
 						<div class="mb-3">
 							<label for="dateDebut" class="form-label">Début de
-								l'enchère : </label> <input type="date" onChange="checkDateDebut(event);"
-								id="dateDebutPicker" class="form-control" name="dateDebut" 
-								value="<%= av != null ? av.getDateDebut() : LocalDate.now() %>" required>
+								l'enchère : </label> <input type="date"
+								onChange="checkDateDebut(event);" id="dateDebutPicker"
+								class="form-control" name="dateDebut"
+								value="<%=av != null ? av.getDateDebut() : LocalDate.now()%>"
+								required>
 						</div>
 						<div class="mb-3">
 							<label for="dateFin" class="form-label">Fin de l'enchère
-								: </label> <input type="date" id="dateFinPicker" class="form-control" 
-								name="dateFin" value="<%= av != null ? av.getDateFin() : null %>" required>
+								: </label> <input type="date" id="dateFinPicker" class="form-control"
+								name="dateFin"
+								value="<%=av != null ? av.getDateFin() : null%>" required>
 						</div>
 						<div class="mb-3">
 							<label for="rue" class="form-label">Rue : </label> <input
 								type="text" class="form-control" name="rue"
-								value="<%= av != null ? av.getRue() : u.getRue() %>" required>
+								value="<%=av != null ? av.getRue() : u.getRue()%>" required>
 						</div>
 						<div class="mb-3">
 							<label for="codePostal" class="form-label">Code Postal :
 							</label> <input type="text" class="form-control" name="codePostal"
-								value="<%= av != null ? av.getCodePostal() : u.getCodePostal() %>" required>
+								value="<%=av != null ? av.getCodePostal() : u.getCodePostal()%>"
+								required>
 						</div>
 						<div class="mb-3">
 							<label for="ville" class="form-label">Ville : </label> <input
 								type="text" class="form-control" name="ville"
-								value="<%= av != null ? av.getVille() : u.getVille() %>" required>
+								value="<%=av != null ? av.getVille() : u.getVille()%>"
+								required>
 						</div>
 						<span class="buttonVente"> <input name="idUtilisateur"
 							value="<%=u.getIdUtilisateur()%>" type="hidden"> <input
-							name="pseudo" value="<%=u.getPseudo()%>" type="hidden">
-							<input type="hidden" id="idArticle" name="idArticle" value="<%= av != null ? av.getIdArticle() : null %>">
-							<input type="hidden" name="etat" value="<%= av != null ? av.getEtat() : 'C' %>">
-							<button type="submit" name="insert_update" class="btn btn-primary">Enregistrer</button>
-							<button type="reset" class="btn btn-light">Annuler</button>
-							<% if (av != null) { %>
-								<button type="submit" onClick="return confirm('Confirmez-vous la suppression ?')" name="delete" class="btn btn-light">Annuler la vente</button>
-							<% } %>
+							name="pseudo" value="<%=u.getPseudo()%>" type="hidden"> <input
+							type="hidden" id="idArticle" name="idArticle"
+							value="<%=av != null ? av.getIdArticle() : null%>"> <input
+							type="hidden" name="etat"
+							value="<%=av != null ? av.getEtat() : 'C'%>">
+							<button type="submit" name="insert_update"
+								class="btn btn-primary">Enregistrer</button>
+							<button type="reset" class="btn btn-light">Annuler</button> <%
+ if (av != null) {
+ %>
+							<button type="submit"
+								onClick="return confirm('Confirmez-vous la suppression ?')"
+								name="delete" class="btn btn-light">Annuler la vente</button> <%
+ }
+ %>
 						</span>
 					</form>
 				</div>

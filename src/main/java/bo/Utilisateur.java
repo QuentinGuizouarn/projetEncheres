@@ -135,5 +135,19 @@ public class Utilisateur {
 	public int getIdUtilisateur() {
 		return idUtilisateur;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "Utilisateur : \nPseudo :" + this.pseudo +
+				", \nNom :" + this.nom +
+				", \nPrenom :" + this.prenom +
+				", \nEmail :" + this.email +
+				", \nTelephone :" + this.telephone +
+				", \nRue :" + this.rue +
+				", \nCode Postal :" + this.codePostal +
+				", \nVille :" + this.ville +
+				", \nMot de passe :" + this.motDePasse +
+				", \nCrédit :" + this.credit +
+				", \nAdmin :" + this.administrateur;
+	}
 }

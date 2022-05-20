@@ -1,6 +1,9 @@
-<%@page import="servlet.Servlet_view_profil"%>
+<%@ page import="bo.Utilisateur" import="servlet.Servlet_view_profil"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +44,7 @@
 					<label for="texte">Pseudo : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="pseudo">jojo64</label>
+					<label for="text" id="pseudo"><%=u != null ? u.getPseudo() : null%></label>
 				</div>
 				<div class="col"></div>
 			</div>
@@ -51,7 +54,7 @@
 					<label for="texte">Nom : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="last_name">-----</label>
+					<label for="text" id="last_name"><%=u != null ? u.getNom() : null%></label>
 				</div>
 				<div class="col"></div>
 			</div>
@@ -61,7 +64,7 @@
 					<label for="texte">Prénom : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="first_name">-----</label>
+					<label for="text" id="first_name"><%=u != null ? u.getPrenom() : null%></label>
 				</div>
 				<div class="col"></div>
 			</div>
@@ -71,7 +74,7 @@
 					<label for="texte">Email : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="email">-----</label>
+					<label for="text" id="email"><%=u != null ? u.getEmail() : null%></label>
 				</div>
 				<div class="col"></div>
 			</div>
@@ -81,7 +84,7 @@
 					<label for="nombre">Téléphone : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="phone">-----</label>
+					<label for="text" id="phone"><%=u != null ? u.getTelephone() : null%></label>
 				</div>
 				<div class="col"></div>
 			</div>
@@ -91,7 +94,7 @@
 					<label for="texte">Rue : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="road">-----</label>
+					<label for="text" id="road"><%=u != null ? u.getRue() : null%></label>
 				</div>
 				<div class="col"></div>
 			</div>
@@ -101,7 +104,7 @@
 					<label for="nombre">Code Postal : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="cp">-----</label>
+					<label for="text" id="cp"><%=u != null ? u.getCodePostal() : null%></label>
 				</div>
 				<div class="col"></div>
 			</div>
@@ -111,9 +114,14 @@
 					<label for="texte">Ville : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="city">-----</label>
+					<label for="text" id="city"><%=u != null ? u.getVille() : null%></label>
 				</div>
 				<div class="col"></div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<label></label>
+				</div>
 			</div>
 		</div>
 	</div>

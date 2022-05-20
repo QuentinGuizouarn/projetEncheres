@@ -1,4 +1,4 @@
-<%@page import="servlet.Servlet_create_profil"%>
+<%@page import="servlet.Create_profil"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -130,14 +130,14 @@
 						<label for="texte">Mot de passe : </label>
 					</div>
 					<div class="col">
-						<input type="text" name="mdp" id="mdp" required />
+						<input type="password" name="mdp" id="mdp" required />
 					</div>
 					<div class="col"></div>
 					<div class="col">
 						<label for="texte">Confirmation : </label>
 					</div>
 					<div class="col">
-						<input type="text" name="compare" id="compare" required />
+						<input type="password" name="compare" id="compare" required />
 					</div>
 					<div class="col"></div>
 				</div>
