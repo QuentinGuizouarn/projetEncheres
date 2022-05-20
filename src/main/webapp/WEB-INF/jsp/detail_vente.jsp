@@ -155,9 +155,7 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 			<% } else if (av.getEtat().equalsIgnoreCase("r")) { %>
 			<div class="row justify-content-center mb-4">
 				<div class="col-6">
-					<label class="form-label">
-						<p class="fw-bold">Retrait de l'article déjà effectué</p>
-					</label>
+					<label class="form-label fw-bold">Retrait de l'article déjà effectué</label>
 				</div>
 			</div>
 			<% } %>

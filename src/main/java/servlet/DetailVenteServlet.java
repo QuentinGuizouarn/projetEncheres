@@ -49,11 +49,11 @@ public class DetailVenteServlet extends HttpServlet {
 				e1.printStackTrace();
 				response.sendError(500);
 			}
-		}	
-		if (av.getEtat().equalsIgnoreCase("t")) {
+		}
+		if (av.getEtat().equalsIgnoreCase("t") || av.getEtat().equalsIgnoreCase("r")) {
 			titre = e.getLeAcheteur().getPseudo() + " a remporté l'enchère";
 		}
-		if (vainqueur && av.getEtat().equalsIgnoreCase("t")) {
+		if (vainqueur && (av.getEtat().equalsIgnoreCase("t") || av.getEtat().equalsIgnoreCase("r"))) {
 			titre = "Vous avez remporté la vente";
 		}
 		request.setAttribute("utilisateur", u);
@@ -70,10 +70,23 @@ public class DetailVenteServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int id = request.getParameter("article") == null ? 0 : Integer.valueOf(request.getParameter("article"));
+		
 		if (request.getParameter("insert") != null) {
-			System.out.println("insert");
+			try {
+				// Mettre objet enchere
+				EnchereManager.getInstance().addEnchere(null);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				response.sendError(500);
+			}			
 		} else if (request.getParameter("retrait") != null) {
-			System.out.println("retrait");
+			try {
+				// Mettre objet articleVendu
+				ArticleVenduManager.getInstance().changeEtatArticle(null, "R");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				response.sendError(500);
+			}
 		}
 	}
 
