@@ -2,6 +2,7 @@ package helpers;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 
 public class Util {
 	
@@ -28,6 +29,10 @@ public class Util {
 		if (s.isEmpty() || s.isBlank()) {
 			throw new Exception(message);
 		}
+	}
+	
+	public static Boolean enchereApresDateJour(LocalDate date) {
+		return LocalDate.now().isAfter(date);
 	}
 
 }

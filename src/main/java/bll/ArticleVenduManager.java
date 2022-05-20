@@ -35,6 +35,10 @@ public class ArticleVenduManager {
 		Factory.createArticleVenduDAO().update(av);
 	}
 	
+	public void changeEtatArticle(ArticleVendu av, String etat) throws SQLException {
+		Factory.createArticleVenduDAO().updateEtat(av, etat);
+	}
+	
 	public void removeArticleVendu(int id) throws SQLException {
 		Factory.createArticleVenduDAO().delete(id);
 	}	

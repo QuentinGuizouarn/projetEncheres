@@ -5,6 +5,8 @@
 Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
 ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");
 Enchere e = (Enchere) request.getAttribute("enchere");
+Boolean proprietaire = (Boolean) request.getAttribute("proprietaire");
+Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 %>
 <!DOCTYPE html>
@@ -33,7 +35,7 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	<main>
 		<div class="row text-center justify-content-center mt-4">
 			<div class="col-6">
-				<h3>Détail vente</h3>
+				<h3><%= request.getAttribute("titre") %></h3>
 			</div>
 		</div>
 		<form action="<%=request.getContextPath()%>/detail_vente" method="POST">
@@ -105,21 +107,60 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 					<label for="vendeur" class="form-label"><%= av.getLeVendeur().getPseudo() %></label>
 				</div>
 			</div>
+			<% if (av.getEtat().equalsIgnoreCase("c")) { %>			
 			<div class="row justify-content-center mb-4">
 				<div class="col-2">
 					<label for="offre" class="form-label">Ma proposition :</label>
-				</div>	
+				</div>
+				<% if (u.getCredit() >= (e != null ? e.getMontant() : av.getPrixInitial())) { %>
 				<div class="col-2">
 					<input type="number" min="<%= e != null ? e.getMontant() : av.getPrixInitial() %>"
 					max="<%= u.getCredit() %>" class="form-control" name="offre" 
-					value="<%= e != null ? e.getMontant() : av.getPrixInitial() %>" required>
-				</div>
+					value="<%= e != null ? e.getMontant() : av.getPrixInitial() %>" 
+					required>
+				</div>					
 				<div class="col-2">
 					<button type="submit" name="insert" class="btn btn-primary">Enchérir</button>
-				</div>					
+				</div>
+				<% } else { %>
+				<div class="col-4">
+					<label class="form-label">Crédits insuffisants</label>
+				</div>
+				<% } %>
 			</div>
-				<input name="idUtilisateur" value="<%=u.getIdUtilisateur()%>" type="hidden"> 
-				<input name="pseudo" value="<%=u.getPseudo()%>" type="hidden">
+			<% } else if (av.getEtat().equalsIgnoreCase("t")) { %>
+				<% if (vainqueur) { %>
+				<div class="row justify-content-center mb-4">
+					<div class="col-2">
+						<label for="lblTelephone" class="form-label">Tél :</label>
+					</div>
+					<div class="col-4">
+						<label for="telephone" class="form-label"><%= e != null ? e.getLeArticle().getLeVendeur().getTelephone() : "Non communiqué" %></label>
+					</div>
+				</div>
+				<div class="row justify-content-center mb-4">
+					<div class="col-6">
+						<button type="button" onclick="location.href='<%= request.getContextPath() %>/liste'" 
+						name="retour" class="btn btn-primary">Retour
+						</button>
+					</div>
+				</div>
+				<% } else if (proprietaire) { %>
+				<div class="row justify-content-center mb-4">
+					<div class="col-6">
+						<button type="submit" name="retrait" class="btn btn-primary">Retrait effectué</button>
+					</div>
+				</div>
+				<% } %>
+			<% } else if (av.getEtat().equalsIgnoreCase("r")) { %>
+			<div class="row justify-content-center mb-4">
+				<div class="col-6">
+					<label class="form-label fw-bold">Retrait de l'article déjà effectué</label>
+				</div>
+			</div>
+			<% } %>
+			<input name="idUtilisateur" value="<%= u.getIdUtilisateur() %>" type="hidden"> 
+			<input name="pseudo" value="<%= u.getPseudo() %>" type="hidden">
 		</form>
 	</main>
 </div>
