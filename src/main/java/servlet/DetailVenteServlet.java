@@ -51,7 +51,10 @@ public class DetailVenteServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		int id = request.getParameter("article") == null ? 0 : Integer.valueOf(request.getParameter("article"));
+		if (request.getParameter("insert") != null) {
+			System.out.println(id);
+		}		
 	}
 
 }
