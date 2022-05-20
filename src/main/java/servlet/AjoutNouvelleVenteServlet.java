@@ -18,6 +18,7 @@ import bo.ArticleVendu;
 import bo.Categorie;
 import bo.Enchere;
 import bo.Utilisateur;
+import helpers.Util;
 
 /**
  * Servlet implementation class AjoutNouvelleVenteServlet
@@ -39,7 +40,7 @@ public class AjoutNouvelleVenteServlet extends HttpServlet {
 			u = UtilisateurManager.getInstance().getById(2);
 			if (id != null) {
 				av = ArticleVenduManager.getInstance().getById(Integer.valueOf(id)); 
-				if (LocalDate.now().isAfter(av.getDateDebut())) {
+				if (Util.enchereApresDateJour(av.getDateDebut())) {
 					av = null;
 				}
 			}
