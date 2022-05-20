@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,21 +12,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bll.UtilisateurManager;
+import bo.Utilisateur;
+
 /**
  * Servlet implementation class Servlet_create_profil
  */
 @WebServlet("/create_profil")
-public class Servlet_create_profil extends HttpServlet {
+public class Create_profil extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Servlet_create_profil() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-    
+	private Utilisateur u;
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -38,24 +35,39 @@ public class Servlet_create_profil extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String pseudo = request.getParameter("pseudo");
 		String nom = request.getParameter("last_name");
 		String prenom = request.getParameter("first_name");
 		String email = request.getParameter("email");
-		String motDePass = request.getParameter("mdp");
+		String tel = request.getParameter("phone");
+		String rue = request.getParameter("road");
+		String cp = request.getParameter("cp");
+		String ville = request.getParameter("city");
+		String mdp = request.getParameter("mdp");
 		String compare = request.getParameter("compare");
 		
-		if (motDePass.equals(compare)) {
-			if (motDePass.contains(nom)){response.sendError(500,"Le mot de passe ne peut pas contenir votre nom");}
-			if (motDePass.contains(prenom)){response.sendError(500,"Le mot de passe ne peut pas contenir votre prénom");}
-			if(isValidEmailId(email) && isPasswordValide(motDePass)) {
-				response.sendRedirect(request.getContextPath()+"/liste");
+		if (mdp.equals(compare)) {
+			if (mdp.contains(nom)){response.sendError(500,"Le mot de passe ne peut pas contenir votre nom");}
+			if (mdp.contains(prenom)){response.sendError(500,"Le mot de passe ne peut pas contenir votre prénom");}
+			if(isValidEmailId(email) && isPasswordValide(mdp)) {
+				try {
+					if (mdp.equals(compare)) {
+						u = new Utilisateur(pseudo, mdp, nom, prenom, email, tel, rue, cp, ville, 0, false);
+						System.out.println(u.toString());
+						UtilisateurManager.getInstance().addUtilisateur(u);
+						response.sendRedirect(request.getContextPath()+"/liste");
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			else {
 				//response.sendRedirect(request.getContextPath()+"/connexion");
-				response.sendError(500,"champs invalide");
+				response.sendError(500,"email ou mot de passe invalide");
 			}
 		} else {
-			response.sendError(500,motDePass + " != " + compare);
+			response.sendError(500,"Le mot de passe et la Confirmation doivent être identique");
 		}
 	}
 
