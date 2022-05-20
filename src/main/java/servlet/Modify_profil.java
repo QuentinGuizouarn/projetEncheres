@@ -72,6 +72,7 @@ public class Modify_profil extends HttpServlet {
 				if (newmdp != null || compare != null) {
 					if (newmdp.equals(compare)) {
 						u.setMotDePasse(newmdp);
+						UtilisateurManager.getInstance().changeUtilisateur(u);
 					} else {
 						response.sendError(500,"Le Nouveau mot de passe et la Confirmation doivent être identique");
 					}
