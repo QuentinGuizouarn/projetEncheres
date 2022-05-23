@@ -119,7 +119,7 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				<div class="col-2">
 					<label for="offre" class="form-label">Ma proposition :</label>
 				</div>
-				<% if (u.getCredit() >= (e != null ? e.getMontant() : av.getPrixInitial())) { %>
+				<% if (!vainqueur && u.getCredit() >= (e != null ? e.getMontant() : av.getPrixInitial())) { %>
 				<div class="col-2">
 					<input id="inputEnchere" type="number" 
 					min="<%= e != null ? e.getMontant() + 1 : av.getPrixInitial() %>"
@@ -147,13 +147,6 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 						<label for="telephone" class="form-label"><%= e != null ? e.getLeArticle().getLeVendeur().getTelephone() : "Non communiqué" %></label>
 					</div>
 				</div>
-				<div class="row justify-content-center mb-4">
-					<div class="col-6">
-						<button type="button" onclick="location.href='<%= request.getContextPath() %>/liste'" 
-						name="retour" class="btn btn-primary">Retour
-						</button>
-					</div>
-				</div>
 				<% } else if (proprietaire) { %>
 				<div class="row justify-content-center mb-4">
 					<div class="col-6">
@@ -169,6 +162,13 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				</div>
 			</div>
 			<% } %>
+			<div class="row justify-content-center mb-4">
+				<div class="col-6">
+					<button type="button" onclick="location.href='<%= request.getContextPath() %>/liste'" 
+					name="retour" class="btn btn-primary">Retour
+					</button>
+				</div>
+			</div>			
 			<input type="hidden" name="idUtilisateur" value="<%= u.getIdUtilisateur() %>"> 
 			<input type="hidden" name="pseudo" value="<%= u.getPseudo() %>">
 		</form>
