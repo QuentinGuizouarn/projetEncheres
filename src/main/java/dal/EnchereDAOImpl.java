@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 import bo.ArticleVendu;
@@ -38,7 +39,7 @@ public class EnchereDAOImpl implements EnchereDAO {
 	@Override
 	public void insert(Enchere e) throws SQLException {
 		PreparedStatement ps = cnx.prepareStatement(INSERT);
-		ps.setDate(1, Date.valueOf(e.getDate()));
+		ps.setTimestamp(1, Timestamp.valueOf(e.getDate()));
 		ps.setInt(2, e.getMontant());
 		ps.setInt(3, e.getLeArticle().getIdArticle());
 		ps.setInt(4, e.getLeAcheteur().getIdUtilisateur());
@@ -62,7 +63,7 @@ public class EnchereDAOImpl implements EnchereDAO {
 				rs.getDate("dateDebut").toLocalDate(), rs.getDate("dateFin").toLocalDate(), new Utilisateur( rs.getInt("idVendeur"),
 				rs.getString("pseudoVendeur"), rs.getString("telephoneVendeur") ), c );
 			u = new Utilisateur( rs.getInt("idAcheteur"), rs.getString("pseudoAcheteur"), null );
-			e = new Enchere( rs.getInt("idEnchere"), rs.getDate("dateEnchere").toLocalDate(), rs.getInt("montant"), av, u );
+			e = new Enchere( rs.getInt("idEnchere"), rs.getTimestamp("dateEnchere").toLocalDateTime(), rs.getInt("montant"), av, u );
 		}
 		return e;
 	}
