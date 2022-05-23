@@ -14,7 +14,7 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 <head>
 	<meta charset="UTF-8">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link href="./assets/style.css" rel="stylesheet">
+	<link href="./assets/css/style.css" rel="stylesheet">
 	<title>Détail vente</title>
 </head>
 <body>
@@ -64,7 +64,7 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				<div class="col-2">
 					<label for="lblOffreMax" class="form-label">Meilleure offre :</label>
 				</div>
-				<div class="col-4">
+				<div class="col-4">				
 				<% if (e != null) { %>
 					<label for="offreMax" class="form-label"><%= e.getMontant() %> points par <%= e.getLeAcheteur().getPseudo() %></label>
 				<% } else { %>
@@ -85,7 +85,13 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 					<label for="lblDateFin" class="form-label">Fin de l'enchère :</label>
 				</div>
 				<div class="col-4">
-					<label for="dateFin" class="form-label"><%= av.getDateFin().format(formatters) %></label>
+					<div class="row justify-content-center">
+						<label for="dateFin" class="form-label"><%= av.getDateFin().format(formatters) %></label>
+						<input type="hidden" id="jourFinEnchere" value="<%= av.getDateFin().getDayOfMonth() %>">
+						<input type="hidden" id="moisFinEnchere" value="<%= av.getDateFin().getMonthValue() %>">
+						<input type="hidden" id="AnneeFinEnchere" value="<%= av.getDateFin().getYear() %>">
+						<div id="countdown"></div>
+					</div>
 				</div>
 			</div>
 			<div class="row justify-content-center mb-4">
@@ -107,20 +113,22 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 					<label for="vendeur" class="form-label"><%= av.getLeVendeur().getPseudo() %></label>
 				</div>
 			</div>
+			
 			<% if (av.getEtat().equalsIgnoreCase("c")) { %>			
 			<div class="row justify-content-center mb-4">
 				<div class="col-2">
 					<label for="offre" class="form-label">Ma proposition :</label>
 				</div>
-				<% if (u.getCredit() >= (e != null ? e.getMontant() : av.getPrixInitial())) { %>
+				<% if (!vainqueur && u.getCredit() >= (e != null ? e.getMontant() : av.getPrixInitial())) { %>
 				<div class="col-2">
-					<input type="number" min="<%= e != null ? e.getMontant() : av.getPrixInitial() %>"
+					<input id="inputEnchere" type="number" 
+					min="<%= e != null ? e.getMontant() + 1 : av.getPrixInitial() %>"
 					max="<%= u.getCredit() %>" class="form-control" name="offre" 
-					value="<%= e != null ? e.getMontant() : av.getPrixInitial() %>" 
+					value="<%= e != null ? e.getMontant() + 1 : av.getPrixInitial() %>" 
 					required>
 				</div>					
 				<div class="col-2">
-					<button type="submit" name="insert" class="btn btn-primary">Enchérir</button>
+					<button id="btnEnchere" type="submit" name="insert" class="btn btn-primary">Enchérir</button>
 				</div>
 				<% } else { %>
 				<div class="col-4">
@@ -128,6 +136,7 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				</div>
 				<% } %>
 			</div>
+			
 			<% } else if (av.getEtat().equalsIgnoreCase("t")) { %>
 				<% if (vainqueur) { %>
 				<div class="row justify-content-center mb-4">
@@ -138,13 +147,6 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 						<label for="telephone" class="form-label"><%= e != null ? e.getLeArticle().getLeVendeur().getTelephone() : "Non communiqué" %></label>
 					</div>
 				</div>
-				<div class="row justify-content-center mb-4">
-					<div class="col-6">
-						<button type="button" onclick="location.href='<%= request.getContextPath() %>/liste'" 
-						name="retour" class="btn btn-primary">Retour
-						</button>
-					</div>
-				</div>
 				<% } else if (proprietaire) { %>
 				<div class="row justify-content-center mb-4">
 					<div class="col-6">
@@ -152,6 +154,7 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 					</div>
 				</div>
 				<% } %>
+				
 			<% } else if (av.getEtat().equalsIgnoreCase("r")) { %>
 			<div class="row justify-content-center mb-4">
 				<div class="col-6">
@@ -159,10 +162,48 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				</div>
 			</div>
 			<% } %>
-			<input name="idUtilisateur" value="<%= u.getIdUtilisateur() %>" type="hidden"> 
-			<input name="pseudo" value="<%= u.getPseudo() %>" type="hidden">
+			<div class="row justify-content-center mb-4">
+				<div class="col-6">
+					<button type="button" onclick="location.href='<%= request.getContextPath() %>/liste'" 
+					name="retour" class="btn btn-primary">Retour
+					</button>
+				</div>
+			</div>			
+			<input type="hidden" name="idUtilisateur" value="<%= u.getIdUtilisateur() %>"> 
+			<input type="hidden" name="pseudo" value="<%= u.getPseudo() %>">
 		</form>
 	</main>
 </div>
+<script>
+var end = new Date(AnneeFinEnchere.value, moisFinEnchere.value - 1, jourFinEnchere.value);
+
+var _second = 1000;
+var _minute = _second * 60;
+var _hour = _minute * 60;
+var _day = _hour * 24;
+var timer;
+
+function showRemaining() {
+    var now = new Date();
+    var distance = end - now;
+    if (distance < 0) {
+        clearInterval(timer);
+        document.getElementById('countdown').innerHTML = 'Vente terminée !';
+        document.getElementById('inputEnchere').setAttribute("disabled", "disabled");
+        document.getElementById('btnEnchere').setAttribute("disabled", "disabled");
+        return;
+    }
+    var days = Math.floor(distance / _day);
+    var hours = Math.floor((distance % _day) / _hour);
+    var minutes = Math.floor((distance % _hour) / _minute);
+    var seconds = Math.floor((distance % _minute) / _second);
+
+    document.getElementById('countdown').innerHTML = days + ' jours ';
+    document.getElementById('countdown').innerHTML += hours + ' heures ';
+    document.getElementById('countdown').innerHTML += minutes + ' minutes ';
+    document.getElementById('countdown').innerHTML += seconds + ' secondes';
+}
+timer = setInterval(showRemaining, 1000);
+</script>
 </body>
 </html>

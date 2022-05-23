@@ -27,22 +27,21 @@ import helpers.Util;
 public class AjoutNouvelleVenteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
+	private String idArticle = null;
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String id = request.getParameter("article");
+		idArticle = request.getParameter("article");
 		Utilisateur u = null;
 		List<Categorie> items = null;
 		ArticleVendu av = null;
 		try {
 			items = CategorieManager.getInstance().getAll();
 			u = UtilisateurManager.getInstance().getById(2);
-			if (id != null) {
-				av = ArticleVenduManager.getInstance().getById(Integer.valueOf(id)); 
-				if (Util.enchereApresDateJour(av.getDateDebut())) {
-					av = null;
-				}
+			if (idArticle != null) {
+				av = ArticleVenduManager.getInstance().getById(Integer.valueOf(idArticle)); 
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -58,7 +57,7 @@ public class AjoutNouvelleVenteServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
-		int id = Integer.valueOf(request.getParameter("idArticle"));
+		int id = Integer.valueOf(idArticle);
 		Utilisateur u = null;
 		Categorie c = null;
 		ArticleVendu av = null;
@@ -77,7 +76,7 @@ public class AjoutNouvelleVenteServlet extends HttpServlet {
 				String rue = request.getParameter("rue");
 				String codePostal = request.getParameter("codePostal");
 				String ville = request.getParameter("ville");		
-				String etat = request.getParameter("etat");
+				String etat = "N";
 				String chaineCategorie = request.getParameter("categorie");
 				
 				c = new Categorie( Integer.valueOf(chaineCategorie.split("_")[0]), 
@@ -100,6 +99,7 @@ public class AjoutNouvelleVenteServlet extends HttpServlet {
 			e.printStackTrace();
 			response.sendError(500);
 		}
+		idArticle = null;
 		response.sendRedirect(request.getContextPath() + "/liste");
 		
 	}
