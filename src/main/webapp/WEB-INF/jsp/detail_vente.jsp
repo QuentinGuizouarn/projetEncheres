@@ -66,7 +66,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 				</div>
 				<div class="col-4">				
 				<% if (e != null) { %>
-				<form class="noLink" id="lienVueProfil" action="<%=request.getContextPath()%>/view_profil" method="POST">
+				<form id="lienVueProfil" action="<%=request.getContextPath()%>/view_profil" method="POST">
 					<label for="offreMax" class="form-label"><%= e.getMontant() %> points par 
 						<a href="<%= request.getContextPath() %>/view_profil" onclick="launchViewProfil();"><%= e.getLeAcheteur().getPseudo() %></a>
 					</label>
