@@ -177,9 +177,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 					name="retour" class="btn btn-primary">Retour
 					</button>
 				</div>
-			</div>			
-			<input type="hidden" name="idUtilisateur" value="<%= u.getIdUtilisateur() %>"> 
-			<input type="hidden" name="pseudo" value="<%= u.getPseudo() %>">
+			</div>
 		</form>
 	</main>
 </div>

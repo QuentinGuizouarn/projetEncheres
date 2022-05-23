@@ -58,7 +58,7 @@ public class DetailVenteServlet extends HttpServlet {
 				titre = "Vous êtes le leader des enchères";
 			}
 		} else {
-			if (av.getEtat().equalsIgnoreCase("t") || av.getEtat().equalsIgnoreCase("r")) {
+			if (e != null && (av.getEtat().equalsIgnoreCase("t") || av.getEtat().equalsIgnoreCase("r"))) {
 				titre = e.getLeAcheteur().getPseudo() + " a remporté l'enchère";
 			}
 		}
