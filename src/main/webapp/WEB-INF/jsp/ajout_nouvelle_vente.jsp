@@ -94,7 +94,7 @@ ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");
 						</div>
 						<div class="mb-3">
 							<label for="codePostal" class="form-label">Code Postal :
-							</label> <input type="text" class="form-control" name="codePostal"
+							</label> <input pattern="[0-9]{5}" type="text" class="form-control" name="codePostal"
 								value="<%= av != null ? av.getCodePostal() : u.getCodePostal() %>" required>
 						</div>
 						<div class="mb-3">
@@ -119,14 +119,14 @@ ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");
 			</div>
 		</main>
 	</div>
-	<script>
-		if (idArticle.value != null) {
-			dateFinPicker.min = dateDebutPicker.value;
-		}
-		dateDebutPicker.min = new Date().toISOString().split("T")[0];
-		function checkDateDebut(e) {
-			dateFinPicker.min = dateDebutPicker.value;
-		}
-	</script>
+<script>
+	if (idArticle.value != null) {
+		dateFinPicker.min = dateDebutPicker.value;
+	}
+	dateDebutPicker.min = new Date().toISOString().split("T")[0];
+	function checkDateDebut(e) {
+		dateFinPicker.min = dateDebutPicker.value;
+	}
+</script>
 </body>
 </html>

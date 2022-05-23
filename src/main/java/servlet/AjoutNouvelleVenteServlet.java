@@ -57,7 +57,7 @@ public class AjoutNouvelleVenteServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
-		int id = Integer.valueOf(idArticle);
+		int id = idArticle != null ? Integer.valueOf(idArticle) : 0;
 		Utilisateur u = null;
 		Categorie c = null;
 		ArticleVendu av = null;
