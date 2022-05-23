@@ -30,7 +30,7 @@ ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");
 			</nav>
 		</header>
 		<main>
-			<div class="row text-center" style="margin-top: 2%;">
+			<div class="row text-center mt-4 mb-4">
 				<h3>Nouvelle vente</h3>
 			</div>
 			<div class="row">

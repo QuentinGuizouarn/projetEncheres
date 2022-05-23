@@ -7,7 +7,6 @@ ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");
 Enchere e = (Enchere) request.getAttribute("enchere");
 Boolean proprietaire = (Boolean) request.getAttribute("proprietaire");
 Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
-DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 %>
 <!DOCTYPE html>
 <html>
@@ -33,7 +32,7 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		</nav>
 	</header>
 	<main>
-		<div class="row text-center justify-content-center mt-4">
+		<div class="row text-center justify-content-center mt-4 mb-4">
 			<div class="col-6">
 				<h3><%= request.getAttribute("titre") %></h3>
 			</div>
@@ -71,7 +70,7 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 						<a href="<%= request.getContextPath() %>/view_profil" onclick="launchViewProfil();"><%= e.getLeAcheteur().getPseudo() %></a>
 					</label>
 					<input type="hidden" name="idUtilisateur" value="<%= e.getLeAcheteur().getIdUtilisateur() %>">
-				</form>					
+				</form>
 				<% } else { %>
 					<label for="offreMax" class="form-label">Aucune</label>
 				<% } %>
@@ -91,7 +90,7 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				</div>
 				<div class="col-4">
 					<div class="row justify-content-center">
-						<label for="dateFin" class="form-label"><%= av.getDateFin().format(formatters) %></label>
+						<label for="dateFin" class="form-label"><%= av.getDateFin().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) %></label>
 						<input type="hidden" id="jourFinEnchere" value="<%= av.getDateFin().getDayOfMonth() %>">
 						<input type="hidden" id="moisFinEnchere" value="<%= av.getDateFin().getMonthValue() %>">
 						<input type="hidden" id="AnneeFinEnchere" value="<%= av.getDateFin().getYear() %>">
