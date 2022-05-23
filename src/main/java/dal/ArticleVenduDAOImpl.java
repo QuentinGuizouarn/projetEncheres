@@ -39,6 +39,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	private static final String UPDATE = "UPDATE ARTICLES_VENDUS SET nom = ?, description = ?, dateDebut = ?, dateFin = ?,"
 			+ " prixInitial = ?, prixVente = ?, rue = ?, codePostal = ?, ville = ?, etat = ?, idUtilisateur = ?, idCategorie = ?"
 			+ " WHERE idArticle = ?";
+	private static final String UPDATE_ETAT = "UPDATE ARICLES_VENDUS SET etat = ? WHERE idArticle = ?";
 	private static final String DELETE = "DELETE FROM ARTICLES_VENDUS WHERE idArticle = ?";
 	
 	public Connection cnx;
@@ -75,7 +76,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 			av = new ArticleVendu( rs.getInt("idArticle"), rs.getInt("prixInitial"), rs.getInt("prixVente"), rs.getString("nom"), 
 				rs.getString("description"), rs.getString("etat"), rs.getString("rue"), rs.getString("codePostal"), rs.getString("ville"),
 				rs.getDate("dateDebut").toLocalDate(), rs.getDate("dateFin").toLocalDate(), new Utilisateur( rs.getInt("idUtilisateur"),
-				rs.getString("pseudo") ), new Categorie( rs.getInt("idCategorie"), rs.getString("libelle") ) );
+				rs.getString("pseudo"), null ), new Categorie( rs.getInt("idCategorie"), rs.getString("libelle") ) );
 		}
 		cnx.close();
 		return av;
@@ -90,7 +91,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 			liste.add(new ArticleVendu( rs.getInt("idArticle"), rs.getInt("prixInitial"), rs.getInt("prixVente"), rs.getString("nom"), 
 				rs.getString("description"), rs.getString("etat"), rs.getString("rue"), rs.getString("codePostal"), rs.getString("ville"),
 				rs.getDate("dateDebut").toLocalDate(), rs.getDate("dateFin").toLocalDate(), new Utilisateur( rs.getInt("idUtilisateur"),
-				rs.getString("pseudo") ), new Categorie( rs.getInt("idCategorie"), rs.getString("libelle") ) ));
+				rs.getString("pseudo"), null ), new Categorie( rs.getInt("idCategorie"), rs.getString("libelle") ) ));
 		}
 		cnx.close();
 		return liste;
@@ -106,7 +107,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 			liste.add(new ArticleVendu( rs.getInt("idArticle"), rs.getInt("prixInitial"), rs.getInt("prixVente"), rs.getString("nom"), 
 				rs.getString("description"), rs.getString("etat"), rs.getString("rue"), rs.getString("codePostal"), rs.getString("ville"),
 				rs.getDate("dateDebut").toLocalDate(), rs.getDate("dateFin").toLocalDate(), new Utilisateur( rs.getInt("idUtilisateur"),
-				rs.getString("pseudo") ), new Categorie( rs.getInt("idCategorie"), rs.getString("libelle") ) ));
+				rs.getString("pseudo"), null ), new Categorie( rs.getInt("idCategorie"), rs.getString("libelle") ) ));
 		}
 		return liste;
 	}
@@ -127,6 +128,15 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 		ps.setInt(11, av.getLeVendeur().getIdUtilisateur());
 		ps.setInt(12, av.getLaCategorie().getIdCategorie());
 		ps.setInt(13, av.getIdArticle());
+		ps.executeUpdate();
+		cnx.close();
+	}
+	
+	@Override
+	public void updateEtat(ArticleVendu av, String etat) throws SQLException {
+		PreparedStatement ps = cnx.prepareStatement(UPDATE_ETAT);
+		ps.setString(1, etat);
+		ps.setInt(2, av.getIdArticle());
 		ps.executeUpdate();
 		cnx.close();
 	}
