@@ -90,6 +90,7 @@ public class DetailVenteServlet extends HttpServlet {
 		}
 		av = null;
 		e = null;
+		response.sendRedirect(request.getContextPath() + "/liste");
 	}
 
 }
