@@ -14,7 +14,7 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 <head>
 	<meta charset="UTF-8">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link href="./assets/style.css" rel="stylesheet">
+	<link href="./assets/css/style.css" rel="stylesheet">
 	<title>Détail vente</title>
 </head>
 <body>
@@ -85,7 +85,13 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 					<label for="lblDateFin" class="form-label">Fin de l'enchère :</label>
 				</div>
 				<div class="col-4">
-					<label for="dateFin" class="form-label"><%= av.getDateFin().format(formatters) %></label>
+					<div class="row justify-content-center">
+						<label for="dateFin" class="form-label"><%= av.getDateFin().format(formatters) %></label>
+						<input type="hidden" id="jourFinEnchere" value="<%= av.getDateFin().getDayOfMonth() %>">
+						<input type="hidden" id="moisFinEnchere" value="<%= av.getDateFin().getMonthValue() %>">
+						<input type="hidden" id="AnneeFinEnchere" value="<%= av.getDateFin().getYear() %>">
+						<div id="countdown"></div>
+					</div>
 				</div>
 			</div>
 			<div class="row justify-content-center mb-4">
@@ -113,14 +119,16 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 					<label for="offre" class="form-label">Ma proposition :</label>
 				</div>
 				<% if (u.getCredit() >= (e != null ? e.getMontant() : av.getPrixInitial())) { %>
-				<div class="col-2">
-					<input type="number" min="<%= e != null ? e.getMontant() : av.getPrixInitial() %>"
-					max="<%= u.getCredit() %>" class="form-control" name="offre" 
-					value="<%= e != null ? e.getMontant() : av.getPrixInitial() %>" 
-					required>
-				</div>					
-				<div class="col-2">
-					<button type="submit" name="insert" class="btn btn-primary">Enchérir</button>
+				<div id="faireEnchere">
+					<div class="col-2">
+						<input type="number" min="<%= e != null ? e.getMontant() : av.getPrixInitial() %>"
+						max="<%= u.getCredit() %>" class="form-control" name="offre" 
+						value="<%= e != null ? e.getMontant() : av.getPrixInitial() %>" 
+						required>
+					</div>					
+					<div class="col-2">
+						<button type="submit" name="insert" class="btn btn-primary">Enchérir</button>
+					</div>
 				</div>
 				<% } else { %>
 				<div class="col-4">
@@ -159,10 +167,40 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				</div>
 			</div>
 			<% } %>
-			<input name="idUtilisateur" value="<%= u.getIdUtilisateur() %>" type="hidden"> 
-			<input name="pseudo" value="<%= u.getPseudo() %>" type="hidden">
+			<input type="hidden" name="idUtilisateur" value="<%= u.getIdUtilisateur() %>"> 
+			<input type="hidden" name="pseudo" value="<%= u.getPseudo() %>">
 		</form>
 	</main>
 </div>
+<script>
+var end = new Date(AnneeFinEnchere.value, moisFinEnchere.value - 1, jourFinEnchere.value);
+
+var _second = 1000;
+var _minute = _second * 60;
+var _hour = _minute * 60;
+var _day = _hour * 24;
+var timer;
+
+function showRemaining() {
+    var now = new Date();
+    var distance = end - now;
+    if (distance < 0) {
+        clearInterval(timer);
+        document.getElementById('countdown').innerHTML = 'Vente terminée !';
+        document.getElementById('faireEnchere').setAttribute("disabled", "disabled");
+        return;
+    }
+    var days = Math.floor(distance / _day);
+    var hours = Math.floor((distance % _day) / _hour);
+    var minutes = Math.floor((distance % _hour) / _minute);
+    var seconds = Math.floor((distance % _minute) / _second);
+
+    document.getElementById('countdown').innerHTML = days + ' jours ';
+    document.getElementById('countdown').innerHTML += hours + ' heures ';
+    document.getElementById('countdown').innerHTML += minutes + ' minutes ';
+    document.getElementById('countdown').innerHTML += seconds + ' secondes';
+}
+timer = setInterval(showRemaining, 1000);
+</script>
 </body>
 </html>
