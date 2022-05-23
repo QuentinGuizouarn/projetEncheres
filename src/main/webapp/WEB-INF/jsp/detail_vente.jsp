@@ -157,11 +157,13 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				<% } %>
 				
 			<% } else if (av.getEtat().equalsIgnoreCase("r")) { %>
-			<div class="row justify-content-center mb-4">
-				<div class="col-6">
-					<label class="form-label fw-bold">Retrait de l'article déjà effectué</label>
+				<% if (proprietaire || vainqueur) { %>
+				<div class="row justify-content-center mb-4">
+					<div class="col-6">
+						<label class="form-label fw-bold">Retrait de l'article déjà effectué</label>
+					</div>
 				</div>
-			</div>
+				<% } %>
 			<% } %>
 			
 			<div class="row justify-content-center mb-4">

@@ -51,11 +51,16 @@ public class DetailVenteServlet extends HttpServlet {
 				response.sendError(500);
 			}
 		}
-		if (av.getEtat().equalsIgnoreCase("t") || av.getEtat().equalsIgnoreCase("r")) {
-			titre = e.getLeAcheteur().getPseudo() + " a remporté l'enchère";
-		}
-		if (vainqueur && (av.getEtat().equalsIgnoreCase("t") || av.getEtat().equalsIgnoreCase("r"))) {
-			titre = "Vous avez remporté la vente";
+		if (vainqueur) {
+			if (av.getEtat().equalsIgnoreCase("t") || av.getEtat().equalsIgnoreCase("r")) {
+				titre = "Vous avez remporté la vente";
+			} else {
+				titre = "Vous êtes le leader des enchères";
+			}
+		} else {
+			if (av.getEtat().equalsIgnoreCase("t") || av.getEtat().equalsIgnoreCase("r")) {
+				titre = e.getLeAcheteur().getPseudo() + " a remporté l'enchère";
+			}
 		}
 		request.setAttribute("utilisateur", u);
 		request.setAttribute("articleVendu", av);
