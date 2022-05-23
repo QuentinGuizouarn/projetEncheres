@@ -2,8 +2,8 @@
 <Context>
     <Resource name="jdbc/encheres" 
               type="javax.sql.DataSource" 
-              username="sa" 
-              password="Pa$$w0rd"
+              username="EniUser" 
+              password="1234"
               driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
               url="jdbc:sqlserver://localhost;databaseName=ENCHERES_DB;trustServerCertificate=true"
               maxTotal="20" 
