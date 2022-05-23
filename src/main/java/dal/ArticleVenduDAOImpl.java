@@ -35,7 +35,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 			+ " FROM ARTICLES_VENDUS A"
 			+ " INNER JOIN UTILISATEURS U ON U.idUtilisateur = A.idUtilisateur"
 			+ " INNER JOIN CATEGORIES C ON C.idCategorie = A.idCategorie"
-			+ " WHERE A.nom LIKE ";
+			+ " WHERE A.nom LIKE ? ";
 	private static final String UPDATE = "UPDATE ARTICLES_VENDUS SET nom = ?, description = ?, dateDebut = ?, dateFin = ?,"
 			+ " prixInitial = ?, prixVente = ?, rue = ?, codePostal = ?, ville = ?, etat = ?, idUtilisateur = ?, idCategorie = ?"
 			+ " WHERE idArticle = ?";
