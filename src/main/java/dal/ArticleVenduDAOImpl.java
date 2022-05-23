@@ -39,7 +39,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	private static final String UPDATE = "UPDATE ARTICLES_VENDUS SET nom = ?, description = ?, dateDebut = ?, dateFin = ?,"
 			+ " prixInitial = ?, prixVente = ?, rue = ?, codePostal = ?, ville = ?, etat = ?, idUtilisateur = ?, idCategorie = ?"
 			+ " WHERE idArticle = ?";
-	private static final String UPDATE_ETAT = "UPDATE ARICLES_VENDUS SET etat = ? WHERE idArticle = ?";
+	private static final String UPDATE_ETAT = "UPDATE ARTICLES_VENDUS SET etat = ? WHERE idArticle = ?";
 	private static final String DELETE = "DELETE FROM ARTICLES_VENDUS WHERE idArticle = ?";
 	
 	public Connection cnx;
