@@ -16,9 +16,7 @@ import bll.CategorieManager;
 import bll.UtilisateurManager;
 import bo.ArticleVendu;
 import bo.Categorie;
-import bo.Enchere;
 import bo.Utilisateur;
-import helpers.Util;
 
 /**
  * Servlet implementation class AjoutNouvelleVenteServlet
