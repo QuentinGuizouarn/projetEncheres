@@ -14,7 +14,7 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 <head>
 	<meta charset="UTF-8">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link href="./assets/css/style.css" rel="stylesheet">
+	<link href="./assets/style.css" rel="stylesheet">
 	<title>Détail vente</title>
 </head>
 <body>
@@ -66,7 +66,12 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				</div>
 				<div class="col-4">				
 				<% if (e != null) { %>
-					<label for="offreMax" class="form-label"><%= e.getMontant() %> points par <%= e.getLeAcheteur().getPseudo() %></label>
+				<form class="noLink" id="lienVueProfil" action="<%=request.getContextPath()%>/view_profil" method="POST">
+					<label for="offreMax" class="form-label"><%= e.getMontant() %> points par 
+						<a href="<%= request.getContextPath() %>/view_profil" onclick="launchViewProfil();"><%= e.getLeAcheteur().getPseudo() %></a>
+					</label>
+					<input type="hidden" name="idUtilisateur" value="<%= e.getLeAcheteur().getIdUtilisateur() %>">
+				</form>					
 				<% } else { %>
 					<label for="offreMax" class="form-label">Aucune</label>
 				<% } %>
@@ -208,6 +213,10 @@ function showRemaining() {
     document.getElementById('countdown').innerHTML += seconds + ' secondes';
 }
 timer = setInterval(showRemaining, 1000);
+
+function launchViewProfil() {
+	document.getElementById("lienVueProfil").submit();
+}
 </script>
 </body>
 </html>
