@@ -115,27 +115,28 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 			</div>
 			
 			<% if (av.getEtat().equalsIgnoreCase("c")) { %>			
-			<div class="row justify-content-center mb-4">
-				<div class="col-2">
-					<label for="offre" class="form-label">Ma proposition :</label>
-				</div>
-				<% if (!vainqueur && u.getCredit() >= (e != null ? e.getMontant() : av.getPrixInitial())) { %>
-				<div class="col-2">
-					<input id="inputEnchere" type="number" 
-					min="<%= e != null ? e.getMontant() + 1 : av.getPrixInitial() %>"
-					max="<%= u.getCredit() %>" class="form-control" name="offre" 
-					value="<%= e != null ? e.getMontant() + 1 : av.getPrixInitial() %>" 
-					required>
-				</div>					
-				<div class="col-2">
-					<button id="btnEnchere" type="submit" name="insert" class="btn btn-primary">Enchérir</button>
-				</div>
-				<% } else { %>
-				<div class="col-4">
-					<label class="form-label">Crédits insuffisants</label>
+				<% if (!proprietaire && !vainqueur) { %>
+				<div class="row justify-content-center mb-4">
+					<div class="col-2">
+						<label for="offre" class="form-label">Ma proposition :</label>
+					</div>
+					<div class="col-2">
+						<input id="inputEnchere" type="number" 
+						min="<%= e != null ? e.getMontant() + 1 : av.getPrixInitial() %>"
+						max="<%= u.getCredit() %>" class="form-control" name="offre" 
+						value="<%= e != null ? e.getMontant() + 1 : av.getPrixInitial() %>" 
+						required>
+					</div>					
+					<div class="col-2">
+						<button id="btnEnchere" type="submit" name="insert" class="btn btn-primary">Enchérir</button>
+					</div>
+					<% if (u.getCredit() < (e != null ? e.getMontant() : av.getPrixInitial())) { %>
+					<div class="col-4">
+						<label class="form-label">Crédits insuffisants</label>
+					</div>
+					<% } %>
 				</div>
 				<% } %>
-			</div>
 			
 			<% } else if (av.getEtat().equalsIgnoreCase("t")) { %>
 				<% if (vainqueur) { %>
@@ -162,6 +163,7 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				</div>
 			</div>
 			<% } %>
+			
 			<div class="row justify-content-center mb-4">
 				<div class="col-6">
 					<button type="button" onclick="location.href='<%= request.getContextPath() %>/liste'" 
