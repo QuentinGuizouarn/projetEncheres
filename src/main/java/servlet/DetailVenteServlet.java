@@ -2,7 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,21 +24,22 @@ import helpers.Util;
 @WebServlet("/detail_vente")
 public class DetailVenteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	private Utilisateur u = null;
+	private ArticleVendu av = null;
+	private Enchere e = null;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int id = request.getParameter("article") == null ? 0 : Integer.valueOf(request.getParameter("article"));
-		Utilisateur u = null;
-		ArticleVendu av = null;
-		Enchere e = null;
 		Boolean proprietaire = false;
 		Boolean vainqueur = false;		
 		String titre = "Détail vente";
 		if (id != 0) {
 			try {
-				u = UtilisateurManager.getInstance().getById(1);
+				u = UtilisateurManager.getInstance().getById(3);
 				av = ArticleVenduManager.getInstance().getById(id);
 				e = EnchereManager.getInstance().getMaxByArticle(id);
 				proprietaire = u.getIdUtilisateur() == av.getLeVendeur().getIdUtilisateur();
@@ -68,26 +69,27 @@ public class DetailVenteServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int id = request.getParameter("article") == null ? 0 : Integer.valueOf(request.getParameter("article"));
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		if (request.getParameter("insert") != null) {
 			try {
-				// Mettre objet enchere
-				EnchereManager.getInstance().addEnchere(null);
+				LocalDateTime date = LocalDateTime.now();
+				int montant = Integer.valueOf(request.getParameter("montant"));
+				e = new Enchere(date, montant, av, u);
+				EnchereManager.getInstance().addEnchere(e);
 			} catch (SQLException e) {
 				e.printStackTrace();
 				response.sendError(500);
-			}			
+			}
 		} else if (request.getParameter("retrait") != null) {
 			try {
-				// Mettre objet articleVendu
-				ArticleVenduManager.getInstance().changeEtatArticle(null, "R");
+				ArticleVenduManager.getInstance().changeEtatArticle(av, "R");
 			} catch (SQLException e) {
 				e.printStackTrace();
 				response.sendError(500);
 			}
 		}
+		av = null;
+		e = null;
 	}
 
 }

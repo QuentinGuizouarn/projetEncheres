@@ -64,7 +64,7 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				<div class="col-2">
 					<label for="lblOffreMax" class="form-label">Meilleure offre :</label>
 				</div>
-				<div class="col-4">
+				<div class="col-4">				
 				<% if (e != null) { %>
 					<label for="offreMax" class="form-label"><%= e.getMontant() %> points par <%= e.getLeAcheteur().getPseudo() %></label>
 				<% } else { %>
@@ -113,22 +113,22 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 					<label for="vendeur" class="form-label"><%= av.getLeVendeur().getPseudo() %></label>
 				</div>
 			</div>
+			
 			<% if (av.getEtat().equalsIgnoreCase("c")) { %>			
 			<div class="row justify-content-center mb-4">
 				<div class="col-2">
 					<label for="offre" class="form-label">Ma proposition :</label>
 				</div>
 				<% if (u.getCredit() >= (e != null ? e.getMontant() : av.getPrixInitial())) { %>
-				<div id="faireEnchere">
-					<div class="col-2">
-						<input type="number" min="<%= e != null ? e.getMontant() : av.getPrixInitial() %>"
-						max="<%= u.getCredit() %>" class="form-control" name="offre" 
-						value="<%= e != null ? e.getMontant() : av.getPrixInitial() %>" 
-						required>
-					</div>					
-					<div class="col-2">
-						<button type="submit" name="insert" class="btn btn-primary">Enchérir</button>
-					</div>
+				<div class="col-2">
+					<input id="inputEnchere" type="number" 
+					min="<%= e != null ? e.getMontant() : av.getPrixInitial() %>"
+					max="<%= u.getCredit() %>" class="form-control" name="offre" 
+					value="<%= e != null ? e.getMontant() : av.getPrixInitial() %>" 
+					required>
+				</div>					
+				<div class="col-2">
+					<button id="btnEnchere" type="submit" name="insert" class="btn btn-primary">Enchérir</button>
 				</div>
 				<% } else { %>
 				<div class="col-4">
@@ -136,6 +136,7 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				</div>
 				<% } %>
 			</div>
+			
 			<% } else if (av.getEtat().equalsIgnoreCase("t")) { %>
 				<% if (vainqueur) { %>
 				<div class="row justify-content-center mb-4">
@@ -160,6 +161,7 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 					</div>
 				</div>
 				<% } %>
+				
 			<% } else if (av.getEtat().equalsIgnoreCase("r")) { %>
 			<div class="row justify-content-center mb-4">
 				<div class="col-6">
@@ -187,7 +189,8 @@ function showRemaining() {
     if (distance < 0) {
         clearInterval(timer);
         document.getElementById('countdown').innerHTML = 'Vente terminée !';
-        document.getElementById('faireEnchere').setAttribute("disabled", "disabled");
+        document.getElementById('inputEnchere').setAttribute("disabled", "disabled");
+        document.getElementById('btnEnchere').setAttribute("disabled", "disabled");
         return;
     }
     var days = Math.floor(distance / _day);
