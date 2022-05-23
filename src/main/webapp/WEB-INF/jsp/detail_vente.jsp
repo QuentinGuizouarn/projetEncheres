@@ -122,9 +122,9 @@ DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				<% if (u.getCredit() >= (e != null ? e.getMontant() : av.getPrixInitial())) { %>
 				<div class="col-2">
 					<input id="inputEnchere" type="number" 
-					min="<%= e != null ? e.getMontant() : av.getPrixInitial() %>"
+					min="<%= e != null ? e.getMontant() + 1 : av.getPrixInitial() %>"
 					max="<%= u.getCredit() %>" class="form-control" name="offre" 
-					value="<%= e != null ? e.getMontant() : av.getPrixInitial() %>" 
+					value="<%= e != null ? e.getMontant() + 1 : av.getPrixInitial() %>" 
 					required>
 				</div>					
 				<div class="col-2">

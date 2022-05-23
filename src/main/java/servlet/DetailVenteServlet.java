@@ -73,7 +73,7 @@ public class DetailVenteServlet extends HttpServlet {
 		if (request.getParameter("insert") != null) {
 			try {
 				LocalDateTime date = LocalDateTime.now();
-				int montant = Integer.valueOf(request.getParameter("montant"));
+				int montant = Integer.valueOf(request.getParameter("offre"));
 				e = new Enchere(date, montant, av, u);
 				EnchereManager.getInstance().addEnchere(e);
 			} catch (SQLException e) {
