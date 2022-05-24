@@ -85,7 +85,7 @@ ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");
 						<div class="mb-3">
 							<label for="dateFin" class="form-label">Fin de l'enchère
 								: </label> <input type="date" id="dateFinPicker" class="form-control" 
-								name="dateFin" value="<%= av != null ? av.getDateFin() : null %>" required>
+								name="dateFin" value="<%= av != null ? av.getDateFin() : "" %>" required>
 						</div>
 						<div class="mb-3">
 							<label for="rue" class="form-label">Rue : </label> <input
