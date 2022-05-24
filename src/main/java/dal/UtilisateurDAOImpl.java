@@ -11,11 +11,12 @@ import dal.iDAO.UtilisateurDAO;
 public class UtilisateurDAOImpl implements UtilisateurDAO {
 	
 	private static final String INSERT = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, credit, administrateur)"
-			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String SELECT_BY_ID = "SELECT * FROM UTILISATEURS WHERE idUtilisateur = ?";
 	private static final String SELECT_BY_CONNECTION = "SELECT * FROM UTILISATEURS WHERE pseudo = ? AND motDePasse = ?";
-	private static final String UPDATE = "UPDATE UTILISATEURS SET pseudo = ?, motDePasse = ?, nom = ?, prenom = ?, email = ?, telephone = ?, "
-			+ "rue = ?, codePostal = ?, ville = ?, credit = ? WHERE idUtilisateur = ?";
+	private static final String UPDATE = "UPDATE UTILISATEURS SET pseudo = ?, motDePasse = ?, nom = ?, prenom = ?, email = ?, telephone = ?,"
+			+ " rue = ?, codePostal = ?, ville = ?, credit = ? WHERE idUtilisateur = ?";
+	private static final String UPDATE_CREDIT = "UPDATE UTILISATEURS SET credit = ? WHERE idUtilisateur = ?";
 	private static final String DELETE = "DELETE FROM UTILISATEURS WHERE idUtilisateur = ?";
 	private static final String DELETE_ARTICLE = "DELETE FROM ARTICLES_VENDUS WHERE idUtilisateur = ?";
 	private static final String DELETE_ENCHERE = "DELETE FROM ENCHERES WHERE idUtilisateur = ?";
@@ -91,6 +92,15 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 		ps.executeUpdate();
 		cnx.close();
 	}
+	
+	@Override
+	public void updateCredit(int id, int newCredit) throws SQLException {
+		PreparedStatement ps = cnx.prepareStatement(UPDATE_CREDIT);
+		ps.setInt(1, newCredit);
+		ps.setInt(2, id);
+		ps.executeUpdate();
+		cnx.close();		
+	}
 
 	@Override
 	public void delete(int id) throws SQLException {
@@ -108,5 +118,5 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 		
 		cnx.close();
 	}
-
+	
 }

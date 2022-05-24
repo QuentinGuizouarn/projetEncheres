@@ -30,6 +30,10 @@ public class UtilisateurManager {
 		Factory.createUtilisateurDAO().update(u);
 	}
 	
+	public void changeCredit(int id, int newCredit) throws SQLException {
+		Factory.createUtilisateurDAO().updateCredit(id, newCredit);
+	}
+	
 	public void removeUtilisateur(int id) throws SQLException {
 		Factory.createUtilisateurDAO().delete(id);
 	}
