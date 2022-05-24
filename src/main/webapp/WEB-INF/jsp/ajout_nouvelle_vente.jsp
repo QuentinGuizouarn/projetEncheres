@@ -102,9 +102,7 @@ ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");
 								type="text" class="form-control" name="ville"
 								value="<%= av != null ? av.getVille() : u.getVille() %>" required>
 						</div>
-						<span class="buttonVente"> <input name="idUtilisateur"
-							value="<%=u.getIdUtilisateur()%>" type="hidden"> <input
-							name="pseudo" value="<%=u.getPseudo()%>" type="hidden">
+						<span class="buttonVente">
 							<input type="hidden" id="idArticle" name="idArticle" value="<%= av != null ? av.getIdArticle() : 0 %>">
 							<% if (av == null || (av != null && av.getEtat().equalsIgnoreCase("n"))) { %>
 							<button type="submit" name="insert_update" class="btn btn-primary">Enregistrer</button>
