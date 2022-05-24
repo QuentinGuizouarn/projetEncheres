@@ -35,7 +35,7 @@ public class DetailVenteServlet extends HttpServlet {
 		int id = request.getParameter("article") == null ? 0 : Integer.valueOf(request.getParameter("article"));
 		Boolean proprietaire = false;
 		Boolean vainqueur = false;		
-		String titre = "Dï¿½tail vente";
+		String titre = "Détail vente";
 		if (id != 0) {
 			try {
 				u = UtilisateurManager.getInstance().getById(2);
@@ -52,13 +52,13 @@ public class DetailVenteServlet extends HttpServlet {
 		}
 		if (vainqueur) {
 			if (av.getEtat().equalsIgnoreCase("t") || av.getEtat().equalsIgnoreCase("r")) {
-				titre = "Vous avez remportï¿½ la vente";
+				titre = "Vous avez remporté la vente";
 			} else {
-				titre = "Vous ï¿½tes le leader des enchï¿½res";
+				titre = "Vous êtes le leader des enchères";
 			}
 		} else {
 			if (e != null && (av.getEtat().equalsIgnoreCase("t") || av.getEtat().equalsIgnoreCase("r"))) {
-				titre = e.getLeAcheteur().getPseudo() + " a remportï¿½ l'enchï¿½re";
+				titre = e.getLeAcheteur().getPseudo() + " a remporté l'enchère";
 			}
 		}
 		request.setAttribute("utilisateur", u);
