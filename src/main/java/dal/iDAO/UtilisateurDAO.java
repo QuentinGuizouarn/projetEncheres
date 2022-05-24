@@ -10,6 +10,7 @@ public interface UtilisateurDAO {
 	public Utilisateur selectById(int id) throws SQLException;
 	public Utilisateur selectByConnection(String pseudo, String motDePasse) throws SQLException;
 	public void update(Utilisateur u) throws SQLException;
+	public void updateCredit(int id, int newCredit) throws SQLException;
 	public void delete(int id) throws SQLException;
 
 }

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+
 import bo.ArticleVendu;
 import bo.Categorie;
 import bo.Enchere;
@@ -14,7 +15,7 @@ import dal.iDAO.EnchereDAO;
 public class EnchereDAOImpl implements EnchereDAO {
 	
 	private static final String INSERT = "INSERT INTO ENCHERES (date, montant, idArticle, idUtilisateur) VALUES (?, ?, ?, ?)";
-	private static final String SELECT_MAX_BY_ARTICLE = "SELECT idEnchere = MAX(E.idEnchere), dateEnchere = E.date, E.montant,"
+	private static final String SELECT_MAX_BY_ARTICLE = "SELECT TOP 1 dateEnchere = MAX(E.date), E.idEnchere, E.montant,"
 			+ " A.idArticle, A.nom, A.description, A.idCategorie, C.libelle, A.prixInitial, A.prixVente, A.dateDebut, A.dateFin, A.rue,"
 			+ "	A.codePostal, A.ville, A.etat, idAcheteur = UA.idUtilisateur, pseudoAcheteur = UA.pseudo,"
 			+ "	idVendeur = UV.idUtilisateur, pseudoVendeur = UV.pseudo, telephoneVendeur = UV.telephone"
@@ -24,8 +25,9 @@ public class EnchereDAOImpl implements EnchereDAO {
 			+ "	INNER JOIN UTILISATEURS UV ON UV.idUtilisateur = A.idUtilisateur"
 			+ "	INNER JOIN CATEGORIES C ON C.idCategorie = A.idCategorie"
 			+ "	WHERE E.idArticle = ?"
-			+ "	GROUP BY E.date, E.montant, A.idArticle, A.nom, A.description, A.idCategorie, C.libelle, A.prixInitial, A.prixVente,"
-			+ "	A.dateDebut, A.dateFin, A.rue, A.codePostal, A.ville, A.etat, UA.idUtilisateur, UA.pseudo, UV.idUtilisateur, UV.pseudo, UV.telephone";
+			+ "	GROUP BY E.idEnchere, E.montant, A.idArticle, A.nom, A.description, A.idCategorie, C.libelle, A.prixInitial, A.prixVente,"
+			+ "	A.dateDebut, A.dateFin, A.rue, A.codePostal, A.ville, A.etat, UA.idUtilisateur, UA.pseudo, UV.idUtilisateur, UV.pseudo, UV.telephone"
+			+ "	ORDER BY dateEnchere DESC";
 	
 	public Connection cnx;
 	public EnchereDAOImpl() throws SQLException {

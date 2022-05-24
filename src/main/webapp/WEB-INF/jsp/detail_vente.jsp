@@ -65,13 +65,12 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 					<label for="lblOffreMax" class="form-label">Meilleure offre :</label>
 				</div>
 				<div class="col-4">				
-				<% if (e != null) { %>
-				<form id="lienVueProfil" action="<%=request.getContextPath()%>/view_profil" method="POST">
-					<label for="offreMax" class="form-label"><%= e.getMontant() %> points par 
-						<a href="<%= request.getContextPath() %>/view_profil" onclick="launchViewProfil();"><%= e.getLeAcheteur().getPseudo() %></a>
-					</label>
-					<input type="hidden" name="idUtilisateur" value="<%= e.getLeAcheteur().getIdUtilisateur() %>">
-				</form>
+				<% if (e != null) { %>				
+				<label for="offreMax" class="form-label"><%= e.getMontant() %> points par 
+					<a href="<%= request.getContextPath() %>/view_profil?user=<%= e.getLeAcheteur().getIdUtilisateur() %>">
+					<%= e.getLeAcheteur().getPseudo() %></a>
+				</label>
+				<input type="hidden" name="idUtilisateur" value="<%= e.getLeAcheteur().getIdUtilisateur() %>">
 				<% } else { %>
 					<label for="offreMax" class="form-label">Aucune</label>
 				<% } %>
@@ -211,10 +210,6 @@ function showRemaining() {
     document.getElementById('countdown').innerHTML += seconds + ' secondes';
 }
 timer = setInterval(showRemaining, 1000);
-
-function launchViewProfil() {
-	document.getElementById("lienVueProfil").submit();
-}
 </script>
 </body>
 </html>
