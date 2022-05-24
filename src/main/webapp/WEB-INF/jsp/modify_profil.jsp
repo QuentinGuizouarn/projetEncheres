@@ -70,7 +70,7 @@ Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
 					</tr>
 					<tr>
 						<td><label for="texte">Mot de passe actuel : </label></td>
-						<td><input type="password" name="mdp" id="mdp" value="<%=u != null ? u.getMotDePasse() : ""%>" required/></td>
+						<td><input type="password" name="mdp" id="mdp" required/></td>
 						<td></td>
 						<td></td>
 						<td></td>
