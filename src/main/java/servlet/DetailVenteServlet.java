@@ -38,7 +38,7 @@ public class DetailVenteServlet extends HttpServlet {
 		String titre = "Détail vente";
 		if (id != 0) {
 			try {
-				u = UtilisateurManager.getInstance().getById(3);
+				u = UtilisateurManager.getInstance().getById(2);
 				av = ArticleVenduManager.getInstance().getById(id);
 				e = EnchereManager.getInstance().getMaxByArticle(id);
 				proprietaire = u.getIdUtilisateur() == av.getLeVendeur().getIdUtilisateur();
@@ -83,7 +83,9 @@ public class DetailVenteServlet extends HttpServlet {
 			}
 		} else if (request.getParameter("retrait") != null) {
 			try {
-				ArticleVenduManager.getInstance().changeEtatArticle(av, "R");
+				av.setPrixVente(e.getMontant());
+				av.setEtat("R");
+				ArticleVenduManager.getInstance().changeArticleVendu(av);
 				
 				acheteur = UtilisateurManager.getInstance().getById(e.getLeAcheteur().getIdUtilisateur());
 				int creditAcheteur = acheteur.getCredit() - e.getMontant();
