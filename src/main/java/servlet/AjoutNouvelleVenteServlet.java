@@ -45,9 +45,11 @@ public class AjoutNouvelleVenteServlet extends HttpServlet {
 			e.printStackTrace();
 			response.sendError(500);
 		}
+		String titre = av != null && !av.getEtat().equalsIgnoreCase("n") ? "Vente non modifiable" : "Nouvelle vente";
 		request.setAttribute("utilisateur", u);
 		request.setAttribute("items", items);
 		request.setAttribute("articleVendu", av);
+		request.setAttribute("titre", titre);
 		request.getRequestDispatcher("/WEB-INF/jsp/ajout_nouvelle_vente.jsp").forward(request, response);
 	}
 

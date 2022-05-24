@@ -32,7 +32,7 @@ ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");
 		</header>
 		<main>
 			<div class="row text-center mt-4 mb-4">
-				<h3>Nouvelle vente</h3>
+				<h3><%= request.getAttribute("titre") %></h3>
 			</div>
 			<div class="row">
 				<div class="col-6 offset-3">
