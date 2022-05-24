@@ -19,16 +19,17 @@ import bo.Utilisateur;
 @WebServlet("/view_profil")
 public class View_profil extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private Utilisateur u = null;
     
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getSession().getId()!=null) {
-			String id = request.getSession().getId();
-			Utilisateur u = null;
+		if(request.getSession()!=null) {
+			String pseudo = (String) request.getSession().getAttribute("pseudo");
+			String mdp = (String) request.getSession().getAttribute("mot de passe");
 			try {
-				u = UtilisateurManager.getInstance().getById(Integer.valueOf(id));
+				u = UtilisateurManager.getInstance().getByConnection(pseudo, mdp);
 				request.setAttribute("utilisateur", u);
 				request.getRequestDispatcher("/WEB-INF/jsp/view_profil.jsp").forward(request, response);
 			} catch (SQLException e) {
@@ -36,7 +37,7 @@ public class View_profil extends HttpServlet {
 				response.sendError(500);
 			}
 		} else {
-			response.sendRedirect(request.getContextPath()+"/login");
+			response.sendRedirect(request.getContextPath()+"/connexion");
 		}
 	}
 
@@ -47,5 +48,4 @@ public class View_profil extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
 }

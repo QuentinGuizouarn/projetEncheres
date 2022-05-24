@@ -1,4 +1,4 @@
-<%@ page import="bo.Utilisateur" import="servlet.Servlet_view_profil"%>
+<%@ page import="bo.Utilisateur" import="servlet.View_profil"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%

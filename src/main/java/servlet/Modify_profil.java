@@ -3,7 +3,6 @@ package servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,10 +24,11 @@ public class Modify_profil extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getSession().getId()!=null) {
-			String id = request.getSession().getId();
+		if(request.getSession()!=null) {
+			String pseudo = (String) request.getSession().getAttribute("pseudo");
+			String mdp = (String) request.getSession().getAttribute("mot de passe");
 			try {
-				u = UtilisateurManager.getInstance().getById(Integer.valueOf(id));
+				u = UtilisateurManager.getInstance().getByConnection(pseudo, mdp);
 				request.setAttribute("utilisateur", u);
 				request.getRequestDispatcher("/WEB-INF/jsp/modify_profil.jsp").forward(request, response);
 			} catch (SQLException e) {
@@ -36,7 +36,7 @@ public class Modify_profil extends HttpServlet {
 				response.sendError(500);
 			}
 		} else {
-			response.sendRedirect(request.getContextPath()+"/login");
+			response.sendRedirect(request.getContextPath()+"/connexion");
 		}
 	}
 
@@ -72,7 +72,6 @@ public class Modify_profil extends HttpServlet {
 				if (newmdp != null || compare != null) {
 					if (newmdp.equals(compare)) {
 						u.setMotDePasse(newmdp);
-						UtilisateurManager.getInstance().changeUtilisateur(u);
 					} else {
 						response.sendError(500,"Le Nouveau mot de passe et la Confirmation doivent être identique");
 					}

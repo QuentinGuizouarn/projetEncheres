@@ -31,8 +31,22 @@ public class AccesProfilServlet extends HttpServlet {
 		try {
 			
 			List<ArticleVendu> listeArticle = ArticleVenduManager.getInstance().getAll();
+			
+			for (ArticleVendu Article : listeArticle) {
+				System.out.println(Article.getNom());
+			}
+			
+			
 			request.setAttribute("articleList", listeArticle);
+			
+			
+			
+			
 			RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/ViewAccesProfil.jsp");
+			
+			//List<ArticleVendu> Listarticle = ArticleVenduManager.getInstance().getByNom("filter");
+			
+			
 			rd.forward(request, response);
 		} catch (SQLException e) {
 			e.printStackTrace();

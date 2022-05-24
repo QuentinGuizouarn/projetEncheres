@@ -108,7 +108,7 @@
 						<label for="nombre">Code Postal : </label>
 					</div>
 					<div class="col">
-						<input type="text" name="cp" id="cp" required />
+						<input type="text" name="cp" id="cp" pattern="[0-9]{5}" required />
 					</div>
 					<div class="col"></div>
 					<div class="col">

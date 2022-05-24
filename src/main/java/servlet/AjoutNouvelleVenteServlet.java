@@ -100,7 +100,7 @@ public class AjoutNouvelleVenteServlet extends HttpServlet {
 			e.printStackTrace();
 			response.sendError(500);
 		}
-		response.sendRedirect(request.getContextPath() + "/liste");
+		response.sendRedirect(request.getContextPath() + "/AccesProfilServlet");
 		
 	}
 
