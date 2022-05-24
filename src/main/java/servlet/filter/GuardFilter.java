@@ -11,12 +11,13 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Servlet Filter implementation class GuardFilter
  */
 @WebFilter(dispatcherTypes = {DispatcherType.REQUEST }
-					, urlPatterns = { "/detail" })
+					, urlPatterns = { "/nouvelle_vente", "detail_vente" })
 public class GuardFilter extends HttpFilter implements Filter {
 
 	/**
@@ -24,11 +25,11 @@ public class GuardFilter extends HttpFilter implements Filter {
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;		
-		if (req.getSession().getAttribute("utilisateur") == null) {
-			//HttpServletResponse resp = (HttpServletResponse) response;
-			//resp.sendRedirect(req.getContextPath() + "/connexion");
+		if (req.getSession().getAttribute("user") == null) {
+			HttpServletResponse resp = (HttpServletResponse) response;
+			resp.sendRedirect(req.getContextPath() + "/connexion");
 		} else {
-			//chain.doFilter(request, response);
+			chain.doFilter(request, response);
 		}		
 	}
 

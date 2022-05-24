@@ -26,18 +26,18 @@ public class AjoutNouvelleVenteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private String idArticle = null;
+	private Utilisateur u;
 	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		idArticle = request.getParameter("article");
-		Utilisateur u = null;
+		u = (Utilisateur) request.getSession().getAttribute("user");
 		List<Categorie> items = null;
 		ArticleVendu av = null;
 		try {
 			items = CategorieManager.getInstance().getAll();
-			u = UtilisateurManager.getInstance().getById(2);
 			av = idArticle != null ? ArticleVenduManager.getInstance().getById(Integer.valueOf(idArticle)) : null;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -56,16 +56,10 @@ public class AjoutNouvelleVenteServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		int id = idArticle != null ? Integer.valueOf(idArticle) : 0;
-		Utilisateur u = null;
 		Categorie c = null;
 		ArticleVendu av = null;
 		try {			
-			if (request.getParameter("insert_update") != null) {
-				// Revoir pour prendre Utilisateur de la session en cours
-				int idUtilisateur = Integer.valueOf(request.getParameter("idUtilisateur"));
-				String pseudo = request.getParameter("pseudo");			
-				u = new Utilisateur(idUtilisateur, pseudo, null);
-				
+			if (request.getParameter("insert_update") != null) {		
 				String nom = request.getParameter("nom");
 				String description = request.getParameter("description");
 				int prixInital = Integer.valueOf(request.getParameter("prixInitial"));

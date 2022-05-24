@@ -22,23 +22,23 @@ import bo.Utilisateur;
  */
 @WebServlet("/detail_vente")
 public class DetailVenteServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;	
 	
-	private Utilisateur u = null;
 	private ArticleVendu av = null;
 	private Enchere e = null;
+	private Utilisateur u;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int id = request.getParameter("article") == null ? 0 : Integer.valueOf(request.getParameter("article"));
+		u = (Utilisateur) request.getSession().getAttribute("user");
 		Boolean proprietaire = false;
-		Boolean vainqueur = false;		
+		Boolean vainqueur = false;
 		String titre = "Détail vente";
 		if (id != 0) {
 			try {
-				u = UtilisateurManager.getInstance().getById(2);
 				av = ArticleVenduManager.getInstance().getById(id);
 				e = EnchereManager.getInstance().getMaxByArticle(id);
 				proprietaire = u.getIdUtilisateur() == av.getLeVendeur().getIdUtilisateur();
