@@ -38,7 +38,7 @@ public class DetailVenteServlet extends HttpServlet {
 		String titre = "Détail vente";
 		if (id != 0) {
 			try {
-				u = UtilisateurManager.getInstance().getById(2);
+				u = UtilisateurManager.getInstance().getById(3);
 				av = ArticleVenduManager.getInstance().getById(id);
 				e = EnchereManager.getInstance().getMaxByArticle(id);
 				proprietaire = u.getIdUtilisateur() == av.getLeVendeur().getIdUtilisateur();
@@ -49,11 +49,9 @@ public class DetailVenteServlet extends HttpServlet {
 			}
 		}
 		if (vainqueur) {
-			if (av.getEtat().equalsIgnoreCase("t") || av.getEtat().equalsIgnoreCase("r")) {
-				titre = "Vous avez remporté la vente";
-			} else {
-				titre = "Vous êtes le leader des enchères";
-			}
+			titre = av.getEtat().equalsIgnoreCase("t") || av.getEtat().equalsIgnoreCase("r") 
+					? "Vous avez remporté la vente" 
+							: "Vous êtes le leader des enchères";
 		} else {
 			if (e != null && (av.getEtat().equalsIgnoreCase("t") || av.getEtat().equalsIgnoreCase("r"))) {
 				titre = e.getLeAcheteur().getPseudo() + " a remporté l'enchère";
