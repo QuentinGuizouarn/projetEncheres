@@ -178,7 +178,7 @@ opacity:1;
 			<div>
 				<a href="<%=request.getContextPath()%>/nouvelleEnchere">Encheres</a> 
 				<a href="<%=request.getContextPath()%>/nouvelle_vente">Vendre un article</a>
-				<a href="<%=request.getContextPath()%>/view_profil_m">Mon Profil</a>
+				<a href="<%=request.getContextPath()%>/view_profil">Mon Profil</a>
 				<a href="<%=request.getContextPath()%>/liste">Deconnexion</a>
 			</div>
 		</div>

@@ -3,7 +3,6 @@ package servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,8 +29,10 @@ public class View_profil extends HttpServlet {
 			String mdp = (String) request.getSession().getAttribute("mot de passe");
 			try {
 				u = UtilisateurManager.getInstance().getByConnection(pseudo, mdp);
+				System.out.println(pseudo + " " + mdp);
+				System.out.println(u.toString());
 				request.setAttribute("utilisateur", u);
-				request.getRequestDispatcher("/WEB-INF/jsp/view_profil.jsp").forward(request, response);
+				request.getRequestDispatcher("/WEB-INF/jsp/view_profil_m.jsp").forward(request, response);
 			} catch (SQLException e) {
 				e.printStackTrace();
 				response.sendError(500);

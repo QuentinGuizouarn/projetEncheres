@@ -11,8 +11,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import dal.ConnectionProvider;
-import servlet.DuplicatePseudoException;
-import servlet.NotExistPseudoException;
+import exception.DuplicatePseudoException;
+import exception.NotExistPseudoException;
 
 public class Util {
 

@@ -19,7 +19,7 @@ Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
 	<nav class="navbar navbar-expand-lg bg-light">
 		<div class="container-fluid">
 			<a class="navbar-brand"
-				href="<%=request.getContextPath()%>/view_profil_m"><img alt=""
+				href="<%=request.getContextPath()%>/view_profil?user="<%=u != null ? u.getIdUtilisateur() : ""%>><img alt=""
 				src="https://www.sdis68.fr/dynamic/images/le_sdis68/cac_/logo_encheres!_283x200!_3!_0x0!_0!_FFFFFF.png"></a>
 			<div class="collapse navbar-collapse " id="navbarSupportedContent">
 				<h1 style="margin-left: 465px;">ENI ENCHERES</h1>
