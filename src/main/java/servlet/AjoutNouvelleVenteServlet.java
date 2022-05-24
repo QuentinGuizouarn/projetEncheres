@@ -38,9 +38,7 @@ public class AjoutNouvelleVenteServlet extends HttpServlet {
 		try {
 			items = CategorieManager.getInstance().getAll();
 			u = UtilisateurManager.getInstance().getById(2);
-			if (idArticle != null) {
-				av = ArticleVenduManager.getInstance().getById(Integer.valueOf(idArticle)); 
-			}
+			av = idArticle != null ? ArticleVenduManager.getInstance().getById(Integer.valueOf(idArticle)) : null;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			response.sendError(500);

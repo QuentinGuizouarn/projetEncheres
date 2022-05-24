@@ -42,9 +42,7 @@ public class DetailVenteServlet extends HttpServlet {
 				av = ArticleVenduManager.getInstance().getById(id);
 				e = EnchereManager.getInstance().getMaxByArticle(id);
 				proprietaire = u.getIdUtilisateur() == av.getLeVendeur().getIdUtilisateur();
-				if (e != null) {
-					vainqueur = u.getIdUtilisateur() == e.getLeAcheteur().getIdUtilisateur();
-				}
+				vainqueur = e != null ? u.getIdUtilisateur() == e.getLeAcheteur().getIdUtilisateur() : false;
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 				response.sendError(500);
