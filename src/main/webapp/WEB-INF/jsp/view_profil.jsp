@@ -2,7 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
+Utilisateur user = (Utilisateur) request.getAttribute("utilisateur");
+Utilisateur profil = (Utilisateur) request.getAttribute("profil");
 %>
 <!DOCTYPE html>
 <html>
@@ -44,7 +45,7 @@ Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
 					<label for="texte">Pseudo : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="pseudo"><%=u != null ? u.getPseudo() : null%></label>
+					<label for="text" id="pseudo"><%=profil != null ? profil.getPseudo() : null%></label>
 				</div>
 				<div class="col"></div>
 			</div>
@@ -54,7 +55,7 @@ Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
 					<label for="texte">Nom : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="last_name"><%=u != null ? u.getNom() : null%></label>
+					<label for="text" id="last_name"><%=profil != null ? profil.getNom() : null%></label>
 				</div>
 				<div class="col"></div>
 			</div>
@@ -64,7 +65,7 @@ Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
 					<label for="texte">Prénom : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="first_name"><%=u != null ? u.getPrenom() : null%></label>
+					<label for="text" id="first_name"><%=profil != null ? profil.getPrenom() : null%></label>
 				</div>
 				<div class="col"></div>
 			</div>
@@ -74,7 +75,7 @@ Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
 					<label for="texte">Email : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="email"><%=u != null ? u.getEmail() : null%></label>
+					<label for="text" id="email"><%=profil != null ? profil.getEmail() : null%></label>
 				</div>
 				<div class="col"></div>
 			</div>
@@ -84,7 +85,7 @@ Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
 					<label for="nombre">Téléphone : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="phone"><%=u != null ? u.getTelephone() : null%></label>
+					<label for="text" id="phone"><%=profil != null ? profil.getTelephone() : null%></label>
 				</div>
 				<div class="col"></div>
 			</div>
@@ -94,7 +95,7 @@ Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
 					<label for="texte">Rue : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="road"><%=u != null ? u.getRue() : null%></label>
+					<label for="text" id="road"><%=profil != null ? profil.getRue() : null%></label>
 				</div>
 				<div class="col"></div>
 			</div>
@@ -104,7 +105,7 @@ Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
 					<label for="nombre">Code Postal : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="cp"><%=u != null ? u.getCodePostal() : null%></label>
+					<label for="text" id="cp"><%=profil != null ? profil.getCodePostal() : null%></label>
 				</div>
 				<div class="col"></div>
 			</div>
@@ -114,7 +115,7 @@ Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
 					<label for="texte">Ville : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="city"><%=u != null ? u.getVille() : null%></label>
+					<label for="text" id="city"><%=profil != null ? profil.getVille() : null%></label>
 				</div>
 				<div class="col"></div>
 			</div>
@@ -124,7 +125,7 @@ Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
 				</div>
 			</div>
 			<% if(request.getParameter("user")!=null){ %>
-				<%if(request.getParameter("user") == String.valueOf(u.getIdUtilisateur())){ %>
+				<%if(profil.getIdUtilisateur() == user.getIdUtilisateur()){ %>
 					<div class="row justify-content-md-center">
 						<div class="col col-lg-2">
 							<a class="btn btn-outline-primary"
