@@ -16,7 +16,7 @@
 	<nav class="navbar navbar-expand-lg bg-light">
 		<div class="container-fluid">
 			<a class="navbar-brand"
-				href="<%=request.getContextPath()%>/view_profil-m"><img alt=""
+				href="<%=request.getContextPath()%>/liste"><img alt=""
 				src="https://www.sdis68.fr/dynamic/images/le_sdis68/cac_/logo_encheres!_283x200!_3!_0x0!_0!_FFFFFF.png"></a>
 			<div class="collapse navbar-collapse " id="navbarSupportedContent">
 				<h1 style="margin-left: 465px;">ENI ENCHERES</h1>
@@ -152,7 +152,7 @@
 					</div>
 					<div class="col col-lg-2">
 						<a class="btn btn-outline-danger"
-							href="${pageContext.request.contextPath}/view_profil_m">annuler</a>
+							href="${pageContext.request.contextPath}/AccesProfilServlet">annuler</a>
 					</div>
 				</div>
 			</form>

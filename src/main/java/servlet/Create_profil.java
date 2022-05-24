@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import bll.UtilisateurManager;
 import bo.Utilisateur;
+import exception.DuplicatePseudoException;
 import helpers.HashPassword;
 import helpers.Util;
 
