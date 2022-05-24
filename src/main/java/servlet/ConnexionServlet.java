@@ -1,6 +1,8 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import bll.UtilisateurManager;
+import bo.Utilisateur;
 import exception.DuplicatePseudoException;
 import exception.NotExistPseudoException;
 import helpers.HashPassword;
@@ -44,29 +48,25 @@ public class ConnexionServlet extends HttpServlet {
 			try {
 				if (Util.isPresent(pseudo, motDePass)) {
 					
-//					pseudo.equals(user.getPseudo());
-//					motDePass.equals(user.getMotDePasse());
-					
-					HttpSession session = request.getSession();
-					session.setAttribute("pseudo", pseudo);
-					session.setAttribute("mot de passe", motDePass);
+					Utilisateur user = UtilisateurManager.getInstance().getByConnection(pseudo, motDePass);					
+					request.getSession().setAttribute("user", user);
 					
 					response.sendRedirect(request.getContextPath()+"/AccesProfilServlet");
 				} else {
 					response.sendError(500, "utilisateur n'existe pas!");
 				}
 			} catch (DuplicatePseudoException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				response.sendError(500, e.getMessage());
 			} catch (NotExistPseudoException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				response.sendError(500, e.getMessage());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				response.sendError(500, e.getMessage());
+			} catch (SQLException e) {
+				e.printStackTrace();
+				response.sendError(500);
 			}
 		}
 	}

@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import bll.ArticleVenduManager;
 import bll.CategorieManager;
-import bll.UtilisateurManager;
 import bo.ArticleVendu;
 import bo.Categorie;
 import bo.Utilisateur;
