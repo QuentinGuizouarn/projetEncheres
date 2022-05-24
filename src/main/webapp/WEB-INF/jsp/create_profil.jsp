@@ -86,7 +86,7 @@
 						<label for="nombre">Téléphone : </label>
 					</div>
 					<div class="col">
-						<input type="text" name="phone" id="phone" />
+						<input type="text" pattern="[0-9]{10}" name="phone" id="phone" />
 					</div>
 					<div class="col"></div>
 					<div class="col">

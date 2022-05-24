@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet Filter implementation class GuardFilter
  */
-@WebFilter(dispatcherTypes = {DispatcherType.REQUEST }
-					, urlPatterns = { "/nouvelle_vente", "detail_vente" })
+@WebFilter(dispatcherTypes = {DispatcherType.REQUEST }, 
+	urlPatterns = { "/nouvelle_vente", "/detail_vente" })
 public class GuardFilter extends HttpFilter implements Filter {
 
 	/**
