@@ -139,7 +139,8 @@ public class Utilisateur {
 	
 	@Override
 	public String toString() {
-		return "Utilisateur : \nPseudo :" + this.pseudo +
+		return "Utilisateur : " + this.idUtilisateur +
+				"\nPseudo :" + this.pseudo +
 				", \nNom :" + this.nom +
 				", \nPrenom :" + this.prenom +
 				", \nEmail :" + this.email +
