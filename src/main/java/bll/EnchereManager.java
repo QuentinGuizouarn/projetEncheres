@@ -2,7 +2,6 @@ package bll;
 
 import java.sql.SQLException;
 
-import bo.ArticleVendu;
 import bo.Enchere;
 import dal.Factory;
 
