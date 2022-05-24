@@ -103,7 +103,6 @@ public class Util {
         String query = "SELECT * FROM UTILISATEURS WHERE pseudo = ?";
         
         try{
-        	int i = 0;
     		cnx = ConnectionProvider.getConnection();
             PreparedStatement statement;
             ResultSet resultSet;

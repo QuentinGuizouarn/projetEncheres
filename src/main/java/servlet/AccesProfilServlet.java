@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bll.ArticleVenduManager;
-import bll.EnchereManager;
 import bo.ArticleVendu;
 import bo.Enchere;
 

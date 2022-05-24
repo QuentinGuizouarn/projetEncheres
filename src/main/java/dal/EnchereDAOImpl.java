@@ -1,19 +1,15 @@
 package dal;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-
 import bo.ArticleVendu;
 import bo.Categorie;
 import bo.Enchere;
 import bo.Utilisateur;
 import dal.iDAO.EnchereDAO;
-import helpers.Util;
 
 public class EnchereDAOImpl implements EnchereDAO {
 	
