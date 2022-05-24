@@ -38,16 +38,16 @@ public class AjoutNouvelleVenteServlet extends HttpServlet {
 		try {
 			items = CategorieManager.getInstance().getAll();
 			u = UtilisateurManager.getInstance().getById(2);
-			if (idArticle != null) {
-				av = ArticleVenduManager.getInstance().getById(Integer.valueOf(idArticle)); 
-			}
+			av = idArticle != null ? ArticleVenduManager.getInstance().getById(Integer.valueOf(idArticle)) : null;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			response.sendError(500);
 		}
+		String titre = av != null && !av.getEtat().equalsIgnoreCase("n") ? "Vente non modifiable" : "Nouvelle vente";
 		request.setAttribute("utilisateur", u);
 		request.setAttribute("items", items);
 		request.setAttribute("articleVendu", av);
+		request.setAttribute("titre", titre);
 		request.getRequestDispatcher("/WEB-INF/jsp/ajout_nouvelle_vente.jsp").forward(request, response);
 	}
 
