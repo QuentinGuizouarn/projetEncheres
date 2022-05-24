@@ -16,6 +16,7 @@ import bll.UtilisateurManager;
 import bo.ArticleVendu;
 import bo.Enchere;
 import bo.Utilisateur;
+import helpers.Util;
 
 /**
  * Servlet implementation class DetailVenteServlet
@@ -38,7 +39,7 @@ public class DetailVenteServlet extends HttpServlet {
 		String titre = "Détail vente";
 		if (id != 0) {
 			try {
-				u = UtilisateurManager.getInstance().getById(3);
+				u = UtilisateurManager.getInstance().getById(2);
 				av = ArticleVenduManager.getInstance().getById(id);
 				e = EnchereManager.getInstance().getMaxByArticle(id);
 				proprietaire = u.getIdUtilisateur() == av.getLeVendeur().getIdUtilisateur();
@@ -74,21 +75,29 @@ public class DetailVenteServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+		Utilisateur acheteur = null;
 		if (request.getParameter("insert") != null) {
 			try {
 				LocalDateTime date = LocalDateTime.now();
 				int montant = Integer.valueOf(request.getParameter("offre"));
 				e = new Enchere(date, montant, av, u);
 				EnchereManager.getInstance().addEnchere(e);
-			} catch (SQLException e) {
-				e.printStackTrace();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
 				response.sendError(500);
 			}
 		} else if (request.getParameter("retrait") != null) {
 			try {
 				ArticleVenduManager.getInstance().changeEtatArticle(av, "R");
-			} catch (SQLException e) {
-				e.printStackTrace();
+				
+				acheteur = UtilisateurManager.getInstance().getById(e.getLeAcheteur().getIdUtilisateur());
+				int creditAcheteur = acheteur.getCredit() - e.getMontant();
+				UtilisateurManager.getInstance().changeCredit(acheteur.getIdUtilisateur(), creditAcheteur);
+				
+				int creditVendeur = u.getCredit() + e.getMontant();
+				UtilisateurManager.getInstance().changeCredit(u.getIdUtilisateur(), creditVendeur);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
 				response.sendError(500);
 			}
 		}
