@@ -18,7 +18,8 @@ import bo.Utilisateur;
 @WebServlet("/view_profil")
 public class View_profil extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Utilisateur u = null;
+	private Utilisateur user = null;
+	private Utilisateur profil = null;
     
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -28,11 +29,13 @@ public class View_profil extends HttpServlet {
 			String pseudo = (String) request.getSession().getAttribute("pseudo");
 			String mdp = (String) request.getSession().getAttribute("mot de passe");
 			try {
-				u = UtilisateurManager.getInstance().getByConnection(pseudo, mdp);
-				System.out.println(pseudo + " " + mdp);
-				System.out.println(u.toString());
-				request.setAttribute("utilisateur", u);
-				request.getRequestDispatcher("/WEB-INF/jsp/view_profil_m.jsp").forward(request, response);
+				user = UtilisateurManager.getInstance().getByConnection(pseudo, mdp);
+				profil = UtilisateurManager.getInstance().getById(Integer.valueOf(request.getParameter("user")));
+				//System.out.println(pseudo + " " + mdp);
+				System.out.println(user.toString());
+				request.setAttribute("utilisateur", user);
+				request.setAttribute("profil", profil);
+				request.getRequestDispatcher("/WEB-INF/jsp/view_profil.jsp").forward(request, response);
 			} catch (SQLException e) {
 				e.printStackTrace();
 				response.sendError(500);

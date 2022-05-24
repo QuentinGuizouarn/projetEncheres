@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import bll.UtilisateurManager;
 import bo.Utilisateur;
+import helpers.HashPassword;
 
 /**
  * Servlet implementation class Servlet_create_profil
@@ -60,7 +61,7 @@ public class Modify_profil extends HttpServlet {
 		String compare = request.getParameter("compare");
 		try {
 			u = UtilisateurManager.getInstance().getById(Integer.valueOf(id));
-			if (mdp.equals(u.getMotDePasse())) {
+			if (HashPassword.hashpassword(mdp).equals(u.getMotDePasse())) {
 				u.setPseudo(pseudo);
 				u.setNom(nom);
 				u.setPrenom(prenom);
@@ -71,7 +72,7 @@ public class Modify_profil extends HttpServlet {
 				u.setVille(ville);
 				if (newmdp != null || compare != null) {
 					if (newmdp.equals(compare)) {
-						u.setMotDePasse(newmdp);
+						u.setMotDePasse(HashPassword.hashpassword(newmdp));
 					} else {
 						response.sendError(500,"Le Nouveau mot de passe et la Confirmation doivent être identique");
 					}
