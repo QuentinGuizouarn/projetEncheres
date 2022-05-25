@@ -178,7 +178,7 @@ opacity:1;
 			<div>
 				<a href="<%=request.getContextPath()%>/nouvelleEnchere">Encheres</a> 
 				<a href="<%=request.getContextPath()%>/nouvelle_vente">Vendre un article</a>
-				<a href="<%=request.getContextPath()%>/view_profil?user=<%=u != null ? u.getPseudo() : null%>">Mon Profil</a>
+				<a href="<%=request.getContextPath()%>/view_profil">Mon Profil</a>
 				<a href="<%=request.getContextPath()%>/liste">Deconnexion</a>
 			</div>
 		</div>
@@ -189,12 +189,12 @@ opacity:1;
 			<input class="form-control me-2" type="search" placeholder="Search" id="search" aria-label="Search" style="width: auto;"> 
 			<a href="#" onclick="recupererResultat()"><i class="fa-solid fa-magnifying-glass"></i></a><br>
 			<br> <label for="categorie"> Catégorie : </label> <select name="categorie" id="categorie">
-					<option value="toute">Toute</option>
-					<option value="informatique">Informatique</option>
-					<option value="Ameublement">Ameublement</option>
-					<option value="vetement">Vêtement</option>
-					<option value="sport">Sport</option>
-					<option value="Loisir">Loisir</option>
+				<option value="toute">Toute</option>
+				<option value="informatique">Informatique</option>
+				<option value="Ameublement">Ameublement</option>
+				<option value="vetement">Vêtement</option>
+				<option value="sport">Sport</option>
+				<option value="Loisir">Loisir</option>
 			</select><br>
 			</div>
 			<br>

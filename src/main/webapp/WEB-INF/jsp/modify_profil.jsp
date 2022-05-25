@@ -38,7 +38,7 @@ Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
 					<label></label>
 				</div>
 			</div>
-			<form method="post" action="/projetEncheres/liste_enchere">
+			<form method="post">
 				<table class="table table-borderless">
 					<tr>
 						<td><label for="texte">Pseudo : </label></td>
@@ -97,13 +97,12 @@ Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
 				</div>
 				<div class="row justify-content-md-center">
 					<div class="col col-lg-2">
-						<input type="submit" class="btn btn-outline-primary"
+						<input type="submit" class="btn btn-outline-primary" name="save"
 							value="Enregistrer" />
 					</div>
 					<div class="col col-lg-2">
-						<a class="btn btn-outline-danger"
-							href="${pageContext.request.contextPath}/liste_enchere">Supprimer
-							mon Compte</a>
+						<input type="submit" onclick="deleteAccount()" class="btn btn-outline-danger" name="delete"
+								value="Supprimer mon Compte" />
 					</div>
 				</div>
 			</form>
@@ -118,4 +117,9 @@ Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
 	integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
 	crossorigin="anonymous"></script>
+<script>
+function deleteAccount() {
+    document.getElementById('mdp').removeAttribute("required");
+}
+</script>
 </html>
