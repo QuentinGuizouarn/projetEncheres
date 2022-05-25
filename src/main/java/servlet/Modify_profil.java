@@ -20,10 +20,11 @@ import helpers.HashPassword;
 public class Modify_profil extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Utilisateur u = null;
-    
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getSession()!=null) {
 			String pseudo = (String) request.getSession().getAttribute("pseudo");
@@ -44,43 +45,54 @@ public class Modify_profil extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
-		String id = request.getSession().getId();
-		String pseudo = request.getParameter("pseudo");
-		String nom = request.getParameter("last_name");
-		String prenom = request.getParameter("first_name");
-		String email = request.getParameter("email");
-		String tel = request.getParameter("phone");
-		String rue = request.getParameter("road");
-		String cp = request.getParameter("cp");
-		String ville = request.getParameter("city");
-		String mdp = request.getParameter("mdp");
-		String newmdp = request.getParameter("newmdp");
-		String compare = request.getParameter("compare");
+		String pseud = (String) request.getSession().getAttribute("pseudo");
+		String mp = (String) request.getSession().getAttribute("mot de passe");
 		try {
-			u = UtilisateurManager.getInstance().getById(Integer.valueOf(id));
-			if (HashPassword.hashpassword(mdp).equals(u.getMotDePasse())) {
-				u.setPseudo(pseudo);
-				u.setNom(nom);
-				u.setPrenom(prenom);
-				u.setEmail(email);
-				u.setTelephone(tel);
-				u.setRue(rue);
-				u.setCodePostal(cp);
-				u.setVille(ville);
-				if (newmdp != null || compare != null) {
-					if (newmdp.equals(compare)) {
-						u.setMotDePasse(HashPassword.hashpassword(newmdp));
-					} else {
-						response.sendError(500,"Le Nouveau mot de passe et la Confirmation doivent être identique");
+			if (request.getParameter("save") != null) {
+				String pseudo = request.getParameter("pseudo");
+				String nom = request.getParameter("last_name");
+				String prenom = request.getParameter("first_name");
+				String email = request.getParameter("email");
+				String tel = request.getParameter("phone");
+				String rue = request.getParameter("road");
+				String cp = request.getParameter("cp");
+				String ville = request.getParameter("city");
+				String mdp = request.getParameter("mdp");
+				String newmdp = request.getParameter("newmdp");
+				String compare = request.getParameter("compare");
+				u = UtilisateurManager.getInstance().getByConnection(pseud, mp);
+				System.out.println(u.toString() + "\n1");
+				if (HashPassword.hashpassword(mdp).equals(u.getMotDePasse())) {
+					u.setPseudo(pseudo);
+					u.setNom(nom);
+					u.setPrenom(prenom);
+					u.setEmail(email);
+					u.setTelephone(tel);
+					u.setRue(rue);
+					u.setCodePostal(cp);
+					u.setVille(ville);
+					if (newmdp != null || compare != null) {
+						if (newmdp.equals(compare)) {
+							u.setMotDePasse(HashPassword.hashpassword(newmdp));
+						} else {
+							response.sendError(500,"Le Nouveau mot de passe et la Confirmation doivent être identique");
+						}
 					}
+					System.out.println(u.toString() + "\n2");
+					UtilisateurManager.getInstance().changeUtilisateur(u);
+					response.sendRedirect(request.getContextPath()+"/AccesProfilServlet");
 				}
+			} else if (request.getParameter("delete") != null) {
+				UtilisateurManager.getInstance().removeUtilisateur(u.getIdUtilisateur());
+				response.sendRedirect(request.getContextPath()+"/connexion");
 			}
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			response.sendError(500);
+			response.sendError(500, "SQL");
 		}
 	}
 }

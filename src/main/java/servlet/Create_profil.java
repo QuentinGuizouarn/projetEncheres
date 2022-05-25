@@ -57,7 +57,7 @@ public class Create_profil extends HttpServlet {
 										u = new Utilisateur(pseudo, HashPassword.hashpassword(mdp), nom, prenom, email, tel, rue, cp, ville, 0, false);
 										//System.out.println(u.toString());
 										UtilisateurManager.getInstance().addUtilisateur(u);
-										response.sendRedirect(request.getContextPath()+"/liste");
+										response.sendRedirect(request.getContextPath()+"/connexion");
 									}
 								} catch (SQLException e) {
 									// TODO Auto-generated catch block

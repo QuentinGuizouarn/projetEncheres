@@ -77,7 +77,7 @@ public class Util {
             statement.setString(1, pseudo);
             statement.setString(2, motDePass);
             
-            //System.out.println(pseudo + " - " + motDePass);
+            System.out.println(pseudo + " - " + motDePass);
             
             resultSet = statement.executeQuery();
             
@@ -89,7 +89,7 @@ public class Util {
             	}
                 isAvailable = true;
             }else{
-        		throw new NotExistPseudoException("utilisateur n'existe pas!");
+        		throw new NotExistPseudoException("Utilisateur n'existe pas!");
             }
         } catch(SQLException e){
         	e.printStackTrace();
