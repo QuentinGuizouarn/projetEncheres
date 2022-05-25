@@ -42,14 +42,14 @@ public class ConnexionServlet extends HttpServlet {
 		try {
 			String pseudo = request.getParameter("pseudo").trim();
 			String motDePass = HashPassword.hashpassword(request.getParameter("motdepasse")).trim();
-			user = UtilisateurManager.getInstance().getByConnection(pseudo, pseudo);
-			//System.out.println(user);
+			user = UtilisateurManager.getInstance().getByConnection(pseudo, motDePass);
+			//System.out.println(motDePass);
 			
 //			boolean isPseudoEqual =  pseudo.equals(user.getPseudo());
 //			boolean isMotDePassEqual = motDePass.equals(user.getMotDePasse()); 
 			
 			if(pseudo != null && motDePass != null){
-				
+			//	if(pseudo.equals(user.getPseudo()) && motDePass.equals(user.getMotDePasse())
 //				pseudo.equals(user.getPseudo());
 //				motDePass.equals(user.getMotDePasse());
 				
