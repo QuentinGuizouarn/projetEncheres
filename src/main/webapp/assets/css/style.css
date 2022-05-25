@@ -2,8 +2,13 @@
 	font-family: sans-serif;
 }
 
-.buttonVente > button {
-	margin: 0% 2% 2% 0%;
+.inline {
+  	display: inline-block;
+  	text-align: center; 
+}
+
+.inline > button {
+	margin: 0 1% 0 1%;
 }
 
 body {
