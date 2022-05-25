@@ -70,7 +70,6 @@ public class DetailVenteServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
-		Utilisateur acheteur = null;
 		if (request.getParameter("insert") != null) {
 			try {
 				LocalDateTime date = LocalDateTime.now();
@@ -83,15 +82,10 @@ public class DetailVenteServlet extends HttpServlet {
 			}
 		} else if (request.getParameter("retrait") != null) {
 			try {
-				av.setPrixVente(e.getMontant());
 				av.setEtat("R");
 				ArticleVenduManager.getInstance().changeArticleVendu(av);
 				
-				acheteur = UtilisateurManager.getInstance().getById(e.getLeAcheteur().getIdUtilisateur());
-				int creditAcheteur = acheteur.getCredit() - e.getMontant();
-				UtilisateurManager.getInstance().changeCredit(acheteur.getIdUtilisateur(), creditAcheteur);
-				
-				int creditVendeur = u.getCredit() + e.getMontant();
+				int creditVendeur = u.getCredit() + av.getPrixVente();
 				UtilisateurManager.getInstance().changeCredit(u.getIdUtilisateur(), creditVendeur);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
