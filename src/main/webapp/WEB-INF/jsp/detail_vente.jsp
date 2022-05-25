@@ -48,7 +48,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 				<div class="col-2">
 					<label for="lblDescription" class="form-label">Description :</label>
 				</div>
-				<div class="col-4">
+				<div class="col-4 text-end">
 					<label for="description" class="form-label"><%= av.getDescription() %></label> 
 				</div>
 			</div>
@@ -56,7 +56,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 				<div class="col-2">
 					<label for="lblCategorie" class="form-label">Catégorie :</label>
 				</div>
-				<div class="col-4">
+				<div class="col-4 text-end">
 					<label for="categorie" class="form-label"><%= av.getLaCategorie().getLibelle() %></label>
 				</div>
 			</div>
@@ -64,7 +64,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 				<div class="col-2">
 					<label for="lblOffreMax" class="form-label">Meilleure offre :</label>
 				</div>
-				<div class="col-4">				
+				<div class="col-4 text-end">				
 				<% if (e != null) { %>				
 				<label for="offreMax" class="form-label"><%= e.getMontant() %> points par 
 					<a href="<%= request.getContextPath() %>/view_profil?user=<%= e.getLeAcheteur().getIdUtilisateur() %>">
@@ -79,7 +79,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 				<div class="col-2">
 					<label for="lblPrixInitial" class="form-label">Mise à prix :</label>
 				</div>
-				<div class="col-4">
+				<div class="col-4 text-end">
 					<label for="prixInitial" class="form-label"><%= av.getPrixInitial() %> points</label>
 				</div>
 			</div>
@@ -87,7 +87,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 				<div class="col-2">
 					<label for="lblDateFin" class="form-label">Fin de l'enchère :</label>
 				</div>
-				<div class="col-4">
+				<div class="col-4 text-end">
 					<div class="row justify-content-center">
 						<label for="dateFin" class="form-label"><%= av.getDateFin().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) %></label>
 						<input type="hidden" id="jourFinEnchere" value="<%= av.getDateFin().getDayOfMonth() %>">
@@ -101,7 +101,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 				<div class="col-2">
 					<label for="lblAdresse" class="form-label">Retrait :</label>
 				</div>
-				<div class="col-4">
+				<div class="col-4 text-end">
 					<div class="row justify-content-center">
 						<label for="rue" class="form-label"><%= av.getRue() %></label>
 						<label for="ville" class="form-label"><%= av.getCodePostal() %> <%= av.getVille() %></label>					
@@ -112,7 +112,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 				<div class="col-2">
 					<label for="lblVendeur" class="form-label">Vendeur :</label>
 				</div>
-				<div class="col-4">
+				<div class="col-4 text-end">
 					<label for="vendeur" class="form-label"><%= av.getLeVendeur().getPseudo() %></label>
 				</div>
 			</div>
@@ -134,7 +134,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 						<button id="btnEnchere" type="submit" name="insert" class="btn btn-primary">Enchérir</button>
 					</div>
 					<% if (u.getCredit() < (e != null ? e.getMontant() : av.getPrixInitial())) { %>
-					<div class="col-4">
+					<div class="col-4 text-end">
 						<label class="form-label">Crédits insuffisants</label>
 					</div>
 					<% } %>
@@ -147,7 +147,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 					<div class="col-2">
 						<label for="lblTelephone" class="form-label">Tél :</label>
 					</div>
-					<div class="col-4">
+					<div class="col-4 text-end">
 						<label for="telephone" class="form-label"><%= e != null ? e.getLeArticle().getLeVendeur().getTelephone() : "Non communiqué" %></label>
 					</div>
 				</div>
