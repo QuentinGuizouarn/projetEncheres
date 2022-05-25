@@ -27,5 +27,10 @@ public class Categorie {
 	public int getIdCategorie() {
 		return idCategorie;
 	}
+
+	@Override
+	public String toString() {
+		return "Categorie [idCategorie=" + idCategorie + ", libelle=" + libelle + "]";
+	}
 	
 }

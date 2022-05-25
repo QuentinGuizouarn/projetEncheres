@@ -1,6 +1,8 @@
 package bo;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ArticleVendu {
 	
@@ -9,8 +11,11 @@ public class ArticleVendu {
 	private LocalDate dateDebut, dateFin;
 	private Utilisateur leVendeur;
 	private Categorie laCategorie;
+	private List<Enchere> lesEncheres;
 	
-	public ArticleVendu() {}
+	public ArticleVendu() {
+		this.lesEncheres = new ArrayList<Enchere>();
+	}
 
 	public ArticleVendu(int prixInitial, int prixVente, String nom, String description, String etat,
 			String rue, String codePostal, String ville, LocalDate dateDebut, LocalDate dateFin,
@@ -27,6 +32,7 @@ public class ArticleVendu {
 		this.dateFin = dateFin;
 		this.leVendeur = leVendeur;
 		this.laCategorie = laCategorie;
+		this.lesEncheres = new ArrayList<Enchere>();
 	}
 
 	public ArticleVendu(int idArticle, int prixInitial, int prixVente, String nom, String description,
@@ -45,6 +51,7 @@ public class ArticleVendu {
 		this.dateFin = dateFin;
 		this.leVendeur = leVendeur;
 		this.laCategorie = laCategorie;
+		this.lesEncheres = new ArrayList<Enchere>();
 	}
 
 	public int getPrixInitial() {
@@ -149,6 +156,23 @@ public class ArticleVendu {
 
 	public void setIdArticle(int idArticle) {
 		this.idArticle = idArticle;
+	}
+
+
+	public List<Enchere> getLesEncheres() {
+		return lesEncheres;
+	}
+
+	public void setLesEncheres(List<Enchere> lesEncheres) {
+		this.lesEncheres = lesEncheres;
+	}
+
+	@Override
+	public String toString() {
+		return "ArticleVendu [idArticle=" + idArticle + ", prixInitial=" + prixInitial + ", prixVente=" + prixVente
+				+ ", nom=" + nom + ", description=" + description + ", etat=" + etat + ", rue=" + rue + ", codePostal="
+				+ codePostal + ", ville=" + ville + ", dateDebut=" + dateDebut + ", dateFin=" + dateFin + ", leVendeur="
+				+ leVendeur + ", laCategorie=" + laCategorie + "]";
 	}
 
 }
