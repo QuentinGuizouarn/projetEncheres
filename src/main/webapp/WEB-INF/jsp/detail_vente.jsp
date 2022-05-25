@@ -120,17 +120,17 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 			<% if (av.getEtat().equalsIgnoreCase("c")) { %>			
 				<% if (!proprietaire && !vainqueur) { %>
 				<div class="row justify-content-center mb-4">
-					<div class="col-2">
+					<div class="col-2 text-start">
 						<label for="offre" class="form-label">Ma proposition :</label>
 					</div>
-					<div class="col-2">
+					<div class="col-2 text-center">
 						<input id="inputEnchere" type="number" 
 						min="<%= e != null ? e.getMontant() + 1 : av.getPrixInitial() %>"
 						max="<%= u.getCredit() %>" class="form-control" name="offre" 
 						value="<%= e != null ? e.getMontant() + 1 : av.getPrixInitial() %>" 
 						required>
 					</div>					
-					<div class="col-2">
+					<div class="col-2 text-end">
 						<button id="btnEnchere" type="submit" name="insert" class="btn btn-primary">Enchérir</button>
 					</div>
 					<% if (u.getCredit() < (e != null ? e.getMontant() : av.getPrixInitial())) { %>
@@ -153,7 +153,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 				</div>
 				<% } else if (proprietaire) { %>
 				<div class="row justify-content-center mb-4">
-					<div class="col-6">
+					<div class="col-6 text-start">
 						<button type="submit" name="retrait" class="btn btn-primary">Retrait effectué</button>
 					</div>
 				</div>
@@ -162,7 +162,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 			<% } else if (av.getEtat().equalsIgnoreCase("r")) { %>
 				<% if (proprietaire || vainqueur) { %>
 				<div class="row justify-content-center mb-4">
-					<div class="col-6">
+					<div class="col-6 text-start">
 						<label class="form-label fw-bold">Retrait de l'article déjà effectué</label>
 					</div>
 				</div>
@@ -170,7 +170,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 			<% } %>
 			
 			<div class="row justify-content-center mb-4">
-				<div class="col-6">
+				<div class="col-6 text-start">
 					<button type="button" onclick="location.href='<%= request.getContextPath() %>/liste'" 
 					name="retour" class="btn btn-primary">Retour
 					</button>
