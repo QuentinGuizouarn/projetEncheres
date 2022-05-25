@@ -14,8 +14,8 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 	<meta charset="UTF-8" http-equiv="refresh" content="15">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="#" rel="shortcut icon">
-	<link href="./assets/css/style.css" rel="stylesheet">
-	<title>Détail vente</title>
+	<link href="./assets/style.css" rel="stylesheet">
+	<title>ENI-Enchères</title>
 </head>
 <body>
 <div class="container-fluid">
@@ -48,7 +48,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 				<div class="col-2">
 					<label for="lblDescription" class="form-label">Description :</label>
 				</div>
-				<div class="col-4 text-end">
+				<div class="col-4">
 					<label for="description" class="form-label"><%= av.getDescription() %></label> 
 				</div>
 			</div>
@@ -56,7 +56,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 				<div class="col-2">
 					<label for="lblCategorie" class="form-label">Catégorie :</label>
 				</div>
-				<div class="col-4 text-end">
+				<div class="col-4">
 					<label for="categorie" class="form-label"><%= av.getLaCategorie().getLibelle() %></label>
 				</div>
 			</div>
@@ -64,12 +64,13 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 				<div class="col-2">
 					<label for="lblOffreMax" class="form-label">Meilleure offre :</label>
 				</div>
-				<div class="col-4 text-end">				
+				<div class="col-4">				
 				<% if (e != null) { %>				
 				<label for="offreMax" class="form-label"><%= e.getMontant() %> points par 
 					<a href="<%= request.getContextPath() %>/view_profil?user=<%= e.getLeAcheteur().getIdUtilisateur() %>">
 					<%= e.getLeAcheteur().getPseudo() %></a>
 				</label>
+				<input type="hidden" name="idUtilisateur" value="<%= e.getLeAcheteur().getIdUtilisateur() %>">
 				<% } else { %>
 					<label for="offreMax" class="form-label">Aucune</label>
 				<% } %>
@@ -79,7 +80,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 				<div class="col-2">
 					<label for="lblPrixInitial" class="form-label">Mise à prix :</label>
 				</div>
-				<div class="col-4 text-end">
+				<div class="col-4">
 					<label for="prixInitial" class="form-label"><%= av.getPrixInitial() %> points</label>
 				</div>
 			</div>
@@ -87,7 +88,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 				<div class="col-2">
 					<label for="lblDateFin" class="form-label">Fin de l'enchère :</label>
 				</div>
-				<div class="col-4 text-end">
+				<div class="col-4">
 					<div class="row justify-content-center">
 						<label for="dateFin" class="form-label"><%= av.getDateFin().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) %></label>
 						<input type="hidden" id="jourFinEnchere" value="<%= av.getDateFin().getDayOfMonth() %>">
@@ -101,7 +102,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 				<div class="col-2">
 					<label for="lblAdresse" class="form-label">Retrait :</label>
 				</div>
-				<div class="col-4 text-end">
+				<div class="col-4">
 					<div class="row justify-content-center">
 						<label for="rue" class="form-label"><%= av.getRue() %></label>
 						<label for="ville" class="form-label"><%= av.getCodePostal() %> <%= av.getVille() %></label>					
@@ -112,7 +113,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 				<div class="col-2">
 					<label for="lblVendeur" class="form-label">Vendeur :</label>
 				</div>
-				<div class="col-4 text-end">
+				<div class="col-4">
 					<label for="vendeur" class="form-label"><%= av.getLeVendeur().getPseudo() %></label>
 				</div>
 			</div>
@@ -120,21 +121,21 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 			<% if (av.getEtat().equalsIgnoreCase("c")) { %>			
 				<% if (!proprietaire && !vainqueur) { %>
 				<div class="row justify-content-center mb-4">
-					<div class="col-2 text-start">
+					<div class="col-2">
 						<label for="offre" class="form-label">Ma proposition :</label>
 					</div>
-					<div class="col-2 text-center">
+					<div class="col-2">
 						<input id="inputEnchere" type="number" 
 						min="<%= e != null ? e.getMontant() + 1 : av.getPrixInitial() %>"
 						max="<%= u.getCredit() %>" class="form-control" name="offre" 
 						value="<%= e != null ? e.getMontant() + 1 : av.getPrixInitial() %>" 
 						required>
 					</div>					
-					<div class="col-2 text-end">
+					<div class="col-2">
 						<button id="btnEnchere" type="submit" name="insert" class="btn btn-primary">Enchérir</button>
 					</div>
 					<% if (u.getCredit() < (e != null ? e.getMontant() : av.getPrixInitial())) { %>
-					<div class="col-4 text-end">
+					<div class="col-4">
 						<label class="form-label">Crédits insuffisants</label>
 					</div>
 					<% } %>
@@ -147,13 +148,13 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 					<div class="col-2">
 						<label for="lblTelephone" class="form-label">Tél :</label>
 					</div>
-					<div class="col-4 text-end">
+					<div class="col-4">
 						<label for="telephone" class="form-label"><%= e != null ? e.getLeArticle().getLeVendeur().getTelephone() : "Non communiqué" %></label>
 					</div>
 				</div>
 				<% } else if (proprietaire) { %>
 				<div class="row justify-content-center mb-4">
-					<div class="col-6 text-start">
+					<div class="col-6">
 						<button type="submit" name="retrait" class="btn btn-primary">Retrait effectué</button>
 					</div>
 				</div>
@@ -162,7 +163,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 			<% } else if (av.getEtat().equalsIgnoreCase("r")) { %>
 				<% if (proprietaire || vainqueur) { %>
 				<div class="row justify-content-center mb-4">
-					<div class="col-6 text-start">
+					<div class="col-6">
 						<label class="form-label fw-bold">Retrait de l'article déjà effectué</label>
 					</div>
 				</div>
@@ -170,7 +171,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 			<% } %>
 			
 			<div class="row justify-content-center mb-4">
-				<div class="col-6 text-start">
+				<div class="col-6">
 					<button type="button" onclick="location.href='<%= request.getContextPath() %>/liste'" 
 					name="retour" class="btn btn-primary">Retour
 					</button>
@@ -194,7 +195,6 @@ function showRemaining() {
     if (distance < 0) {
         clearInterval(timer);
         document.getElementById('countdown').innerHTML = 'Vente terminée !';
-        document.getElementById('countdown').classList.add("fw-bold");
         document.getElementById('inputEnchere').setAttribute("disabled", "disabled");
         document.getElementById('btnEnchere').setAttribute("disabled", "disabled");
         return;

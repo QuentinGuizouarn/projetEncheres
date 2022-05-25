@@ -49,6 +49,7 @@ public class ConnexionServlet extends HttpServlet {
 					
 					Utilisateur user = UtilisateurManager.getInstance().getByConnection(pseudo, motDePass);					
 					request.getSession().setAttribute("user", user);
+					System.out.println(user.toString());
 					
 					response.sendRedirect(request.getContextPath()+"/AccesProfilServlet");
 				} else {

@@ -79,14 +79,14 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 	public void update(Utilisateur u) throws SQLException {
 		PreparedStatement ps = cnx.prepareStatement(UPDATE);
 		ps.setString(1, u.getPseudo());
-		ps.setString(2, u.getNom());
-		ps.setString(3, u.getPrenom());
-		ps.setString(4, u.getEmail());
-		ps.setString(5, u.getTelephone());
-		ps.setString(6, u.getRue());
-		ps.setString(7, u.getCodePostal());
-		ps.setString(8, u.getVille());
-		ps.setString(9, u.getMotDePasse());
+		ps.setString(2, u.getMotDePasse());
+		ps.setString(3, u.getNom());
+		ps.setString(4, u.getPrenom());
+		ps.setString(5, u.getEmail());
+		ps.setString(6, u.getTelephone());
+		ps.setString(7, u.getRue());
+		ps.setString(8, u.getCodePostal());
+		ps.setString(9, u.getVille());
 		ps.setInt(10, u.getCredit());
 		ps.setInt(11, u.getIdUtilisateur());
 		ps.executeUpdate();

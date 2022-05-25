@@ -217,7 +217,7 @@ a.button:hover {
 <link
 	href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css"
 	rel="stylesheet">
-<title>Liste Encheres</title>
+<title>ENI-Enchères</title>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg bg-light">
@@ -235,7 +235,7 @@ a.button:hover {
 		<form method="POST" action="<%=request.getContextPath()%>/connexion">
 			<hr>
 			<label id="icon" for="pseudo"><i class="icon-envelope "></i></label>
-			<input type="text" name="pseudo" id="pseudo" placeholder="Pseudo" required />
+			<input type="text" name="pseudo" id="pseudo" placeholder="Pseudo" autocomplete="off" required />
 			<label id="icon" for="motdepasse"><i class="icon-shield"></i></label> 
 			<input type="password" name="motdepasse" id="motdepasse" placeholder="Mot De Passe" required/> 
 			<label class="checkbox">
