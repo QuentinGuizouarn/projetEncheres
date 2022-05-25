@@ -31,23 +31,25 @@ public class AjoutNouvelleVenteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		idArticle = request.getParameter("article");
-		u = (Utilisateur) request.getSession().getAttribute("user");
-		List<Categorie> items = null;
-		ArticleVendu av = null;
-		try {
-			items = CategorieManager.getInstance().getAll();
-			av = idArticle != null ? ArticleVenduManager.getInstance().getById(Integer.valueOf(idArticle)) : null;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			response.sendError(500);
+		if(request.getSession()!=null) {
+			u = (Utilisateur) request.getSession().getAttribute("user");
+			idArticle = request.getParameter("article");
+			List<Categorie> items = null;
+			ArticleVendu av = null;
+			try {
+				items = CategorieManager.getInstance().getAll();
+				av = idArticle != null ? ArticleVenduManager.getInstance().getById(Integer.valueOf(idArticle)) : null;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				response.sendError(500);
+			}
+			String titre = av != null && !av.getEtat().equalsIgnoreCase("n") ? "Vente non modifiable" : "Nouvelle vente";
+			request.setAttribute("utilisateur", u);
+			request.setAttribute("items", items);
+			request.setAttribute("articleVendu", av);
+			request.setAttribute("titre", titre);
+			request.getRequestDispatcher("/WEB-INF/jsp/ajout_nouvelle_vente.jsp").forward(request, response);
 		}
-		String titre = av != null && !av.getEtat().equalsIgnoreCase("n") ? "Vente non modifiable" : "Nouvelle vente";
-		request.setAttribute("utilisateur", u);
-		request.setAttribute("items", items);
-		request.setAttribute("articleVendu", av);
-		request.setAttribute("titre", titre);
-		request.getRequestDispatcher("/WEB-INF/jsp/ajout_nouvelle_vente.jsp").forward(request, response);
 	}
 
 	/**

@@ -26,10 +26,9 @@ public class View_profil extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getSession()!=null) {
-			String pseudo = (String) request.getSession().getAttribute("pseudo");
-			String mdp = (String) request.getSession().getAttribute("mot de passe");
+			Utilisateur user = (Utilisateur) request.getSession().getAttribute("user");
 			try {
-				user = UtilisateurManager.getInstance().getByConnection(pseudo, mdp);
+				user = UtilisateurManager.getInstance().getById(user.getIdUtilisateur());
 				if(request.getParameter("user")!=null) {
 					profil = UtilisateurManager.getInstance().getById(Integer.valueOf(request.getParameter("user")));
 				}

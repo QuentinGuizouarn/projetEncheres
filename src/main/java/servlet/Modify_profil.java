@@ -27,10 +27,9 @@ public class Modify_profil extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getSession()!=null) {
-			String pseudo = (String) request.getSession().getAttribute("pseudo");
-			String mdp = (String) request.getSession().getAttribute("mot de passe");
 			try {
-				u = UtilisateurManager.getInstance().getByConnection(pseudo, mdp);
+				Utilisateur user = (Utilisateur) request.getSession().getAttribute("user");
+				u = UtilisateurManager.getInstance().getById(user.getIdUtilisateur());
 				request.setAttribute("utilisateur", u);
 				request.getRequestDispatcher("/WEB-INF/jsp/modify_profil.jsp").forward(request, response);
 			} catch (SQLException e) {
@@ -47,10 +46,8 @@ public class Modify_profil extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-		String pseud = (String) request.getSession().getAttribute("pseudo");
-		String mp = (String) request.getSession().getAttribute("mot de passe");
 		try {
+			Utilisateur user = (Utilisateur) request.getSession().getAttribute("user");
 			if (request.getParameter("save") != null) {
 				String pseudo = request.getParameter("pseudo");
 				String nom = request.getParameter("last_name");
@@ -63,8 +60,7 @@ public class Modify_profil extends HttpServlet {
 				String mdp = request.getParameter("mdp");
 				String newmdp = request.getParameter("newmdp");
 				String compare = request.getParameter("compare");
-				u = UtilisateurManager.getInstance().getByConnection(pseud, mp);
-				System.out.println(u.toString() + "\n1");
+				u = UtilisateurManager.getInstance().getById(user.getIdUtilisateur());
 				if (HashPassword.hashpassword(mdp).equals(u.getMotDePasse())) {
 					u.setPseudo(pseudo);
 					u.setNom(nom);
@@ -74,16 +70,17 @@ public class Modify_profil extends HttpServlet {
 					u.setRue(rue);
 					u.setCodePostal(cp);
 					u.setVille(ville);
-					if (newmdp != null || compare != null) {
+					if (!newmdp.isEmpty() && !compare.isEmpty()) {
 						if (newmdp.equals(compare)) {
 							u.setMotDePasse(HashPassword.hashpassword(newmdp));
 						} else {
 							response.sendError(500,"Le Nouveau mot de passe et la Confirmation doivent être identique");
 						}
 					}
-					System.out.println(u.toString() + "\n2");
 					UtilisateurManager.getInstance().changeUtilisateur(u);
 					response.sendRedirect(request.getContextPath()+"/AccesProfilServlet");
+				} else {
+					response.sendRedirect(request.getContextPath()+"/modify_profil");
 				}
 			} else if (request.getParameter("delete") != null) {
 				UtilisateurManager.getInstance().removeUtilisateur(u.getIdUtilisateur());
@@ -92,7 +89,6 @@ public class Modify_profil extends HttpServlet {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			response.sendError(500, "SQL");
 		}
 	}
 }

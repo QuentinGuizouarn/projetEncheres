@@ -1,8 +1,12 @@
 <%@page import="bo.Enchere"%>
 <%@page import="bo.ArticleVendu"%>
+<%@page import="bo.Utilisateur"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -164,7 +168,7 @@ opacity:1;
 	rel="stylesheet"
 	integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
 	crossorigin="anonymous">
-<title>Liste Encheres</title>
+<title>ENI-Enchères</title>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg bg-light">
@@ -178,7 +182,7 @@ opacity:1;
 			<div>
 				<a href="<%=request.getContextPath()%>/nouvelleEnchere">Encheres</a> 
 				<a href="<%=request.getContextPath()%>/nouvelle_vente">Vendre un article</a>
-				<a href="<%=request.getContextPath()%>/view_profil">Mon Profil</a>
+				<a href="<%=request.getContextPath()%>/view_profil?user=<%=u != null ? u.getIdUtilisateur() : ""%>">Mon Profil</a>
 				<a href="<%=request.getContextPath()%>/liste">Deconnexion</a>
 			</div>
 		</div>

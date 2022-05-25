@@ -42,14 +42,14 @@
 						<label for="texte">Pseudo : </label>
 					</div>
 					<div class="col">
-						<input type="text" name="pseudo" id="pseudo" required />
+						<input type="text" name="pseudo" id="pseudo" autocomplete="off" required />
 					</div>
 					<div class="col"></div>
 					<div class="col">
 						<label for="texte">Nom : </label>
 					</div>
 					<div class="col">
-						<input type="text" name="last_name" id="last_name" required />
+						<input type="text" name="last_name" id="last_name" autocomplete="off" required />
 					</div>
 					<div class="col"></div>
 				</div>
@@ -64,14 +64,14 @@
 						<label for="texte">Prénom : </label>
 					</div>
 					<div class="col">
-						<input type="text" name="first_name" id="first_name" required />
+						<input type="text" name="first_name" id="first_name" autocomplete="off" required />
 					</div>
 					<div class="col"></div>
 					<div class="col">
 						<label for="texte">Email : </label>
 					</div>
 					<div class="col">
-						<input type="text" name="email" id="email" required />
+						<input type="text" name="email" id="email" autocomplete="off" required />
 					</div>
 					<div class="col"></div>
 				</div>
@@ -86,14 +86,14 @@
 						<label for="nombre">Téléphone : </label>
 					</div>
 					<div class="col">
-						<input type="text" pattern="[0-9]{10}" name="phone" id="phone" />
+						<input type="text" pattern="[0-9]{10}" name="phone" autocomplete="off" id="phone" />
 					</div>
 					<div class="col"></div>
 					<div class="col">
 						<label for="texte">Rue : </label>
 					</div>
 					<div class="col">
-						<input type="text" name="road" id="road" required />
+						<input type="text" name="road" id="road" autocomplete="off" required />
 					</div>
 					<div class="col"></div>
 				</div>
@@ -108,14 +108,14 @@
 						<label for="nombre">Code Postal : </label>
 					</div>
 					<div class="col">
-						<input type="text" name="cp" id="cp" pattern="[0-9]{5}" required />
+						<input type="text" name="cp" id="cp" pattern="[0-9]{5}" autocomplete="off" required />
 					</div>
 					<div class="col"></div>
 					<div class="col">
 						<label for="texte">Ville : </label>
 					</div>
 					<div class="col">
-						<input type="text" name="city" id="city" required />
+						<input type="text" name="city" id="city" autocomplete="off" required />
 					</div>
 					<div class="col"></div>
 				</div>
@@ -152,7 +152,7 @@
 					</div>
 					<div class="col col-lg-2">
 						<a class="btn btn-outline-danger"
-							href="${pageContext.request.contextPath}/AccesProfilServlet">annuler</a>
+							href="${pageContext.request.contextPath}/liste">annuler</a>
 					</div>
 				</div>
 			</form>

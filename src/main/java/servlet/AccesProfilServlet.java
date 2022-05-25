@@ -27,6 +27,7 @@ import bo.Utilisateur;
 @WebServlet("/AccesProfilServlet")
 public class AccesProfilServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private Utilisateur u = null;
 	
 	public AccesProfilServlet() {
         List<ArticleVendu> lesArticles = null;
@@ -52,26 +53,24 @@ public class AccesProfilServlet extends HttpServlet {
 	 */
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		Utilisateur u = null;
-		try {
-			List<Categorie> categorieListe = CategorieManager.getInstance().getAll();
-			request.setAttribute("categorieListe", categorieListe);
-			List<ArticleVendu> listeArticle = ArticleVenduManager.getInstance().getAll();
-			request.setAttribute("articleList", listeArticle);
-			
-			String pseudo = (String) request.getSession().getAttribute("pseudo");
-			String motDePasse = (String) request.getSession().getAttribute("motDePasse");
-			u = UtilisateurManager.getInstance().getByConnection(pseudo, motDePasse);
-			request.setAttribute("utilisateur", u);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/ViewAccesProfil.jsp");
-			rd.forward(request, response);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			response.sendError(500);
+
+		if(request.getSession()!=null) {
+			try {
+				List<Categorie> categorieListe = CategorieManager.getInstance().getAll();
+				request.setAttribute("categorieListe", categorieListe);
+				List<ArticleVendu> listeArticle = ArticleVenduManager.getInstance().getAll();
+				request.setAttribute("articleList", listeArticle);
+	
+				Utilisateur user = (Utilisateur) request.getSession().getAttribute("user");
+				request.setAttribute("utilisateur", user);
+				
+				RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/view_acces_profil.jsp");
+				rd.forward(request, response);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				response.sendError(500);
+			}
 		}
-		
 	}
 
 	/**
@@ -144,5 +143,7 @@ public class AccesProfilServlet extends HttpServlet {
 //			response.sendError(500);
 //		}
 	}
+	
+	
 
 }

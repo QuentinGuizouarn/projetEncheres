@@ -19,7 +19,7 @@ Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
 	<nav class="navbar navbar-expand-lg bg-light">
 		<div class="container-fluid">
 			<a class="navbar-brand"
-				href="<%=request.getContextPath()%>/view_profil?user="<%=u != null ? u.getIdUtilisateur() : ""%>><img alt=""
+				href="<%=request.getContextPath()%>/view_profil?user=<%=u != null ? u.getIdUtilisateur() : ""%>"><img alt=""
 				src="https://www.sdis68.fr/dynamic/images/le_sdis68/cac_/logo_encheres!_283x200!_3!_0x0!_0!_FFFFFF.png"></a>
 			<div class="collapse navbar-collapse " id="navbarSupportedContent">
 				<h1 style="margin-left: 465px;">ENI ENCHERES</h1>
@@ -42,31 +42,31 @@ Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
 				<table class="table table-borderless">
 					<tr>
 						<td><label for="texte">Pseudo : </label></td>
-						<td><input type="text" name="pseudo" id="pseudo" value="<%=u != null ? u.getPseudo() : ""%>" required/></td>
+						<td><input type="text" name="pseudo" id="pseudo" value="<%=u != null ? u.getPseudo() : ""%>" autocomplete="off" required/></td>
 						<td></td>
 						<td><label for="texte">Nom : </label></td>
-						<td><input type="text" name="last_name" id="last_name" value="<%=u != null ? u.getNom() : ""%>" required/></td>
+						<td><input type="text" name="last_name" id="last_name" value="<%=u != null ? u.getNom() : ""%>" autocomplete="off" required/></td>
 					</tr>
 					<tr>
 						<td><label for="texte">Prénom : </label></td>
-						<td><input type="text" name="first_name" id="first_name" value="<%=u != null ? u.getPrenom() : ""%>" required/></td>
+						<td><input type="text" name="first_name" id="first_name" value="<%=u != null ? u.getPrenom() : ""%>" autocomplete="off" required/></td>
 						<td></td>
 						<td><label for="texte">Email : </label></td>
-						<td><input type="text" name="email" id="email" value="<%=u != null ? u.getEmail() : ""%>" required/></td>
+						<td><input type="text" name="email" id="email" value="<%=u != null ? u.getEmail() : ""%>" autocomplete="off" required/></td>
 					</tr>
 					<tr>
 						<td><label for="texte">Téléphone : </label></td>
-						<td><input type="text" name="phone" id="phone" value="<%=u != null ? u.getTelephone() : ""%>" required/></td>
+						<td><input type="text" name="phone" id="phone" value="<%=u != null ? u.getTelephone() : ""%>" autocomplete="off" required/></td>
 						<td></td>
 						<td><label for="texte">Rue : </label></td>
-						<td><input type="text" name="road" id="road" value="<%=u != null ? u.getRue() : ""%>" required/></td>
+						<td><input type="text" name="road" id="road" value="<%=u != null ? u.getRue() : ""%>" autocomplete="off" required/></td>
 					</tr>
 					<tr>
 						<td><label for="texte">Code Postal : </label></td>
-						<td><input type="text" name="cp" id="cp" value="<%=u != null ? u.getCodePostal() : ""%>" required/></td>
+						<td><input type="text" name="cp" id="cp" value="<%=u != null ? u.getCodePostal() : ""%>" autocomplete="off" required/></td>
 						<td></td>
 						<td><label for="texte">Ville : </label></td>
-						<td><input type="text" name="city" id="city" value="<%=u != null ? u.getVille() : ""%>" required/></td>
+						<td><input type="text" name="city" id="city" value="<%=u != null ? u.getVille() : ""%>" autocomplete="off" required/></td>
 					</tr>
 					<tr>
 						<td><label for="texte">Mot de passe actuel : </label></td>
