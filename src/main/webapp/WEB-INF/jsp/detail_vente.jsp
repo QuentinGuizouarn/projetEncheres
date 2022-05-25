@@ -70,7 +70,6 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 					<a href="<%= request.getContextPath() %>/view_profil?user=<%= e.getLeAcheteur().getIdUtilisateur() %>">
 					<%= e.getLeAcheteur().getPseudo() %></a>
 				</label>
-				<input type="hidden" name="idUtilisateur" value="<%= e.getLeAcheteur().getIdUtilisateur() %>">
 				<% } else { %>
 					<label for="offreMax" class="form-label">Aucune</label>
 				<% } %>
