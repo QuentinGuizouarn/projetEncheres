@@ -1,2 +1,6 @@
-/.metadata/
-/apache-tomcat-9.0.62
+/build
+
+.classPath
+.project
+.settings/
+src/main/webapp/META-INF/context.xml
