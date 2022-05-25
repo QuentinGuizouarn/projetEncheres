@@ -195,6 +195,7 @@ function showRemaining() {
     if (distance < 0) {
         clearInterval(timer);
         document.getElementById('countdown').innerHTML = 'Vente terminée !';
+        document.getElementById('countdown').classList.add("fw-bold");
         document.getElementById('inputEnchere').setAttribute("disabled", "disabled");
         document.getElementById('btnEnchere').setAttribute("disabled", "disabled");
         return;
