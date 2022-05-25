@@ -17,7 +17,16 @@ public class Enchere {
 		this.leArticle = leArticle;
 		this.leAcheteur = leAcheteur;
 	}
+	
+	public Enchere(int idEnchere,LocalDateTime date, int montant, Utilisateur leAcheteur) {		
+		this.date = date;
+		this.montant = montant;
+		this.idEnchere = idEnchere;
+		this.leAcheteur = leAcheteur;
+	}
 
+	
+	
 	public Enchere(int idEnchere, LocalDateTime date, int montant, ArticleVendu leArticle,
 			Utilisateur leAcheteur) {
 		this.idEnchere = idEnchere;
@@ -27,6 +36,7 @@ public class Enchere {
 		this.leAcheteur = leAcheteur;
 	}
 
+	
 	public LocalDateTime getDate() {
 		return date;
 	}

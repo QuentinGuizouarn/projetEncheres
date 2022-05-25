@@ -11,6 +11,7 @@ import java.util.List;
 
 import bo.ArticleVendu;
 import bo.Categorie;
+import bo.Enchere;
 import bo.Utilisateur;
 import dal.iDAO.ArticleVenduDAO;
 
@@ -25,11 +26,14 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 			+ " INNER JOIN UTILISATEURS U ON U.idUtilisateur = A.idUtilisateur"
 			+ " INNER JOIN CATEGORIES C ON C.idCategorie = A.idCategorie"
 			+ " WHERE A.idArticle = ?";
-	private static final String SELECT_ALL = "SELECT A.idArticle, A.nom, A.description, A.dateDebut, A.dateFin, A.prixInitial,"
-			+ " A.prixVente, A.rue, A.codePostal, A.ville, A.etat, A.idUtilisateur, U.pseudo, A.idCategorie, C.libelle"
-			+ " FROM ARTICLES_VENDUS A"
-			+ " INNER JOIN UTILISATEURS U ON U.idUtilisateur = A.idUtilisateur"
-			+ " INNER JOIN CATEGORIES C ON C.idCategorie = A.idCategorie";
+	private static final String SELECT_ALL = "SELECT A.idArticle, A.nom, A.description, A.dateDebut, A.dateFin, A.prixInitial, A.prixVente, A.rue, A.codePostal, A.ville, A.etat, A.idCategorie, C.libelle,\r\n"
+			+ "    idUtilisateurVendeur = A.idUtilisateur, pseudoVendeur = UV.pseudo, telephoneVendeur = UV.telephone, E.idEnchere, E.date, E.montant, \r\n"
+			+ "    idUtilisateurAcheteur = E.idUtilisateur, pseudoAcheteur = UA.pseudo, telephoneAcheteur = UA.telephone\r\n"
+			+ "FROM ARTICLES_VENDUS A\r\n"
+			+ "INNER JOIN UTILISATEURS UV ON UV.idUtilisateur = A.idUtilisateur\r\n"
+			+ "INNER JOIN CATEGORIES C ON C.idCategorie = A.idCategorie\r\n"
+			+ "LEFT JOIN ENCHERES E ON E.idArticle = A.idArticle\r\n"
+			+ "LEFT JOIN UTILISATEURS UA ON UA.idUtilisateur = E.idUtilisateur";
 	private static final String SELECT_BY_NOM = "SELECT A.idArticle, A.nom, A.description, A.dateDebut, A.dateFin, A.prixInitial,"
 			+ " A.prixVente, A.rue, A.codePostal, A.ville, A.etat, A.idUtilisateur, U.pseudo, A.idCategorie, C.libelle"
 			+ " FROM ARTICLES_VENDUS A"
@@ -82,19 +86,32 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	}
 
 	@Override
-	public List<ArticleVendu> selectAll() throws SQLException {
-		List<ArticleVendu> liste = new ArrayList<ArticleVendu>();
-		Statement st = cnx.createStatement();
-		ResultSet rs = st.executeQuery(SELECT_ALL);
-		while (rs.next()) {
-			liste.add(new ArticleVendu( rs.getInt("idArticle"), rs.getInt("prixInitial"), rs.getInt("prixVente"), rs.getString("nom"), 
-				rs.getString("description"), rs.getString("etat"), rs.getString("rue"), rs.getString("codePostal"), rs.getString("ville"),
-				rs.getDate("dateDebut").toLocalDate(), rs.getDate("dateFin").toLocalDate(), new Utilisateur( rs.getInt("idUtilisateur"),
-				rs.getString("pseudo"), null ), new Categorie( rs.getInt("idCategorie"), rs.getString("libelle") ) ));
-		}
-		cnx.close();
-		return liste;
-	}
+    public List<ArticleVendu> selectAll() throws SQLException {
+        List<ArticleVendu> liste = new ArrayList<ArticleVendu>();
+        ArticleVendu av = null;
+        int oldIdArticle = 0;
+        Statement st = cnx.createStatement();
+        ResultSet rs = st.executeQuery(SELECT_ALL);
+        while (rs.next()) {
+            if (rs.getInt("idArticle") != oldIdArticle) {
+                oldIdArticle = rs.getInt("idArticle");
+                av = new ArticleVendu( rs.getInt("idArticle"), rs.getInt("prixInitial"), rs.getInt("prixVente"), rs.getString("nom"), 
+                    rs.getString("description"), rs.getString("etat"), rs.getString("rue"), rs.getString("codePostal"), rs.getString("ville"),
+                    rs.getDate("dateDebut").toLocalDate(), rs.getDate("dateFin").toLocalDate(), new Utilisateur( rs.getInt("idUtilisateurVendeur"),
+                    rs.getString("pseudoVendeur"), rs.getString("telephoneVendeur") ), new Categorie( rs.getInt("idCategorie"), rs.getString("libelle")));
+                liste.add(av);
+            }
+            if (rs.getInt("idEnchere") != 0 ) {
+            	av.getLesEncheres().add(new Enchere(rs.getInt("idEnchere"), rs.getTimestamp("date").toLocalDateTime(), rs.getInt("montant"),
+            		new Utilisateur(rs.getInt("idUtilisateurAcheteur"), rs.getString("pseudoAcheteur"), rs.getString("telephoneAcheteur"))) );
+            } else {
+            	av.getLesEncheres().add(new Enchere());
+            }
+            
+        }
+        cnx.close();
+        return liste;
+    }
 	
 	@Override
 	public List<ArticleVendu> selectByNom(String nom) throws SQLException {

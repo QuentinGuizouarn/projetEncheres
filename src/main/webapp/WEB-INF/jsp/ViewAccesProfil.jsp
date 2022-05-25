@@ -1,8 +1,14 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="bo.Categorie"%>
+<%@page import="bo.Utilisateur"%>
 <%@page import="bo.Enchere"%>
 <%@page import="bo.ArticleVendu"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%
+	Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
+	%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -164,6 +170,7 @@ opacity:1;
 	rel="stylesheet"
 	integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
 	crossorigin="anonymous">
+	<link rel="stylesheet" href="script.js">
 <title>Liste Encheres</title>
 </head>
 <body>
@@ -176,60 +183,81 @@ opacity:1;
 				<h1 style="margin-left: 465px;">ENI ENCHERES</h1>
 			</div>
 			<div>
-				<a href="<%=request.getContextPath()%>/nouvelleEnchere">Encheres</a> 
 				<a href="<%=request.getContextPath()%>/nouvelle_vente">Vendre un article</a>
-				<a href="<%=request.getContextPath()%>/view_profil">Mon Profil</a>
-				<a href="<%=request.getContextPath()%>/liste">Deconnexion</a>
+				<a href="<%=request.getContextPath()%>/view_profil?user=<%=u != null ? u.getPseudo() : null%>">Mon profil</a>
+				<a href="<%=request.getContextPath()%>/DeconnexionServlet">Deconnexion</a>
 			</div>
 		</div>
 	</nav>
 	<main>
+		<form action="<%=request.getContextPath()%>/AccesProfilServlet" method="POST">
+		
+		<%-- <% 	List<ArticleVendu> listFiltre = (List<ArticleVendu>)request.getAttribute("listArticleFiltre");
+			listFiltre.forEach(i->{
+				%>
+				<%= i %>
+				<%
+				});
+		%> --%>
+		
+				<label for="filtre">Filtre :</label> <input
+					class="form-control me-2" type="search" placeholder="Search"
+					id="search" name="filtre" aria-label="Search" style="width: auto;">
+				<br> <br> 
+				<label
+					for="categorie"> Catégorie : </label> <select name="categorie"
+					id="categorie" onChange="afficherCardsByLibelle();afficherCardsAll">
+					<!--  					onChange="afficherCardsAll();afficherCardsByLibelle();"> -->
+					<option value="toute">Toutes</option>
+					<%
+					List<Categorie> listeCategorie = (List<Categorie>) request.getAttribute("categorieListe");
+					for (Categorie categorie : listeCategorie) {
+					%>
+
+					<option value="<%=categorie.getLibelle()%>"><%=categorie.getLibelle()%></option>
+					<%
+					}
+					%>
+				</select>
+		</div>
+		<br>
 		<div>
-			<label for="filtre">Filtre :</label> 
-			<input class="form-control me-2" type="search" placeholder="Search" id="search" aria-label="Search" style="width: auto;"> 
-			<a href="#" onclick="recupererResultat()"><i class="fa-solid fa-magnifying-glass"></i></a><br>
-			<br> <label for="categorie"> Catégorie : </label> <select name="categorie" id="categorie">
-				<option value="toute">Toute</option>
-				<option value="informatique">Informatique</option>
-				<option value="Ameublement">Ameublement</option>
-				<option value="vetement">Vêtement</option>
-				<option value="sport">Sport</option>
-				<option value="Loisir">Loisir</option>
-			</select><br>
+			<label class="enchere" name="enchere"> <input type="radio"
+				value="achat" id="achat" name="enchere" onclick="isCheckedAchat()">
+				Achats
+			</label> <label class="checkbox" name="enchere" style="margin-left: 202px;">
+				<input type="radio" value="vente" id="vente" name="enchere"
+				onclick="isCheckedVente()"> Ventes
+			</label><br> <br>
+		</div>
+		<div id="visibleAchat">
+			
+			<label class="checkbox" for="ouverte"> <input type="checkbox"
+				value="ouverte" id="ouverte" name="ouverte"> Enchères
+				ouvertes
+			</label><br> <label class="checkbox" for="mesEncheres"> <input
+				type="checkbox" value="mesEncheres" id="mesEncheres"
+				name="mesEncheres"> Mes Enchères
+			</label><br> <label class="checkbox" for="remportees"> <input
+				type="checkbox" value="remportees" id="remportees" name="remportees">
+				Mes enchères remportées
+			</label>
+			<div id="visibleVente" style="margin-left: 265px; margin-top: -71px;">
+				<label class="checkbox" for="enCours"> <input
+					type="checkbox" value="enCours" id="enCours" name="enCours">
+					Mes Ventes en cours
+				</label><br> <label class="checkbox" for="nonCommencees"> <input
+					type="checkbox" value="nonCommencees" id="nonCommencees"
+					name="nonCommencees"> Ventes non debutées
+				</label><br> <label class="checkbox" for="terminee"> <input
+					type="checkbox" value="terminee" id="terminee"
+					name="terminee"> Ventes terminées
+				</label>
 			</div>
 			<br>
-			<div>
-			 <label class="enchere" name ="enchere">
-        <input type="radio" value="achat" id="achat" name="enchere" onclick="isCheckedAchat()"> Achats
-      </label>
-       <label class="checkbox" name ="enchere" style="margin-left: 202px;">
-        <input type="radio" value="vente" id="vente" name="enchere" onclick="isCheckedVente()"> Ventes
-      </label><br><br>
-			</div>
-			<div id="visibleAchat">
-			<label class="checkbox" for="ouverte">
-        <input type="checkbox" value="ouverte" id="ouverte" name="ouverte"> Enchères ouvertes
-      </label><br>
-      <label class="checkbox" for="mesEncheres">
-        <input type="checkbox" value="mesEncheres" id="mesEncheres" name="mesEncheres"> Mes Enchères
-      </label><br>
-       <label class="checkbox" for="remportees">
-        <input type="checkbox" value="remportees" id="remportees" name="remportees"> Mes enchères remportées
-      </label>
-			<div id="visibleVente" style="margin-left: 265px;margin-top: -71px;">
-			<label class="checkbox" for="enCours">
-        <input type="checkbox" value="enCours" id="enCours" name="enCours"> Ventes en cours
-      </label><br>
-      <label class="checkbox" for="nonCommencees">
-        <input type="checkbox" value="nonCommencees" id="nonCommencees" name="nonCommencees"> Ventes non debutées
-      </label><br>
-       <label class="checkbox" for="remportees">
-        <input type="checkbox" value="remportees" id="remportees" name="remportees"> Ventes terminées
-      </label>
-			</div><br>
-			
 		</div>
 		<button class="btn btn-outline-success" type="submit">Search</button>
+		</form>
 		<div id="tableauListe">
 			<div class="center" style="margin-top: -10%">
 			<%
@@ -246,7 +274,7 @@ opacity:1;
     <div class="property-description">
       <h5> <%=article.getNom() %> </h5>
       <p> <%=article.getDescription() %></p>
-      <p><%=article.getPrixInitial()+ " points" %></p>
+      <p <%=article.getPrixVente() != 0 ? article.getPrixVente(): article.getPrixInitial()%>> points</p>
       <p><%= article.getLeVendeur().getPseudo() %></p>
     </div>
     <a href="#">
@@ -258,6 +286,37 @@ opacity:1;
   <% 
   } 
 %>
+			<%
+				List<ArticleVendu> result = (List<ArticleVendu>) request.getAttribute("result");
+			System.out.println(result);
+				if (result != null) {
+				for(ArticleVendu article : result){
+					System.out.println(article.toString());
+			%>
+  <div class="property-card">
+    <a href="#">
+      <div class="property-image">
+        <div class="property-image-title">
+          <!-- Optional <h5>Card Title</h5> If you want it, turn on the CSS also. -->
+        </div>
+      </div></a>
+    <div class="property-description">
+      <h5> <%=article.getNom() %> </h5>
+      <p> <%=article.getDescription() %></p>
+      <p <%=article.getPrixVente() != 0 ? article.getPrixVente(): article.getPrixInitial()%>> points</p>
+      <p><%= article.getLeVendeur().getPseudo() %></p>
+    </div>
+    <a href="#">
+      <div class="property-social-icons">
+        <!-- I would usually put multipe divs inside here set to flex. Some people might use Ul li. Multiple Solutions -->
+      </div>
+    </a>
+  </div>
+  <% 
+  } } else {
+	  System.out.println("vide");
+  }
+%>
 </div>
 
 		</div>
@@ -265,7 +324,7 @@ opacity:1;
 </body>
 <script type="text/javascript">
 
-	document.getElementById("tableauListe").style.visibility="hidden";
+	//document.getElementById("tableauListe").style.visibility="hidden";
 	var nodes = document.getElementById("visibleAchat").getElementsByTagName('*');
 	for(var i = 0; i < nodes.length; i++){
 	     nodes[i].disabled = true;

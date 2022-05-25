@@ -13,5 +13,4 @@ public interface ArticleVenduDAO {
 	public List<ArticleVendu> selectByNom(String nom) throws SQLException;
 	public void update(ArticleVendu av) throws SQLException;
 	public void delete(int id) throws SQLException;	
-
 }
