@@ -184,7 +184,7 @@ opacity:1;
 			</div>
 			<div>
 				<a href="<%=request.getContextPath()%>/nouvelle_vente">Vendre un article</a>
-				<a href="<%=request.getContextPath()%>/view_profil?user=<%=u != null ? u.getPseudo() : null%>">Mon profil</a>
+				<a href="<%=request.getContextPath()%>/view_profil?user=<%=u != null ? u.getIdUtilisateur() : null%>">Mon profil</a>
 				<a href="<%=request.getContextPath()%>/DeconnexionServlet">Deconnexion</a>
 			</div>
 		</div>
@@ -199,22 +199,21 @@ opacity:1;
 				<%
 				});
 		%> --%>
-		
+		<div>
 				<label for="filtre">Filtre :</label> <input
 					class="form-control me-2" type="search" placeholder="Search"
 					id="search" name="filtre" aria-label="Search" style="width: auto;">
 				<br> <br> 
-				<label
-					for="categorie"> Catégorie : </label> <select name="categorie"
-					id="categorie" onChange="afficherCardsByLibelle();afficherCardsAll">
+				<label for="categorie"> Catégorie : </label> 
+					<select name="categorie" id="categorie" onChange="afficherCardsByLibelle();afficherCardsAll">
 					<!--  					onChange="afficherCardsAll();afficherCardsByLibelle();"> -->
-					<option value="toute">Toutes</option>
+					<option value="0">Toutes</option>
 					<%
 					List<Categorie> listeCategorie = (List<Categorie>) request.getAttribute("categorieListe");
 					for (Categorie categorie : listeCategorie) {
 					%>
 
-					<option value="<%=categorie.getLibelle()%>"><%=categorie.getLibelle()%></option>
+					<option value="<%=categorie.getIdCategorie()%>"><%=categorie.getLibelle()%></option>
 					<%
 					}
 					%>
@@ -265,19 +264,19 @@ opacity:1;
 				for(ArticleVendu article : articleList){
 			%>
   <div class="property-card">
-    <a href="#">
+    <a href="<%=request.getContextPath()%>/detail_vente?article=<%=article != null ? article.getIdArticle() : null%>">
       <div class="property-image">
         <div class="property-image-title">
           <!-- Optional <h5>Card Title</h5> If you want it, turn on the CSS also. -->
         </div>
-      </div></a>
+      </div>
     <div class="property-description">
       <h5> <%=article.getNom() %> </h5>
       <p> <%=article.getDescription() %></p>
       <p <%=article.getPrixVente() != 0 ? article.getPrixVente(): article.getPrixInitial()%>> points</p>
       <p><%= article.getLeVendeur().getPseudo() %></p>
     </div>
-    <a href="#">
+    
       <div class="property-social-icons">
         <!-- I would usually put multipe divs inside here set to flex. Some people might use Ul li. Multiple Solutions -->
       </div>
