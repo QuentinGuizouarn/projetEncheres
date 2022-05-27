@@ -65,7 +65,7 @@ public class AccesProfilServlet extends HttpServlet {
 			u = UtilisateurManager.getInstance().getById(user.getIdUtilisateur());
 			request.setAttribute("utilisateur", u);
 
-			RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/ViewAccesProfil.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/view_acces_profil.jsp");
 			rd.forward(request, response);
 		} catch (SQLException e) {
 			e.printStackTrace();
