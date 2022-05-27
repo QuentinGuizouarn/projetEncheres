@@ -19,20 +19,23 @@ import bo.Utilisateur;
  */
 @WebServlet("/liste_categories")
 public class GestionCategoriesServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;	
 	
-	private Utilisateur u = null;
 	private List<Categorie> lesCategories = null;
+	private Utilisateur u;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
-			lesCategories = CategorieManager.getInstance().getAll();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			response.sendError(500);
+		u = (Utilisateur) request.getSession().getAttribute("user");
+		if (u.isAdministrateur() == true) {
+			try {
+				lesCategories = CategorieManager.getInstance().getAll();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				response.sendError(500);
+			}
 		}
 		request.setAttribute("liste", lesCategories);
 		request.getRequestDispatcher("/WEB-INF/jsp/liste_categories.jsp").forward(request, response);
