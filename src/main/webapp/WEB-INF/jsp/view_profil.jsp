@@ -124,7 +124,7 @@ Utilisateur profil = (Utilisateur) request.getAttribute("profil");
 					<label></label>
 				</div>
 			</div>
-			<% if(request.getParameter("user")!=null){ %>
+			<% if(user != null){ %>
 				<%if(profil.getIdUtilisateur() == user.getIdUtilisateur()){ %>
 					<div class="row justify-content-md-center">
 						<div class="col col-lg-2">
