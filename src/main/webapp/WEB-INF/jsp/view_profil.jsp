@@ -45,7 +45,7 @@ Utilisateur profil = (Utilisateur) request.getAttribute("profil");
 					<label for="texte">Pseudo : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="pseudo"><%=profil != null ? profil.getPseudo() : null%></label>
+					<label for="text" id="pseudo"><%=profil != null ? profil.getPseudo() : ""%></label>
 				</div>
 				<div class="col"></div>
 			</div>
@@ -55,7 +55,7 @@ Utilisateur profil = (Utilisateur) request.getAttribute("profil");
 					<label for="texte">Nom : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="last_name"><%=profil != null ? profil.getNom() : null%></label>
+					<label for="text" id="last_name"><%=profil != null ? profil.getNom() : ""%></label>
 				</div>
 				<div class="col"></div>
 			</div>
@@ -65,7 +65,7 @@ Utilisateur profil = (Utilisateur) request.getAttribute("profil");
 					<label for="texte">Prénom : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="first_name"><%=profil != null ? profil.getPrenom() : null%></label>
+					<label for="text" id="first_name"><%=profil != null ? profil.getPrenom() : ""%></label>
 				</div>
 				<div class="col"></div>
 			</div>
@@ -75,7 +75,7 @@ Utilisateur profil = (Utilisateur) request.getAttribute("profil");
 					<label for="texte">Email : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="email"><%=profil != null ? profil.getEmail() : null%></label>
+					<label for="text" id="email"><%=profil != null ? profil.getEmail() : ""%></label>
 				</div>
 				<div class="col"></div>
 			</div>
@@ -85,7 +85,7 @@ Utilisateur profil = (Utilisateur) request.getAttribute("profil");
 					<label for="nombre">Téléphone : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="phone"><%=profil != null ? profil.getTelephone() : null%></label>
+					<label for="text" id="phone"><%=profil != null ? profil.getTelephone() : ""%></label>
 				</div>
 				<div class="col"></div>
 			</div>
@@ -95,7 +95,7 @@ Utilisateur profil = (Utilisateur) request.getAttribute("profil");
 					<label for="texte">Rue : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="road"><%=profil != null ? profil.getRue() : null%></label>
+					<label for="text" id="road"><%=profil != null ? profil.getRue() : ""%></label>
 				</div>
 				<div class="col"></div>
 			</div>
@@ -105,7 +105,7 @@ Utilisateur profil = (Utilisateur) request.getAttribute("profil");
 					<label for="nombre">Code Postal : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="cp"><%=profil != null ? profil.getCodePostal() : null%></label>
+					<label for="text" id="cp"><%=profil != null ? profil.getCodePostal() : ""%></label>
 				</div>
 				<div class="col"></div>
 			</div>
@@ -115,7 +115,7 @@ Utilisateur profil = (Utilisateur) request.getAttribute("profil");
 					<label for="texte">Ville : </label>
 				</div>
 				<div class="col">
-					<label for="text" id="city"><%=profil != null ? profil.getVille() : null%></label>
+					<label for="text" id="city"><%=profil != null ? profil.getVille() : ""%></label>
 				</div>
 				<div class="col"></div>
 			</div>
