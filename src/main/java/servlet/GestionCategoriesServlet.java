@@ -29,7 +29,7 @@ public class GestionCategoriesServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		u = (Utilisateur) request.getSession().getAttribute("user");
-		if (u.isAdministrateur() == true) {
+		if (u.isAdministrateur()) {
 			try {
 				lesCategories = CategorieManager.getInstance().getAll();
 			} catch (SQLException e) {
