@@ -21,7 +21,7 @@ public class ArticleVendu {
 			String rue, String codePostal, String ville, LocalDate dateDebut, LocalDate dateFin,
 			Utilisateur leVendeur, Categorie laCategorie) {
 		this.prixInitial = prixInitial;
-		this.prixVente = 0;
+		this.prixVente = prixVente;
 		this.nom = nom;
 		this.description = description;
 		this.etat = etat;
@@ -40,7 +40,7 @@ public class ArticleVendu {
 			LocalDate dateFin, Utilisateur leVendeur, Categorie laCategorie) {
 		this.idArticle = idArticle;
 		this.prixInitial = prixInitial;
-		this.prixVente = 0;
+		this.prixVente = prixVente;
 		this.nom = nom;
 		this.description = description;
 		this.etat = etat;
