@@ -70,7 +70,6 @@ public class DetailVenteServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
 		if (request.getParameter("insert") != null) {
 			try {
 				LocalDateTime date = LocalDateTime.now();
@@ -95,7 +94,7 @@ public class DetailVenteServlet extends HttpServlet {
 		}
 		av = null;
 		e = null;
-		response.sendRedirect(request.getContextPath() + "/liste");
+		response.sendRedirect(request.getContextPath() + "/AccesProfilServlet");
 	}
 
 }
