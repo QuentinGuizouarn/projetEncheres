@@ -22,7 +22,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 	<header>
 		<nav class="navbar navbar-expand-lg bg-light">
 			<div class="container-fluid">
-				<a class="navbar-brand" href="<%=request.getContextPath()%>/liste">
+				<a class="navbar-brand" href="<%=request.getContextPath()%>/AccesProfilServlet">
 					<img alt=""
 					src="https://www.sdis68.fr/dynamic/images/le_sdis68/cac_/logo_encheres!_283x200!_3!_0x0!_0!_FFFFFF.png">
 				</a>
@@ -175,7 +175,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 			
 			<div class="row justify-content-center mb-4">
 				<div class="col-6 text-start">
-					<button type="button" onclick="location.href='<%= request.getContextPath() %>/liste'" 
+					<button type="button" onclick="location.href='<%= request.getContextPath() %>/AccesProfilServlet'" 
 					name="retour" class="btn btn-primary">Retour
 					</button>
 				</div>

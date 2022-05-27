@@ -12,7 +12,7 @@ ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");
 	<meta charset="UTF-8">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="#" rel="shortcut icon">
-	<link href="./assets/style.css" rel="stylesheet">
+	<link href="./assets/css/style.css" rel="stylesheet">
 	<title>ENI-Enchères</title>
 </head>
 <body>
@@ -20,7 +20,7 @@ ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");
 		<header>
 			<nav class="navbar navbar-expand-lg bg-light">
 				<div class="container-fluid">
-					<a class="navbar-brand" href="<%=request.getContextPath()%>/liste">
+					<a class="navbar-brand" href="<%=request.getContextPath()%>/AccesProfilServlet">
 						<img alt=""
 						src="https://www.sdis68.fr/dynamic/images/le_sdis68/cac_/logo_encheres!_283x200!_3!_0x0!_0!_FFFFFF.png">
 					</a>
