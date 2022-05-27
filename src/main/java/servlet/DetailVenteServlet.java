@@ -36,7 +36,7 @@ public class DetailVenteServlet extends HttpServlet {
 		u = (Utilisateur) request.getSession().getAttribute("user");
 		Boolean proprietaire = false;
 		Boolean vainqueur = false;
-		String titre = "Détail vente";
+		String titre = "Dï¿½tail vente";
 		if (id != 0) {
 			try {
 				av = ArticleVenduManager.getInstance().getById(id);
@@ -50,11 +50,11 @@ public class DetailVenteServlet extends HttpServlet {
 		}
 		if (vainqueur) {
 			titre = av.getEtat().equalsIgnoreCase("t") || av.getEtat().equalsIgnoreCase("r") 
-					? "Vous avez remporté la vente" 
-							: "Vous êtes le leader des enchères";
+					? "Vous avez remportï¿½ la vente" 
+							: "Vous ï¿½tes le leader des enchï¿½res";
 		} else {
 			if (e != null && (av.getEtat().equalsIgnoreCase("t") || av.getEtat().equalsIgnoreCase("r"))) {
-				titre = e.getLeAcheteur().getPseudo() + " a remporté l'enchère";
+				titre = e.getLeAcheteur().getPseudo() + " a remportï¿½ l'enchï¿½re";
 			}
 		}
 		request.setAttribute("utilisateur", u);

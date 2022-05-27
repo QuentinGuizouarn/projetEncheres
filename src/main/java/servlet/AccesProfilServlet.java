@@ -60,9 +60,9 @@ public class AccesProfilServlet extends HttpServlet {
 			List<ArticleVendu> listeArticle = ArticleVenduManager.getInstance().getAll();
 			request.setAttribute("articleList", listeArticle);
 
-			String pseudo = (String) request.getSession().getAttribute("pseudo");
-			String motDePasse = (String) request.getSession().getAttribute("motDePasse");
-			u = UtilisateurManager.getInstance().getByConnection(pseudo, motDePasse);
+			Utilisateur user = (Utilisateur) request.getSession().getAttribute("user");
+		//	String motDePasse = (String) request.getSession().getAttribute("motDePasse");
+			u = UtilisateurManager.getInstance().getById(user.getIdUtilisateur());
 			request.setAttribute("utilisateur", u);
 
 			RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/ViewAccesProfil.jsp");
@@ -78,227 +78,111 @@ public class AccesProfilServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		boolean isCheckedVenteEnCours = request.getParameter("enCours") != null;		
+		boolean isCheckedVenteEnCours = request.getParameter("enCours") != null;
 		boolean isCheckedVenteNonCommencees = request.getParameter("nonCommencees") != null;
 		boolean isCheckedVenteTerminee = request.getParameter("terminee") != null;
 		boolean isCheckedEnchereOuverte = request.getParameter("ouverte")!= null;
 		boolean isCheckedMesEcheres = request.getParameter("mesEncheres") != null;
 		boolean isCheckMesEncheresRemportee = request.getParameter("remportees") != null;
+
 		String filtre = request.getParameter("filtre");
-		ArticleVendu nomArticle = new ArticleVendu();
-		Utilisateur u = new Utilisateur();
-		Enchere enchereUtilisateur = new Enchere();
-	
+		Integer categorie = Integer.valueOf(request.getParameter("categorie"));
+	//	Enchere enchereUtilisateur = new Enchere();
 
 		try {
 			List<ArticleVendu> listeArticle = ArticleVenduManager.getInstance().getAll();
 			List<ArticleVendu> result = new ArrayList<ArticleVendu>();
-			for (ArticleVendu article : listeArticle) {
 
-				if(isCheckedVenteEnCours = true ) {
-					if(article.getEtat().equalsIgnoreCase("C")) {
-						result.add(article);
+			Utilisateur user = (Utilisateur) request.getSession().getAttribute("user");
+
+			for (ArticleVendu article : listeArticle) {
+				boolean check = true;
+
+				if (!filtre.isEmpty() && !article.getNom().contains(filtre)) {
+					System.out.println("no filter");
+					check = false;
+				}
+				if (categorie != 0 && article.getLaCategorie().getIdCategorie() != categorie) {
+					System.out.println("no categorie");
+					check = false;
+				}
+				if(isCheckedVenteEnCours && !article.getEtat().equalsIgnoreCase("C") && user.getIdUtilisateur() != article.getLeVendeur().getIdUtilisateur()) {
+					System.out.println(user.getIdUtilisateur() + " - " + article.getLeVendeur().getIdUtilisateur());
+					System.out.println("no etat c");
+					check = false;
+				}
+				if(isCheckedVenteNonCommencees && !article.getEtat().equalsIgnoreCase("N")) {
+					System.out.println("no etat n");
+					System.out.println(request.getParameter("nonCommencees"));
+					
+					check = false;
+				}
+				if(isCheckedVenteTerminee && !article.getEtat().equalsIgnoreCase("T")) {
+					System.out.println("no etat t");
+					System.out.println(request.getParameter("terminee"));
+					check = false;
+				}
+				if(isCheckedEnchereOuverte && !article.getEtat().equalsIgnoreCase("C")) {
+					System.out.println("no etat c ouvert");
+					check = false;
+				}
+				if(isCheckedMesEcheres) {
+					boolean checkenchere = true;
+					for (Enchere enchere : article.getLesEncheres()) {
+						if(enchere.getLeAcheteur() != null) {
+							if ((checkenchere) && (user.getIdUtilisateur() != enchere.getLeAcheteur().getIdUtilisateur())){
+								checkenchere = false;
+							}
+						} else {
+							checkenchere = false;
+						}
 					}
-				} else if(isCheckedVenteNonCommencees = true) {
-					if(article.getEtat().equalsIgnoreCase("N")) {
-						result.add(article);
+					if (!checkenchere)
+						System.out.println("no mes enchere");
+						check = false;
+				}
+				if(isCheckMesEncheresRemportee) {
+					for (Enchere enchere : article.getLesEncheres()) {
+						if(enchere.getLeAcheteur() != null) {
+							if(user.getIdUtilisateur() != enchere.getLeAcheteur().getIdUtilisateur()
+									&& !article.getEtat().equalsIgnoreCase("T")
+									&& enchere.getMontant() != article.getPrixVente()) {
+								System.out.println("no mes enchere remportee");
+								check = false;
+							}
+						} else {
+							check = false;
+						}
 					}
-				} else if(isCheckedVenteTerminee = true ) {
-					if(article.getEtat().equalsIgnoreCase("T")) {
-						result.add(article);
-					}
-				} else if(isCheckedEnchereOuverte = true) {
-					if(article.getEtat().equalsIgnoreCase("C")) {
-						result.add(article);
-					}
-				} else if(isCheckedMesEcheres = true) {
-					int id = (int) request.getSession().getAttribute("id");
-					u = UtilisateurManager.getInstance().getById(id);
-					//request.setAttribute("utilisateur", u);
-					if(u.equals(enchereUtilisateur.getLeAcheteur().getIdUtilisateur())) {
-						request.setAttribute("articleList", listeArticle);
-					}
-				} else if(isCheckMesEncheresRemportee = true) {
-					int id = (int) request.getSession().getAttribute("id");
-					u = UtilisateurManager.getInstance().getById(id);
-					if(u.equals(enchereUtilisateur.getLeAcheteur().getIdUtilisateur()) 
-							&& article.getEtat().equalsIgnoreCase("T") 
-							&& enchereUtilisateur.getMontant() == article.getPrixVente()) {
-						request.setAttribute("articleList", listeArticle);
-					}
+			}
+				if (check){
+					result.add(article);
 				}
 			}
+
 			request.setAttribute("result", result);
 			doGet(request, response);
-				
-			
 
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			//		try {
-			//			if(!filtre.isEmpty() || filtre != null || !filtre.isBlank()) {
-			//				if(nomArticle.getNom().startsWith(filtre) || nomArticle.getNom().equals(filtre) || nomArticle.getNom().contains(filtre)) {
-			//					List<ArticleVendu> listeArticle = ArticleVenduManager.getInstance().getByNom(filtre);
-			//					request.setAttribute("articleList", listeArticle);
-			//				}
-			//			}
-			//		request.setAttribute("listArticleFiltre", articlesFiltres);
-			//		RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/ViewAccesProfil.jsp");
-			//		rd.forward(request, response);
-			//		} catch (SQLException e) {
-			//			e.printStackTrace();
-			//			response.sendError(500);
-			//		}
-		}
 
-		//	private List<ArticleVendu> filtre(HashMap<String, Boolean> listFiltreAchat) {
-		//		List<ArticleVendu> articlesReference = new ArrayList();
-		//		List<ArticleVendu> articlesFiltre = new ArrayList();
-		//		List<ArticleVendu> articlesTransitoires = new ArrayList();;
-		//		try {
-		//			articlesReference = ArticleVenduManager.getInstance().getAll();
-		//		} catch (SQLException e) {
-		//			e.printStackTrace();
-		//		}
-		//		
-		//		/**
-		//		 * 
-		//		 */
-		//		if(listFiltreAchat.get("isCheckedEnchereOuverte")) {
-		//			articlesReference.forEach(i -> {
-		//				if((i.getDateDebut().isBefore(LocalDate.now())) && i.getDateFin().isAfter(LocalDate.now())) {
-		//					articlesTransitoires.add(i);
-		//				}
-		//			});
-		//		}
-		//		/**
-		//		 * Objectif Récuperer toutes les encheres d'un individu. Récupère toutes les enchères participées depuis la création du compte
-		//		 *  -> mettre dans une liste touts les articles liés à ces enchères || Pas de doublons d'articles
-		//		 */
-		//		if(listFiltreAchat.get("isCheckedMesEcheres")) {
-		//			
-		//			articlesReference.forEach(i -> {
-		//				
-		//				Enchere enchereUtilisateur = new Enchere();
-		//				Utilisateur u = new Utilisateur();
-		//				HttpServletRequest request = null;
-		//				
-		//				int id = (int) request.getSession().getAttribute("id");
-		//				
-		//				if(u.equals(enchereUtilisateur.getLeAcheteur().getIdUtilisateur())) {
-		//					articlesTransitoires.add(i);
-		//				}
-		//			});
-		//		}
-		//		/**
-		//		 * Objectif Récuperer toutes les encheres gagnées d'un individu.
-		//		 *  -> mettre dans une liste : 
-		//		 *  		Toutes les enchères de l'individu ou le montant = article.prixVente
-		//		 */
-		//		if(listFiltreAchat.get("isCheckMesEncheresRemportee")) {
-		//			ArticleVendu nomArticle = new ArticleVendu();
-		//			Enchere enchereUtilisateur = new Enchere();
-		//			Utilisateur u = new Utilisateur();
-		//			HttpServletRequest request = null;
-		//			int id = (int) request.getSession().getAttribute("id");
-		//			articlesReference.forEach(i -> {
-		//				if(u.equals(enchereUtilisateur.getLeAcheteur().getIdUtilisateur()) 
-		//						&& nomArticle.getEtat().equalsIgnoreCase("T") 
-		//						&& enchereUtilisateur.getMontant() == nomArticle.getPrixVente()) {
-		//					articlesTransitoires.add(i);
-		//				}
-		//			});
-		//		}
-		//		System.out.println(articlesTransitoires);
-		//		return articlesReference;
-		//	}
-		/*	
-	private void sauvegarde(){
-		try {
-			if(isCheckedVenteEnCours = true ) {
-				if(nomArticle.getEtat().equalsIgnoreCase("C")) {
-				List<ArticleVendu> listeArticle = ArticleVenduManager.getInstance().getAll();
-				request.setAttribute("articleList", listeArticle);
-				}
-			} else if(isCheckedVenteNonCommencees = true) {
-				if(nomArticle.getEtat().equalsIgnoreCase("N")) {
-					List<ArticleVendu> listeArticle = ArticleVenduManager.getInstance().getAll();
-					request.setAttribute("articleList", listeArticle);
-					}
-			} else if(isCheckedVenteTerminee = true ) {
-				if(nomArticle.getEtat().equalsIgnoreCase("T")) {
-				List<ArticleVendu> listeArticle = ArticleVenduManager.getInstance().getAll();
-				request.setAttribute("articleList", listeArticle);
-				}
-			} else if(isCheckedEnchereOuverte = true) {
-				if(nomArticle.getEtat().equalsIgnoreCase("C")) {
-					List<ArticleVendu> listeArticle = ArticleVenduManager.getInstance().getAll();
-					request.setAttribute("articleList", listeArticle);
-				}
-			} else if(isCheckedMesEcheres = true) {
-					int id = (int) request.getSession().getAttribute("id");
-					u = UtilisateurManager.getInstance().getById(id);
-					//request.setAttribute("utilisateur", u);
-					if(u.equals(enchereUtilisateur.getLeAcheteur().getIdUtilisateur())) {
-						List<ArticleVendu> listeArticle = ArticleVenduManager.getInstance().getAll();
-						request.setAttribute("articleList", listeArticle);
-					}
-				} else if(isCheckMesEncheresRemportee = true) {
-					int id = (int) request.getSession().getAttribute("id");
-					u = UtilisateurManager.getInstance().getById(id);
-					if(u.equals(enchereUtilisateur.getLeAcheteur().getIdUtilisateur()) 
-							&& nomArticle.getEtat().equalsIgnoreCase("T") 
-							&& enchereUtilisateur.getMontant() == nomArticle.getPrixVente()) {
-						List<ArticleVendu> listeArticle = ArticleVenduManager.getInstance().getAll();
-						request.setAttribute("articleList", listeArticle);
-					}
-				}
 
-			RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/ViewAccesProfil.jsp");
-			rd.forward(request, response);
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		// try {
+		// if(!filtre.isEmpty() || filtre != null || !filtre.isBlank()) {
+		// if(nomArticle.getNom().startsWith(filtre) || nomArticle.getNom().equals(filtre) || nomArticle.getNom().contains(filtre)) {
+		// List<ArticleVendu> listeArticle = ArticleVenduManager.getInstance().getByNom(filtre);
+		// request.setAttribute("articleList", listeArticle);
+		// }
+		// }
+		// request.setAttribute("listArticleFiltre", articlesFiltres);
+		// RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/ViewAccesProfil.jsp");
+		// rd.forward(request, response);
+		// } catch (SQLException e) {
+		// e.printStackTrace();
+		// response.sendError(500);
+		// }
 	}
-		 */
-	//		HashMap<String, Boolean> listFiltreAchat = new HashMap<String, Boolean>();
-	//		List<ArticleVendu> articlesFiltres = new ArrayList();
-	//		//Vente
-	//		/**
-	//		 * 	Select all where idVendeur = x
-	//		 * Vente en cours :
-	//		 * 	if((i.getDateDebut().isBefore(LocalDate.now())) && i.getDateFin().isAfter(LocalDate.now())) {
-	//					articlesTransitoires.add(i);
-	//				}
-	//		 * non Commencées :
-	//		 * if(i.getDateDebut().isAfter(LocalDate.now())){
-	//					articlesTransitoires.add(i);
-	//				}
-	//		 * terminee :
-	//		 * if(i.getDateFin().isAfter(LocalDate.now())){
-	//					articlesTransitoires.add(i);
-	//				} 
-	//		 */
-
-	//		
-	////		System.out.println(request.getParameter("enCours"));
-	////		System.out.println(isCheckedVenteNonCommencees);
-	////		System.out.println(isCheckedVenteTerminee);
-	//		
-	//		
-	//		//Achat
-
-	//		listFiltreAchat.put("isCheckedEnchereOuverte", isCheckedEnchereOuverte);
-	//		listFiltreAchat.put("isCheckedMesEcheres", isCheckedMesEcheres);
-	//		listFiltreAchat.put("isCheckMesEncheresRemportee", isCheckMesEncheresRemportee);
-	//	//	Utilisateur u = null;
-	//		
-	//		System.out.println(isCheckedEnchereOuverte);
-	//		System.out.println(isCheckedMesEcheres);
-	//		System.out.println(isCheckMesEncheresRemportee);
-	//		articlesFiltres = filtre(listFiltreAchat);
-	}
+}

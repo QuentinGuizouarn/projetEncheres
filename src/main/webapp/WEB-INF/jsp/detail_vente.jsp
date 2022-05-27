@@ -175,7 +175,7 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 			
 			<div class="row justify-content-center mb-4">
 				<div class="col-6 text-start">
-					<button type="button" onclick="location.href='<%= request.getContextPath() %>/liste'" 
+					<button type="button" onclick="location.href='<%= request.getContextPath() %>/AccesProfilServlet'" 
 					name="retour" class="btn btn-primary">Retour
 					</button>
 				</div>
