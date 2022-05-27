@@ -36,8 +36,7 @@ ArticleVendu av = (ArticleVendu) request.getAttribute("articleVendu");
 			</div>
 			<div class="row">
 				<div class="col-6 offset-3">
-					<form action="<%=request.getContextPath()%>/nouvelle_vente"
-						method="POST">
+					<form method="POST">
 						<div class="mb-3">
 							<label for="nom" class="form-label">Article : </label> <input
 								type="text" class="form-control" name="nom" value="<%= av != null ? av.getNom() : "" %>" 

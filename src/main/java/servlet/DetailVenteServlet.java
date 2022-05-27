@@ -36,7 +36,7 @@ public class DetailVenteServlet extends HttpServlet {
 		u = (Utilisateur) request.getSession().getAttribute("user");
 		Boolean proprietaire = false;
 		Boolean vainqueur = false;
-		String titre = "D�tail vente";
+		String titre = "Detail vente";
 		if (id != 0) {
 			try {
 				av = ArticleVenduManager.getInstance().getById(id);
@@ -69,7 +69,7 @@ public class DetailVenteServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		if (request.getParameter("insert") != null) {
 			try {
 				LocalDateTime date = LocalDateTime.now();
@@ -94,7 +94,7 @@ public class DetailVenteServlet extends HttpServlet {
 		}
 		av = null;
 		e = null;
-		response.sendRedirect(request.getContextPath() + "/AccesProfilServlet");
+		response.sendRedirect(request.getContextPath() + "/liste");
 	}
 
 }
