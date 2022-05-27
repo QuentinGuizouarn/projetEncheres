@@ -117,28 +117,32 @@ Boolean vainqueur = (Boolean) request.getAttribute("vainqueur");
 				</div>
 			</div>
 			
-			<% if (av.getEtat().equalsIgnoreCase("c")) { %>			
-				<% if (!proprietaire && !vainqueur) { %>
-				<div class="row justify-content-center mb-4">
-					<div class="col-2 text-start">
-						<label for="offre" class="form-label">Ma proposition :</label>
-					</div>
-					<div class="col-2 text-center">
-						<input id="inputEnchere" type="number" 
-						min="<%= e != null ? e.getMontant() + 1 : av.getPrixInitial() %>"
-						max="<%= u.getCredit() %>" class="form-control" name="offre" 
-						value="<%= e != null ? e.getMontant() + 1 : av.getPrixInitial() %>" 
-						required>
-					</div>					
-					<div class="col-2 text-end">
-						<button id="btnEnchere" type="submit" name="insert" class="btn btn-primary">Enchérir</button>
-					</div>
-					<% if (u.getCredit() < (e != null ? e.getMontant() : av.getPrixInitial())) { %>
-					<div class="col-4 text-end">
-						<label class="form-label">Crédits insuffisants</label>
+			<% if (av.getEtat().equalsIgnoreCase("c")) { %>
+				<% if (u.getCredit() >= (e != null ? e.getMontant() : av.getPrixInitial())) { %>
+					<% if (!proprietaire && !vainqueur) { %>
+					<div class="row justify-content-center mb-4">
+						<div class="col-2 text-start">
+							<label for="offre" class="form-label">Ma proposition :</label>
+						</div>
+						<div class="col-2 text-center">
+							<input id="inputEnchere" type="number" class="form-control" name="offre"
+							min="<%= e != null ? e.getMontant() + 1 : av.getPrixInitial() %>"
+							max="<%= u.getCredit() %>" value="<%= e != null ? e.getMontant() + 1 : av.getPrixInitial() %>"
+							required>
+						</div>
+						<div class="col-2 text-end">
+							<button id="btnEnchere" type="submit" name="insert" class="btn btn-primary">Enchérir</button>
+						</div>
 					</div>
 					<% } %>
-				</div>
+				<% } else { %>
+					<% if (!proprietaire && !vainqueur) { %>
+					<div class="row justify-content-center mb-4">
+						<div class="col-6 text-end">
+							<label class="form-label fw-bold">Crédits insuffisants</label>
+						</div>
+					</div>
+					<% } %>
 				<% } %>
 			
 			<% } else if (av.getEtat().equalsIgnoreCase("t")) { %>
